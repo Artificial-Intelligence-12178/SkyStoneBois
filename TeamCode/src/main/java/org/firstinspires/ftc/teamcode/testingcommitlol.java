@@ -4,7 +4,7 @@ public class testingcommitlol
 {
     public static void main(String[] args)
     {
-        System.out.println("if justin reads this he has small pp energy");
+        System.out.println("if justin reads this he has small pp energy. Joe mmaamaaaaaaaaaaaaa");
         tryThisMethod();
         isJustinBigBrain();
     }
@@ -23,6 +23,7 @@ public class testingcommitlol
     {
         return true;
     }
+
 }
 
 //I FIXED YO BRACKETS
