@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name = "Testing 123")
+@TeleOp(name = "Testing ")
 
 public class TestingWireless extends LinearOpMode
 {
