@@ -43,6 +43,16 @@ public class DriverClass extends OpMode
 
         String quadrant = "";
 
+        if(x < 0 && y > 0)
+            angleRad = Math.PI - angleRad;
+        else if(x < 0 && y < 0)
+            angleRad = Math.PI + angleRad;
+        else if(x > 0 && y < 0)
+            angleRad = 2*Math.PI - angleRad;
+
+        telemetry.addData("Degree:" , angleRad*(180/Math.PI) + "");
+        telemetry.update();
+
         /*
         *Quadrant Code*
         ONLY FOR QUADRANTS 2-4
