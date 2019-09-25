@@ -42,6 +42,8 @@ public class DriverClass extends OpMode
         double angleRad = Math.atan(y / x);
 
         String quadrant = "";
+        if(angleRad < 0)
+            angleRad*=-1;
 
         if(x < 0 && y > 0)
             angleRad = Math.PI - angleRad;
@@ -49,8 +51,12 @@ public class DriverClass extends OpMode
             angleRad = Math.PI + angleRad;
         else if(x > 0 && y < 0)
             angleRad = 2*Math.PI - angleRad;
+        else if(y == 0 && x < 0)
+            angleRad = Math.PI;
+        else if(x == 0 && y < 0)
+            angleRad = 3*Math.PI/2;
 
-        telemetry.addData("Degree:" , angleRad*(180/Math.PI) + "");
+        //telemetry.addData("Degree:" , angleRad*(180/Math.PI) + "");
         telemetry.update();
 
         /*
@@ -60,12 +66,20 @@ public class DriverClass extends OpMode
 
         //Q1
 
-        /*
+
         double vec = Math.sqrt(x*x+y*y);
-        double pow1 = vec*Math.sin(angleRad+Math.PI/4);
-        double pow2 = vec*Math.sin(angleRad-Math.PI/4);
-        telemetry.addData("pow1 = " + pow1, "pow2 = " + pow2);
-        */
+        if(vec > 1)
+            vec = 1;
+        double pow1 = 0;
+        double pow2 = 0;
+        pow1 = vec*Math.sin(angleRad+Math.PI/4);
+        pow2 = vec*Math.sin(angleRad-Math.PI/4);
+
+        telemetry.addData("pow1 = ", pow1);
+        telemetry.addData("pow2 = ", pow2);
+        telemetry.update();
+
+
 
 
     }
