@@ -37,19 +37,21 @@ public class DriverClass extends OpMode
     @Override
     public void loop()
     {
+        //getting the angle (in radians)
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
         double angleRad = Math.abs(Math.atan(y / x));
         double degree;
 
-        if(x < 0 && y > 0)
+        //finding the reference angle
+        if(x < 0 && y > 0)  //quad 2
             angleRad= Math.PI - angleRad;
-        else if(x < 0 && y <= 0)
+        else if(x < 0 && y <= 0)  //quad 3
             angleRad = Math.PI + angleRad;
-        else if(x >= 0 && y < 0)
+        else if(x >= 0 && y < 0)  //quad 4
             angleRad = 2*Math.PI - angleRad;
 
-        degree = angleRad*(180/Math.PI);
+        //determining power
         double vec = Math.sqrt(x*x+y*y);
         if(vec > 1)
             vec = 1;
@@ -57,6 +59,8 @@ public class DriverClass extends OpMode
         pow1 = vec*Math.sin(angleRad+Math.PI/4);
         pow2 = vec*Math.sin(angleRad-Math.PI/4);
 
+        //displaying information
+        degree = angleRad*(180/Math.PI);
         telemetry.addData("Degree:" , degree);
         telemetry.addData("pow1 = ", pow1);
         telemetry.addData("pow2 = ", pow2);
