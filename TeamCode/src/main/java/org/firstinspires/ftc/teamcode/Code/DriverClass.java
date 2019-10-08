@@ -55,16 +55,12 @@ public class DriverClass extends OpMode
         double vec = Math.sqrt(x*x+y*y);
         if(vec > 1)
             vec = 1;
-        double pow1, pow2;
-        pow1 = vec*Math.sin(angleRad+Math.PI/4);
-        pow2 = vec*Math.sin(angleRad-Math.PI/4);
+        double topRbottomL, topLbottomR;
+        topRbottomL = vec*Math.sin(angleRad+Math.PI/4);
+        topLbottomR = vec*Math.sin(angleRad-Math.PI/4);
 
         //Displaying information
         degree = angleRad*(180/Math.PI);
-        telemetry.addData("Degree:" , degree);
-        telemetry.addData("pow1 = ", pow1);
-        telemetry.addData("pow2 = ", pow2);
-        telemetry.update();
 
 
         double rTrig = gamepad1.right_trigger;
@@ -80,6 +76,8 @@ public class DriverClass extends OpMode
             joe.backL.setPower(rTrig);
             joe.frontR.setPower(-rTrig);
             joe.backR.setPower(-rTrig);
+            telemetry.addData("rotating right:" , rTrig);
+            telemetry.update();
         }
         //Rotate left
         else if(lTrig != 0)
@@ -88,63 +86,93 @@ public class DriverClass extends OpMode
             joe.backL.setPower(-rTrig);
             joe.frontR.setPower(rTrig);
             joe.backR.setPower(rTrig);
+            telemetry.addData("rotating left:" , lTrig);
+            telemetry.update();
         }
 
         //movement forward
-        if((xJoystick <=  .05 && xJoystick >= -.05) && yJoystick<0)
+        if((xJoystick <=  .10 && xJoystick >= -.10) && yJoystick<0)
         {
-            joe.frontL.setPower(vec);
-            joe.backL.setPower(vec);
-            joe.frontR.setPower(vec);
-            joe.backR.setPower(vec);
+            joe.frontL.setPower(-topLbottomR);
+            joe.backL.setPower(-topRbottomL);
+            joe.frontR.setPower(topRbottomL);
+            joe.backR.setPower(topLbottomR);
+            telemetry.addData("moving forward:" , vec);
+            telemetry.update();
         }
         //movement backwards
-        else if((xJoystick <=  .05 && xJoystick >= -.05) && yJoystick>0)
+        else if((xJoystick <=  .10 && xJoystick >= -.10) && yJoystick>0)
         {
-            joe.frontL.setPower(vec);
-            joe.backL.setPower(vec);
-            joe.frontR.setPower(vec);
-            joe.backR.setPower(vec);
+            joe.frontL.setPower(-topLbottomR);
+            joe.backL.setPower(-topRbottomL);
+            joe.frontR.setPower(topRbottomL);
+            joe.backR.setPower(topLbottomR);
+            telemetry.addData("moving backward:" , vec);
+            telemetry.update();
         }
         //movement right
-        else if((yJoystick <=  .05 && yJoystick >= -.05) && xJoystick>0)
+        else if((yJoystick <=  .10 && yJoystick >= -.10) && xJoystick>0)
         {
-            joe.frontL.setPower(vec);
-            joe.backL.setPower(-vec);
-            joe.frontR.setPower(-vec);
-            joe.backR.setPower(vec);
+            joe.frontL.setPower(-topLbottomR);
+            joe.backL.setPower(-topLbottomR);
+            joe.frontR.setPower(topRbottomL);
+            joe.backR.setPower(topLbottomR);
+            telemetry.addData("moving right:" , vec);
+            telemetry.update();
         }
         //movement left
-        else if((yJoystick <=  .05 && yJoystick >= -.05) && xJoystick<0)
+        else if((yJoystick <=  .10 && yJoystick >= -.10) && xJoystick<0)
         {
-            joe.frontL.setPower(-vec);
-            joe.backL.setPower(vec);
-            joe.frontR.setPower(vec);
-            joe.backR.setPower(-vec);
+            joe.frontL.setPower(-topLbottomR);
+            joe.backL.setPower(-topRbottomL);
+            joe.frontR.setPower(topRbottomL);
+            joe.backR.setPower(topLbottomR);
+            telemetry.addData("moving left:" , vec);
+            telemetry.update();
         }
         //adjustable values (for leeway) H
         //diagonal north east  .707, -.707
-        else if((yJoystick >= -.757 && yJoystick <= -.657) && (xJoystick <=  .757 && xJoystick >= .657))
+        else if(degree >= 310 && degree <= 325)
         {
-            joe.frontL.setPower(vec);
-            joe.backR.setPower(vec);
+            joe.frontL.setPower(-topLbottomR);
+            joe.backR.setPower(topLbottomR);
+            telemetry.addData("northeast:" , vec);
+            telemetry.update();
         }
         //diagonal north west -.707 , -.707
-        else if((yJoystick >= -.757 && yJoystick <= -.657) && (xJoystick >=  -.757 && xJoystick <= -.657))
+        else if(degree >= 220 && degree <= 230)
         {
-            joe.frontR.setPower(vec);
-            joe.backL.setPower(vec);
+            joe.frontR.setPower(topRbottomL);
+            joe.backL.setPower(-topRbottomL);
+            telemetry.addData("north west:" , vec);
+            telemetry.update();
         }
         //diagonal south east
-        else if((yJoystick <= .757 && yJoystick >= .657) && (xJoystick <=  .757 && xJoystick >= .657))
+        else if(degree >= 40 && degree <= 50)
         {
-            joe.frontR.setPower(-vec);
-            joe.backL.setPower(-vec);
+            joe.frontR.setPower(topRbottomL);
+            joe.backL.setPower(-topRbottomL);
+            telemetry.addData("southeast:" , vec);
+            telemetry.update();
         }
-        else if((yJoystick <= .757 && yJoystick >= .657) && (xJoystick >=  -.757 && xJoystick <= -.657))
+        //diagonal southwest
+        else if(degree >= 130 && degree <= 140)
         {
-            joe.frontL.setPower(-vec);
-            joe.backR.setPower(-vec);
+            joe.frontL.setPower(-topLbottomR);
+            joe.backR.setPower(topRbottomL);
+            telemetry.addData("southwest:" , vec);
+            telemetry.update();
+        }
+        else
+        {
+            joe.frontL.setPower(0);
+            joe.backL.setPower(0);
+            joe.frontR.setPower(0);
+            joe.backR.setPower(0);
+            telemetry.addData("Degree:" , degree);
+            telemetry.addData("pow1 = ", topRbottomL);
+            telemetry.addData("pow2 = ", topLbottomR);
+            telemetry.update();
         }
     }
 }
