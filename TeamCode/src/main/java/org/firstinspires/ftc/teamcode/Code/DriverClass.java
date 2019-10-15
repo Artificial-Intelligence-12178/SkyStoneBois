@@ -56,18 +56,14 @@ public class DriverClass extends OpMode
         if(vec > 1)
             vec = 1;
         double topRbottomL, topLbottomR;
-        topRbottomL = vec*Math.sin(angleRad+Math.PI/4);
-        topLbottomR = vec*Math.sin(angleRad-Math.PI/4);
 
         //Displaying information
-        degree = angleRad*(180/Math.PI);
-
+        degree = Math.toDegrees(angleRad);
 
         double rTrig = gamepad1.right_trigger;
         double lTrig = gamepad1.left_trigger;
-        double xJoystick = gamepad1.left_stick_x;
-        double yJoystick = gamepad1.left_stick_y;
 
+        String motion = "";
 
         //Rotate right
         if(rTrig != 0)
@@ -76,7 +72,7 @@ public class DriverClass extends OpMode
             joe.backL.setPower(rTrig);
             joe.frontR.setPower(-rTrig);
             joe.backR.setPower(-rTrig);
-            telemetry.addData("rotating right:" , rTrig);
+            telemetry.addData("Rotating Right:" , rTrig);
             telemetry.update();
         }
         //Rotate left
@@ -86,94 +82,82 @@ public class DriverClass extends OpMode
             joe.backL.setPower(-rTrig);
             joe.frontR.setPower(rTrig);
             joe.backR.setPower(rTrig);
-            telemetry.addData("rotating left:" , lTrig);
+            telemetry.addData("Rotating Left:" , lTrig);
             telemetry.update();
+        }
+        //Movement Forward
+        else if(degree >= 265 && degree <= 275)
+        {
+            angleRad = Math.toRadians(270);
+            motion = "Forward";
+        }
+        //Movement Backwards
+        else if(degree >= 85 && degree <= 95)
+        {
+            angleRad = Math.toRadians(90);
+            motion = "Backwards";
+        }
+        //Movement Right
+        else if(degree >= 355 || degree <= 5)
+        {
+            angleRad = Math.toRadians(0);
+            motion = "Right";
+        }
+        //Movement Left
+        else if(degree >= 175 && degree <= 185)
+        {
+            angleRad = Math.toRadians(180);
+            motion = "Left";
         }
 
-        //movement forward
-        if((xJoystick <=  .10 && xJoystick >= -.10) && yJoystick<0)
+        //Adjustable values (for leeway) H
+        //Diagonal north east  .707, -.707
+        else if(degree >= 310 && degree <= 320)
         {
-            joe.frontL.setPower(-topLbottomR);
-            joe.backL.setPower(-topRbottomL);
-            joe.frontR.setPower(topRbottomL);
-            joe.backR.setPower(topLbottomR);
-            telemetry.addData("moving forward:" , vec);
-            telemetry.update();
+            angleRad = Math.toRadians(315);
+            motion = "Northeast";
         }
-        //movement backwards
-        else if((xJoystick <=  .10 && xJoystick >= -.10) && yJoystick>0)
-        {
-            joe.frontL.setPower(-topLbottomR);
-            joe.backL.setPower(-topRbottomL);
-            joe.frontR.setPower(topRbottomL);
-            joe.backR.setPower(topLbottomR);
-            telemetry.addData("moving backward:" , vec);
-            telemetry.update();
-        }
-        //movement right
-        else if((yJoystick <=  .10 && yJoystick >= -.10) && xJoystick>0)
-        {
-            joe.frontL.setPower(-topLbottomR);
-            joe.backL.setPower(-topLbottomR);
-            joe.frontR.setPower(topRbottomL);
-            joe.backR.setPower(topLbottomR);
-            telemetry.addData("moving right:" , vec);
-            telemetry.update();
-        }
-        //movement left
-        else if((yJoystick <=  .10 && yJoystick >= -.10) && xJoystick<0)
-        {
-            joe.frontL.setPower(-topLbottomR);
-            joe.backL.setPower(-topRbottomL);
-            joe.frontR.setPower(topRbottomL);
-            joe.backR.setPower(topLbottomR);
-            telemetry.addData("moving left:" , vec);
-            telemetry.update();
-        }
-        //adjustable values (for leeway) H
-        //diagonal north east  .707, -.707
-        else if(degree >= 310 && degree <= 325)
-        {
-            joe.frontL.setPower(-topLbottomR);
-            joe.backR.setPower(topLbottomR);
-            telemetry.addData("northeast:" , vec);
-            telemetry.update();
-        }
-        //diagonal north west -.707 , -.707
+        //Diagonal north west -.707 , -.707
         else if(degree >= 220 && degree <= 230)
         {
-            joe.frontR.setPower(topRbottomL);
-            joe.backL.setPower(-topRbottomL);
-            telemetry.addData("north west:" , vec);
-            telemetry.update();
+            angleRad = Math.toRadians(225);
+            motion = "Northwest";
         }
-        //diagonal south east
+        //Diagonal south east
         else if(degree >= 40 && degree <= 50)
         {
-            joe.frontR.setPower(topRbottomL);
-            joe.backL.setPower(-topRbottomL);
-            telemetry.addData("southeast:" , vec);
-            telemetry.update();
+            angleRad = Math.toRadians(45);
+            motion = "Southeast";
         }
-        //diagonal southwest
+        //Diagonal southwest
         else if(degree >= 130 && degree <= 140)
         {
-            joe.frontL.setPower(-topLbottomR);
-            joe.backR.setPower(topRbottomL);
-            telemetry.addData("southwest:" , vec);
-            telemetry.update();
+            angleRad = Math.toRadians(135);
+            motion = "Southwest";
         }
-        else
-        {
-            joe.frontL.setPower(0);
-            joe.backL.setPower(0);
-            joe.frontR.setPower(0);
-            joe.backR.setPower(0);
-            telemetry.addData("Degree:" , degree);
-            telemetry.addData("pow1 = ", topRbottomL);
-            telemetry.addData("pow2 = ", topLbottomR);
-            telemetry.update();
-        }
+
+        topRbottomL = vec*Math.sin(angleRad+Math.PI/4);
+        topLbottomR = vec*Math.sin(angleRad-Math.PI/4);
+        if(Math.abs(topLbottomR) < 0.00005)
+            topLbottomR = 0;
+
+        if(Math.abs(topRbottomL) < 0.00005)
+            topRbottomL = 0;
+
+
+        joe.frontL.setPower(-topLbottomR);
+        joe.backL.setPower(-topRbottomL);
+        joe.frontR.setPower(topRbottomL);
+        joe.backR.setPower(topLbottomR);
+
+        telemetry.addData("pow1 = ", topRbottomL);
+        telemetry.addData("pow2 = ", topLbottomR);
+        telemetry.addData("Angle = ", Math.toDegrees(angleRad));
+
+        if(!motion.equals(""))
+            telemetry.addData("Moving ", motion);
+
+        telemetry.update();
     }
 }
 
