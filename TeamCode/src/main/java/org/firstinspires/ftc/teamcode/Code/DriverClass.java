@@ -68,8 +68,8 @@ public class DriverClass extends OpMode
         //Rotate right
         if(rTrig != 0)
         {
-            joe.frontL.setPower(rTrig);
-            joe.backL.setPower(rTrig);
+            joe.frontL.setPower(-rTrig);
+            joe.backL.setPower(-rTrig);
             joe.frontR.setPower(-rTrig);
             joe.backR.setPower(-rTrig);
             telemetry.addData("Rotating Right:" , rTrig);
@@ -78,10 +78,10 @@ public class DriverClass extends OpMode
         //Rotate left
         else if(lTrig != 0)
         {
-            joe.frontL.setPower(-rTrig);
-            joe.backL.setPower(-rTrig);
-            joe.frontR.setPower(rTrig);
-            joe.backR.setPower(rTrig);
+            joe.frontL.setPower(lTrig);
+            joe.backL.setPower(lTrig);
+            joe.frontR.setPower(lTrig);
+            joe.backR.setPower(lTrig);
             telemetry.addData("Rotating Left:" , lTrig);
             telemetry.update();
         }
@@ -150,8 +150,10 @@ public class DriverClass extends OpMode
         joe.frontR.setPower(topRbottomL);
         joe.backR.setPower(topLbottomR);
 
-        telemetry.addData("pow1 = ", topRbottomL);
-        telemetry.addData("pow2 = ", topLbottomR);
+        telemetry.addData("Front Right: ", topRbottomL);
+        telemetry.addData("Front Left: ", -topLbottomR);
+        telemetry.addData("Back Right: ", topLbottomR);
+        telemetry.addData("Back Left: ", -topRbottomL);
         telemetry.addData("Angle = ", Math.toDegrees(angleRad));
 
         if(!motion.equals(""))

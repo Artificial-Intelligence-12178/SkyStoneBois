@@ -28,7 +28,7 @@ public class Joe {
 
         //Left Front Motor
         try {
-            frontL = hwmap.get(DcMotor.class, "DC4");
+            frontL = hwmap.get(DcMotor.class, "DC1");
             frontL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
             status += "\nFrontL (DC1) motor not mapping";
@@ -36,7 +36,7 @@ public class Joe {
 
         //Right Front Motor
         try {
-            frontR = hwmap.get(DcMotor.class, "DC1");
+            frontR = hwmap.get(DcMotor.class, "DC2");
             frontR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
             status += "\nFrontR (DC2) motor not mapping";
@@ -45,11 +45,13 @@ public class Joe {
         //Left Back Motor
 
         try {
-            backL = hwmap.get(DcMotor.class, "DC2");
+            backL = hwmap.get(DcMotor.class, "DC4");
             backL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
-            status += "\nBackL (DC3) motor not mapping";
+            status += "\nBackL (DC4) motor not mapping";
         }
+
+
 
         //Right Back Motor
 
@@ -57,7 +59,7 @@ public class Joe {
             backR = hwmap.get(DcMotor.class, "DC3");
             backL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
-            status += "\nBackR (DC4) motor not mapping";
+            status += "\nBackR (DC3) motor not mapping";
         }
     }
 
