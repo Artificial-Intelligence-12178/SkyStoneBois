@@ -1,16 +1,13 @@
 package org.firstinspires.ftc.teamcode.Code;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.Helpers.Joe;
 
-import java.sql.SQLOutput;
+@TeleOp(name = "Drive Encoder")
 
-@TeleOp(name = "Testing Drive")
-
-public class DriverClass extends OpMode
+public class DriverEncoder extends OpMode
 {
     private Joe joe = new Joe();
 
@@ -40,8 +37,6 @@ public class DriverClass extends OpMode
         //Getting the angle (in radians)
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
-        boolean dUp = gamepad1.dpad_up;
-        boolean dDown = gamepad1.dpad_down;
         double angleRad = Math.abs(Math.atan(y / x));
         double degree;
 
@@ -147,28 +142,19 @@ public class DriverClass extends OpMode
             topRbottomL = 0;
 
 
-        joe.frontL.setPower(topLbottomR);
-        joe.backL.setPower(topRbottomL);
-        joe.frontR.setPower(-topRbottomL);
-        joe.backR.setPower(-topLbottomR);
+        joe.frontL.setPower(-topLbottomR);
+        joe.backL.setPower(-topRbottomL);
+        joe.frontR.setPower(topRbottomL);
+        joe.backR.setPower(topLbottomR);
 
+        telemetry.addData("Front Right: ", topRbottomL);
+        telemetry.addData("Front Left: ", -topLbottomR);
+        telemetry.addData("Back Right: ", topLbottomR);
+        telemetry.addData("Back Left: ", -topRbottomL);
         telemetry.addData("Angle = ", Math.toDegrees(angleRad));
 
         if(!motion.equals(""))
             telemetry.addData("Moving ", motion);
-
-        if(dUp)
-        {
-            joe.arm.setPower(0.5);
-            telemetry.addData("Arm ", "moving up");
-        }
-        else if(dDown)
-        {
-            joe.arm.setPower(-0.5);
-            telemetry.addData("Arm ", " moving down");
-        }
-        else
-            joe.arm.setPower(0);
 
         telemetry.update();
     }

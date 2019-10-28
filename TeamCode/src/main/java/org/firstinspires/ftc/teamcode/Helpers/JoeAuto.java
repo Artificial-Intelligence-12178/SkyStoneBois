@@ -30,27 +30,27 @@ public class JoeAuto
 
         //Left Front Motor
         try {
-            frontL = hwmap.get(DcMotor.class, "DC1");
+            frontL = hwmap.get(DcMotor.class, "DC3");
             frontL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
-            status += "\nFrontL (DC1) motor not mapping";
+            status += "\nFrontL (DC3) motor not mapping";
         }
 
         //Right Front Motor
         try {
-            frontR = hwmap.get(DcMotor.class, "DC2");
+            frontR = hwmap.get(DcMotor.class, "DC1");
             frontR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
-            status += "\nFrontR (DC2) motor not mapping";
+            status += "\nFrontR (DC1) motor not mapping";
         }
 
         //Left Back Motor
 
         try {
-            backL = hwmap.get(DcMotor.class, "DC4");
+            backL = hwmap.get(DcMotor.class, "DC2");
             backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
-            status += "\nBackL (DC4) motor not mapping";
+            status += "\nBackL (DC2) motor not mapping";
         }
 
 
@@ -58,10 +58,10 @@ public class JoeAuto
         //Right Back Motor
 
         try {
-            backR = hwmap.get(DcMotor.class, "DC3");
-            backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backR = hwmap.get(DcMotor.class, "DC4");
+            backR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
-            status += "\nBackR (DC3) motor not mapping";
+            status += "\nBackR (DC4) motor not mapping";
         }
     }
 

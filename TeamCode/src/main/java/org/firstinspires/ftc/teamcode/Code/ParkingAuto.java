@@ -27,19 +27,18 @@ public class ParkingAuto extends LinearOpMode
 
         waitForStart();
 
-        if(opModeIsActive())
-        {
+        if(opModeIsActive()){
             forwardE(1800);
 
             backwardE(1800);
 
-            leftE(1800);
+            leftE(900);
 
-            rightE(1800);
-            
-            rotateRight(100000);
+            rightE(900);
 
-            rotatingLeft(100000);
+            rotateRight(1800);
+
+            rotateLeft(1800);
         }
 
     }
@@ -52,16 +51,19 @@ public class ParkingAuto extends LinearOpMode
         joe.frontR.setPower(0);
         joe.backR.setPower(0);
     }
-    public void encodeResetAndRun()
+    public void encodeRun()
     {
-        joe.frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        joe.backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        joe.frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        joe.backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         joe.frontL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joe.backL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joe.frontR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         joe.backR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void encodeReset(){
+        joe.frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        joe.backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        joe.frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        joe.backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void power()
     {
@@ -73,13 +75,15 @@ public class ParkingAuto extends LinearOpMode
     public void forwardE(int ticks)  //negate right side if you want wheels to move up  // negate left side if you want wheels to move down
     {
         //resetting da encoders cuz u gotta
-        encodeResetAndRun();
+        encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(ticks);
-        joe.frontR.setTargetPosition(-ticks);
-        joe.backL.setTargetPosition(ticks);
-        joe.backR.setTargetPosition(-ticks);
+        joe.frontL.setTargetPosition(-ticks);
+        joe.frontR.setTargetPosition(ticks);
+        joe.backL.setTargetPosition(-ticks);
+        joe.backR.setTargetPosition(ticks);
+
+        encodeRun();
 
         //making motors move
         power();
@@ -98,14 +102,15 @@ public class ParkingAuto extends LinearOpMode
     public void backwardE(int ticks)
     {
         //resetting da encoders cuz u gotta
-        encodeResetAndRun();
+        encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(-ticks);
-        joe.frontR.setTargetPosition(ticks);
-        joe.backL.setTargetPosition(-ticks);
-        joe.backR.setTargetPosition(ticks);
+        joe.frontL.setTargetPosition(ticks);
+        joe.frontR.setTargetPosition(-ticks);
+        joe.backL.setTargetPosition(ticks);
+        joe.backR.setTargetPosition(-ticks);
 
+        encodeRun();
         //making motors move
         power();
 
@@ -123,14 +128,15 @@ public class ParkingAuto extends LinearOpMode
     public void leftE(int ticks)
     {
         //resetting da encoders cuz u gotta
-        encodeResetAndRun();
+        encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(-ticks);
-        joe.frontR.setTargetPosition(-ticks);
-        joe.backL.setTargetPosition(ticks);
-        joe.backR.setTargetPosition(ticks);
+        joe.frontL.setTargetPosition(ticks);
+        joe.frontR.setTargetPosition(ticks);
+        joe.backL.setTargetPosition(-ticks);
+        joe.backR.setTargetPosition(-ticks);
 
+        encodeRun();
         //making motors move
         power();
 
@@ -148,13 +154,15 @@ public class ParkingAuto extends LinearOpMode
     public void rightE(int ticks)
     {
         //resetting da encoders cuz u gotta
-        encodeResetAndRun();
+        encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(ticks);
-        joe.frontR.setTargetPosition(ticks);
-        joe.backL.setTargetPosition(-ticks);
-        joe.backR.setTargetPosition(-ticks);
+        joe.frontL.setTargetPosition(-ticks);
+        joe.frontR.setTargetPosition(-ticks);
+        joe.backL.setTargetPosition(ticks);
+        joe.backR.setTargetPosition(ticks);
+
+        encodeRun();
 
         //making motors move
         power();
@@ -173,7 +181,7 @@ public class ParkingAuto extends LinearOpMode
     public void rotateRight(int ticks)
     {
         //resetting da encoders cuz u gotta
-        encodeResetAndRun();
+        encodeReset();
 
         //setting values that the encoders will attempt to reach
         joe.frontL.setTargetPosition(ticks);
@@ -181,6 +189,7 @@ public class ParkingAuto extends LinearOpMode
         joe.backL.setTargetPosition(ticks);
         joe.backR.setTargetPosition(ticks);
 
+        encodeRun();
         //making motors move
         power();
 
@@ -195,10 +204,10 @@ public class ParkingAuto extends LinearOpMode
         }
         encStop();
     }
-    public void rotatingLeft(int ticks)
+    public void rotateLeft(int ticks)
     {
         //resetting da encoders cuz u gotta
-        encodeResetAndRun();
+        encodeReset();
 
         //setting values that the encoders will attempt to reach
         joe.frontL.setTargetPosition(-ticks);
@@ -206,6 +215,7 @@ public class ParkingAuto extends LinearOpMode
         joe.backL.setTargetPosition(-ticks);
         joe.backR.setTargetPosition(-ticks);
 
+        encodeRun();
         //making motors move
         power();
 
