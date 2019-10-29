@@ -24,7 +24,7 @@ public class DriverClass extends OpMode
     public void init_loop()
     {
         telemetry.addLine(joe.getStatus());
-        if(joe.getStatus().equals(""));
+        if(joe.getStatus().equals(""))
             telemetry.addData("Status", "Working");
     }
 
