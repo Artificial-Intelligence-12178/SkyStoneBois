@@ -73,6 +73,10 @@ import java.sql.SQLOutput;
                 joe.backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 joe.frontR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 joe.backR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                joe.frontL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                joe.backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                joe.frontR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                joe.backR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
             if(rTrig != 0)
             {
@@ -128,11 +132,20 @@ import java.sql.SQLOutput;
             if(Math.abs(topRbottomL) < 0.00005)
                 topRbottomL = 0;
 
-
-            joe.frontL.setPower(-topLbottomR);
-            joe.backL.setPower(-topRbottomL);
-            joe.frontR.setPower(topRbottomL);
-            joe.backR.setPower(topLbottomR);
+            if(motion.compareTo("") != 0)
+            {
+                joe.frontL.setPower(-topLbottomR);
+                joe.backL.setPower(-topRbottomL);
+                joe.frontR.setPower(topRbottomL);
+                joe.backR.setPower(topLbottomR);
+            }
+            else
+            {
+                joe.frontL.setPower(0);
+                joe.backL.setPower(0);
+                joe.frontR.setPower(0);
+                joe.backR.setPower(0);
+            }
 
 
             telemetry.addData("Front Right: ", topRbottomL);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Code;
+package org.firstinspires.ftc.teamcode.RandomTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Helpers.Joe;
 import java.sql.SQLOutput;
 
     @TeleOp(name = "Equation Testing")
+    @Disabled
 
     public class EquTesting extends OpMode
     {

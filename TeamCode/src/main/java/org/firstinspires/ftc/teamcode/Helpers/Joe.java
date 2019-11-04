@@ -42,7 +42,6 @@ public class Joe {
         }
 
         //Left Back Motor
-
         try {
             backL = hwmap.get(DcMotor.class, "DC2");
             backL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -50,9 +49,7 @@ public class Joe {
             status += "\nBackL (DC4) motor not mapping";
         }
 
-
         //Right Back Motor
-
         try {
             backR = hwmap.get(DcMotor.class, "DC4");
             backL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

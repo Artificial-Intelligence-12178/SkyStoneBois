@@ -67,28 +67,11 @@ public class DriverClass extends OpMode
 
         String motion = "";
 
-        //Rotate right
-        if(rTrig != 0)
-        {
-            joe.frontL.setPower(-rTrig);
-            joe.backL.setPower(-rTrig);
-            joe.frontR.setPower(-rTrig);
-            joe.backR.setPower(-rTrig);
-            telemetry.addData("Rotating Right:" , rTrig);
-            telemetry.update();
-        }
-        //Rotate left
-        else if(lTrig != 0)
-        {
-            joe.frontL.setPower(lTrig);
-            joe.backL.setPower(lTrig);
-            joe.frontR.setPower(lTrig);
-            joe.backR.setPower(lTrig);
-            telemetry.addData("Rotating Left:" , lTrig);
-            telemetry.update();
-        }
+        /**
+         * DETERMINING THE ANGLES
+         */
         //Movement Forward
-        else if(degree >= 265 && degree <= 275)
+        if(degree >= 265 && degree <= 275)
         {
             angleRad = Math.toRadians(270);
             motion = "Forward";
@@ -146,11 +129,36 @@ public class DriverClass extends OpMode
         if(Math.abs(topRbottomL) < 0.00005)
             topRbottomL = 0;
 
-
-        joe.frontL.setPower(topLbottomR);
-        joe.backL.setPower(topRbottomL);
-        joe.frontR.setPower(-topRbottomL);
-        joe.backR.setPower(-topLbottomR);
+        /**
+         * SETTING POWER TO THE MOTORS
+         */
+        //Rotate right
+        if(rTrig != 0)
+        {
+            joe.frontL.setPower(-rTrig);
+            joe.backL.setPower(-rTrig);
+            joe.frontR.setPower(-rTrig);
+            joe.backR.setPower(-rTrig);
+            telemetry.addData("Rotating Right:" , rTrig);
+            telemetry.update();
+        }
+        //Rotate left
+        else if(lTrig != 0)
+        {
+            joe.frontL.setPower(lTrig);
+            joe.backL.setPower(lTrig);
+            joe.frontR.setPower(lTrig);
+            joe.backR.setPower(lTrig);
+            telemetry.addData("Rotating Left:" , lTrig);
+            telemetry.update();
+        }
+        else
+        {
+            joe.frontL.setPower(topLbottomR);
+            joe.backL.setPower(topRbottomL);
+            joe.frontR.setPower(-topRbottomL);
+            joe.backR.setPower(-topLbottomR);
+        }
 
         telemetry.addData("Angle = ", Math.toDegrees(angleRad));
 
