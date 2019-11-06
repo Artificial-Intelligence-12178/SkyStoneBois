@@ -28,16 +28,7 @@ public class ParkingAuto extends LinearOpMode
         waitForStart();
 
         if(opModeIsActive()){
-            forwardE(1800);
-
-            backwardE(1800);
-
-            leftE(900);
-
-            rightE(900);
-
             rotateRight(1800);
-
             rotateLeft(1800);
         }
 
@@ -78,10 +69,10 @@ public class ParkingAuto extends LinearOpMode
         encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(-ticks);
-        joe.frontR.setTargetPosition(ticks);
-        joe.backL.setTargetPosition(-ticks);
-        joe.backR.setTargetPosition(ticks);
+        joe.frontL.setTargetPosition(ticks);
+        joe.frontR.setTargetPosition(-ticks);
+        joe.backL.setTargetPosition(ticks);
+        joe.backR.setTargetPosition(-ticks);
 
         encodeRun();
 
@@ -105,10 +96,10 @@ public class ParkingAuto extends LinearOpMode
         encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(ticks);
-        joe.frontR.setTargetPosition(-ticks);
-        joe.backL.setTargetPosition(ticks);
-        joe.backR.setTargetPosition(-ticks);
+        joe.frontL.setTargetPosition(-ticks);
+        joe.frontR.setTargetPosition(ticks);
+        joe.backL.setTargetPosition(-ticks);
+        joe.backR.setTargetPosition(ticks);
 
         encodeRun();
         //making motors move
@@ -131,10 +122,10 @@ public class ParkingAuto extends LinearOpMode
         encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(ticks);
-        joe.frontR.setTargetPosition(ticks);
-        joe.backL.setTargetPosition(-ticks);
-        joe.backR.setTargetPosition(-ticks);
+        joe.frontL.setTargetPosition(-ticks);
+        joe.frontR.setTargetPosition(-ticks);
+        joe.backL.setTargetPosition(ticks);
+        joe.backR.setTargetPosition(ticks);
 
         encodeRun();
         //making motors move
@@ -157,10 +148,10 @@ public class ParkingAuto extends LinearOpMode
         encodeReset();
 
         //setting values that the encoders will attempt to reach
-        joe.frontL.setTargetPosition(-ticks);
-        joe.frontR.setTargetPosition(-ticks);
-        joe.backL.setTargetPosition(ticks);
-        joe.backR.setTargetPosition(ticks);
+        joe.frontL.setTargetPosition(ticks);
+        joe.frontR.setTargetPosition(ticks);
+        joe.backL.setTargetPosition(-ticks);
+        joe.backR.setTargetPosition(-ticks);
 
         encodeRun();
 

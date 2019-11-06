@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.Helpers.Joe;
 
 import java.sql.SQLOutput;
@@ -41,6 +43,7 @@ public class DriverClass extends OpMode
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
         boolean dUp = gamepad1.dpad_up;
+        boolean b = gamepad1.b;
         boolean dDown = gamepad1.dpad_down;
         double angleRad = Math.abs(Math.atan(y / x));
         double degree;
@@ -167,19 +170,27 @@ public class DriverClass extends OpMode
 
         if(dUp)
         {
-            joe.arm.setPower(0.5);
+            joe.arm.setPower(1);
             telemetry.addData("Arm ", "moving up");
         }
         else if(dDown)
         {
-            joe.arm.setPower(-0.5);
+            joe.arm.setPower(-1);
             telemetry.addData("Arm ", " moving down");
         }
         else
             joe.arm.setPower(0);
 
+        if(b) {
+            joe.test.setPosition(1);
+            telemetry.addData(
+                    "moving ur mother", "ur mom");
+        }
+        else
+            joe.test.setPosition(0.5);
         telemetry.update();
     }
+
 }
 
 

@@ -78,27 +78,9 @@ import java.sql.SQLOutput;
                 joe.frontR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 joe.backR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            if(rTrig != 0)
-            {
-                joe.frontL.setPower(-rTrig);
-                joe.backL.setPower(-rTrig);
-                joe.frontR.setPower(-rTrig);
-                joe.backR.setPower(-rTrig);
-                telemetry.addData("Rotating Right:" , rTrig);
-                telemetry.update();
-            }
-            //Rotate left
-            else if(lTrig != 0)
-            {
-                joe.frontL.setPower(lTrig);
-                joe.backL.setPower(lTrig);
-                joe.frontR.setPower(lTrig);
-                joe.backR.setPower(lTrig);
-                telemetry.addData("Rotating Left:" , lTrig);
-                telemetry.update();
-            }
+
             //Movement Forward
-            else if(degree >= 265 && degree <= 275)
+            if(degree >= 265 && degree <= 275)
             {
                 angleRad = Math.toRadians(270);
                 motion = "Forward";
@@ -122,6 +104,7 @@ import java.sql.SQLOutput;
                 motion = "Left";
             }
 
+
             //Adjustable values (for leeway) H
 
             topRbottomL = vec*Math.sin(angleRad+Math.PI/4);
@@ -132,7 +115,26 @@ import java.sql.SQLOutput;
             if(Math.abs(topRbottomL) < 0.00005)
                 topRbottomL = 0;
 
-            if(motion.compareTo("") != 0)
+            if(rTrig != 0)
+            {
+                joe.frontL.setPower(rTrig);
+                joe.backL.setPower(rTrig);
+                joe.frontR.setPower(rTrig);
+                joe.backR.setPower(rTrig);
+                telemetry.addData("Rotating Right:" , rTrig);
+                telemetry.update();
+            }
+            //Rotate left
+            else if(lTrig != 0)
+            {
+                joe.frontL.setPower(-lTrig);
+                joe.backL.setPower(-lTrig);
+                joe.frontR.setPower(-lTrig);
+                joe.backR.setPower(-lTrig);
+                telemetry.addData("Rotating Left:" , lTrig);
+                telemetry.update();
+            }
+            else if(motion.compareTo("") != 0)
             {
                 joe.frontL.setPower(-topLbottomR);
                 joe.backL.setPower(-topRbottomL);

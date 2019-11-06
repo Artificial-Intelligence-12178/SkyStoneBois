@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Helpers;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Joe {
     //declaring DcMotors
@@ -11,6 +12,7 @@ public class Joe {
     public DcMotor backL;
     public DcMotor backR;
     public DcMotor arm;
+    public Servo test;
 
     public String status = "";
 
@@ -30,7 +32,7 @@ public class Joe {
             frontL = hwmap.get(DcMotor.class, "DC3");
             frontL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
-            status += "\nFrontL (DC1) motor not mapping";
+            status += "\nFrontL (DC3) motor not mapping";
         }
 
         //Right Front Motor
@@ -38,7 +40,7 @@ public class Joe {
             frontR = hwmap.get(DcMotor.class, "DC1");
             frontR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
-            status += "\nFrontR (DC2) motor not mapping";
+            status += "\nFrontR (DC1) motor not mapping";
         }
 
         //Left Back Motor
@@ -46,15 +48,15 @@ public class Joe {
             backL = hwmap.get(DcMotor.class, "DC2");
             backL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
-            status += "\nBackL (DC4) motor not mapping";
+            status += "\nBackL (DC2) motor not mapping";
         }
 
         //Right Back Motor
         try {
             backR = hwmap.get(DcMotor.class, "DC4");
-            backL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
-            status += "\nBackR (DC3) motor not mapping";
+            status += "\nBackR (DC4) motor not mapping";
         }
 
         //Arm motor
@@ -63,6 +65,12 @@ public class Joe {
             arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         } catch (Exception e) {
             status += "\nArm (ARM1) motor not mapping";
+        }
+
+        try {
+            test = hwmap.get(Servo.class, "Servo");
+        } catch (Exception e) {
+            status += "\nServo nor mapping";
         }
     }
 
