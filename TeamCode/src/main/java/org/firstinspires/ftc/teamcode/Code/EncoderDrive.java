@@ -117,20 +117,20 @@ import java.sql.SQLOutput;
 
             if(rTrig != 0)
             {
-                joe.frontL.setPower(rTrig);
-                joe.backL.setPower(rTrig);
-                joe.frontR.setPower(rTrig);
-                joe.backR.setPower(rTrig);
+                joe.frontL.setPower(-rTrig);
+                joe.backL.setPower(-rTrig);
+                joe.frontR.setPower(-rTrig);
+                joe.backR.setPower(-rTrig);
                 telemetry.addData("Rotating Right:" , rTrig);
                 telemetry.update();
             }
             //Rotate left
             else if(lTrig != 0)
             {
-                joe.frontL.setPower(-lTrig);
-                joe.backL.setPower(-lTrig);
-                joe.frontR.setPower(-lTrig);
-                joe.backR.setPower(-lTrig);
+                joe.frontL.setPower(lTrig);
+                joe.backL.setPower(lTrig);
+                joe.frontR.setPower(lTrig);
+                joe.backR.setPower(lTrig);
                 telemetry.addData("Rotating Left:" , lTrig);
                 telemetry.update();
             }
@@ -159,11 +159,18 @@ import java.sql.SQLOutput;
             if(!motion.equals(""))
                 telemetry.addData("Moving ", motion);
 
-            telemetry.addData("Encoder Value TopL: " , joe.frontL.getCurrentPosition());
-            telemetry.addData("Encoder Value TopL: " , joe.frontR.getCurrentPosition());
-            telemetry.addData("Encoder Value TopL: " , joe.backL.getCurrentPosition());
-            telemetry.addData("Encoder Value TopL: " , joe.backR.getCurrentPosition());
+            int frontLPos = joe.frontL.getCurrentPosition();
+            int frontRpos = joe.frontR.getCurrentPosition();
+            int backRPos = joe.backR.getCurrentPosition();
+            int backLPos = joe.backR.getCurrentPosition();
+            telemetry.addData("Encoder Value FrontL: " , frontLPos);
+            telemetry.addData("Encoder Value FrontR: " , frontRpos);
+            telemetry.addData("Encoder Value BackR: " , backRPos);
+            telemetry.addData("Encoder Value BackL: " , backLPos);
 
+            int avg = Math.abs(frontLPos)+Math.abs(frontRpos)+Math.abs(backLPos)+Math.abs(backRPos);
+            avg/=4;
+            telemetry.addData("Encoder average: ", avg);
             telemetry.update();
         }
     }
