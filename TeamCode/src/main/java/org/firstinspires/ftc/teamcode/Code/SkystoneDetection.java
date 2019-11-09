@@ -56,12 +56,12 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * positioning and orientation of robot on the SKYSTONE FTC field.
  * The code is structured as a LinearOpMode
  *
- * When images are located, Vuforia is able to determine the position and orientation of the
+ * When images are located, Vuforia is able to determine the position
+ *  * From the Audience perspective, the Red Alliance station is on the right and the
+ *  * Blue Alliance Station is on the left. and orientation of the
  * image relative to the camera.  This sample code then combines that information with a
  * knowledge of where the target images are on the field, to determine the location of the camera.
  *
- * From the Audience perspective, the Red Alliance station is on the right and the
- * Blue Alliance Station is on the left.
 
  * Eight perimeter targets are distributed evenly around the four perimeter walls
  * Four Bridge targets are located on the bridge uprights.
