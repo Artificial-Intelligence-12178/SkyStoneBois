@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Code.AutoStonePark;
+import org.firstinspires.ftc.teamcode.Code.IterativeAutoStonePark;
+
 public class AutoBot
 {
     //declaring DcMotors
@@ -90,6 +93,8 @@ public class AutoBot
         else
         {
             //advance step or stop
+            stop();
+            IterativeAutoStonePark.steps++;
         }
 
     }
@@ -106,6 +111,8 @@ public class AutoBot
         else
         {
             //advance step or stop
+            stop();
+            IterativeAutoStonePark.steps++;
         }
     }
 
@@ -120,6 +127,8 @@ public class AutoBot
         else
         {
             //advance step or stop
+            stop();
+            IterativeAutoStonePark.steps++;
         }
     }
 
@@ -134,6 +143,8 @@ public class AutoBot
         else
         {
             //advance step or stop
+            stop();
+            IterativeAutoStonePark.steps++;
         }
     }
 
@@ -147,6 +158,8 @@ public class AutoBot
         else
         {
             //advance step or stop
+            stop();
+            IterativeAutoStonePark.steps++;
         }
     }
 
@@ -160,9 +173,16 @@ public class AutoBot
         else
         {
             //advance step or stop
+            stop();
+            IterativeAutoStonePark.steps++;
         }
     }
 
-
-
+    public void stop(){
+        frontR.setPower(0);
+        frontL.setPower(0);
+        backR.setPower(0);
+        backL.setPower(0);
+        resetEncoder();
+    }
 }
