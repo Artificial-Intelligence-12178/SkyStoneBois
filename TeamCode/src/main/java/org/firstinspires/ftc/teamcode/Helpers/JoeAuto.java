@@ -32,6 +32,7 @@ public class JoeAuto
         try {
             frontL = hwmap.get(DcMotor.class, "DC3");
             frontL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nFrontL (DC3) motor not mapping";
         }
@@ -40,6 +41,7 @@ public class JoeAuto
         try {
             frontR = hwmap.get(DcMotor.class, "DC1");
             frontR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nFrontR (DC1) motor not mapping";
         }
@@ -48,6 +50,7 @@ public class JoeAuto
         try {
             backL = hwmap.get(DcMotor.class, "DC2");
             backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nBackL (DC2) motor not mapping";
         }
@@ -56,6 +59,7 @@ public class JoeAuto
         try {
             backR = hwmap.get(DcMotor.class, "DC4");
             backR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nBackR (DC4) motor not mapping";
         }

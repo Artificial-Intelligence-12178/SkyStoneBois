@@ -16,6 +16,7 @@ public class ParkingAuto extends LinearOpMode
     private JoeAuto joe = new JoeAuto();
     static final double SPEED = 0.6;
 
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -221,6 +222,7 @@ public class ParkingAuto extends LinearOpMode
         }
         encStop();
     }
+
 
 
 }
