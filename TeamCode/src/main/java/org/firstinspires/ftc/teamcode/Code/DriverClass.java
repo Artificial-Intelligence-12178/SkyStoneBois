@@ -15,6 +15,8 @@ import java.sql.SQLOutput;
 public class DriverClass extends OpMode
 {
     private Joe joe = new Joe();
+    private double danielPos = 0.5;
+    private double jorgePos = 0.5;
 
     @Override
     public void init()
@@ -185,26 +187,26 @@ public class DriverClass extends OpMode
             joe.arm.setPower(0);
 
         if(a) {
-            joe.jorge.setPosition(0.51);
+            jorgePos-=0.01;
             telemetry.addData("jorge moving", "one way");
         }
         else if(b){
-            joe.jorge.setPosition(-.51);
+            jorgePos+=0.01;
             telemetry.addData("jorge moving", "other way");
         }
-        else
-            joe.jorge.setPosition(0.5);
 
         if(xBut){
-            joe.daniel.setPosition(0.51);
+            danielPos-=0.01;
             telemetry.addData("daniel moving", "one way");
         }
         else if(yBut){
-            joe.daniel.setPosition(-0.51);
+            danielPos+=0.01;
             telemetry.addData("daniel moving", "other way");
         }
-        else
-            joe.daniel.setPosition(0.5);
+
+        joe.daniel.setPosition(danielPos);
+        joe.jorge.setPosition(jorgePos);
+
         telemetry.update();
     }
 
