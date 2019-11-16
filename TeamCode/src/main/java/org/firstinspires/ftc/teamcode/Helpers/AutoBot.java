@@ -196,7 +196,6 @@ public class AutoBot
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
-
             if(Math.abs(frontR.getCurrentPosition()) > ticks*.6)
                 pow/=2;
             frontR.setPower(-pow);
