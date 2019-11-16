@@ -12,7 +12,8 @@ public class Joe {
     public DcMotor backL;
     public DcMotor backR;
     public DcMotor arm;
-    public Servo test;
+    public Servo daniel;
+    public Servo jorge;
 
     public String status = "";
 
@@ -68,9 +69,14 @@ public class Joe {
         }
 
         try {
-            test = hwmap.get(Servo.class, "Servo");
+            daniel = hwmap.get(Servo.class, "Daniel");
         } catch (Exception e) {
-            status += "\nServo nor mapping";
+            status += "\nDaniel not mapping";
+        }
+        try {
+            jorge = hwmap.get(Servo.class, "Jorge");
+        } catch (Exception e) {
+            status += "\nJorge not mapping";
         }
     }
 

@@ -45,6 +45,8 @@ public class DriverClass extends OpMode
         boolean dUp = gamepad1.dpad_up;
         boolean b = gamepad1.b;
         boolean a = gamepad1.a;
+        boolean xBut = gamepad1.x;
+        boolean yBut = gamepad1.y;
         boolean dDown = gamepad1.dpad_down;
         double angleRad = Math.abs(Math.atan(y / x));
         double degree;
@@ -182,17 +184,27 @@ public class DriverClass extends OpMode
         else
             joe.arm.setPower(0);
 
-        if(b) {
-            joe.test.setPosition(1);
-            telemetry.addData(
-                    "moving ur mother", "ur mom");
+        if(a) {
+            joe.jorge.setPosition(0.51);
+            telemetry.addData("jorge moving", "one way");
         }
-        else if(a){
-            joe.test.setPosition(-1);
-            telemetry.addData("down", "lol");
+        else if(b){
+            joe.jorge.setPosition(-.51);
+            telemetry.addData("jorge moving", "other way");
         }
         else
-            joe.test.setPosition(0.5);
+            joe.jorge.setPosition(0.5);
+
+        if(xBut){
+            joe.daniel.setPosition(0.51);
+            telemetry.addData("daniel moving", "one way");
+        }
+        else if(yBut){
+            joe.daniel.setPosition(-0.51);
+            telemetry.addData("daniel moving", "other way");
+        }
+        else
+            joe.daniel.setPosition(0.5);
         telemetry.update();
     }
 
