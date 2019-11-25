@@ -82,7 +82,8 @@ public class AutoBot
         backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void forward(int ticks, double pow){
+    public void forward(int inches, double pow){
+        int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
             frontR.setPower(-pow);
@@ -100,7 +101,8 @@ public class AutoBot
     }
 
 
-    public void backward(int ticks, double pow){
+    public void backward(int inches, double pow){
+        int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
             frontR.setPower(pow);
@@ -116,7 +118,8 @@ public class AutoBot
         }
     }
 
-    public void strafeRight(int ticks, double pow){
+    public void strafeRight(int inches, double pow){
+        int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
             frontR.setPower(pow);
@@ -132,7 +135,8 @@ public class AutoBot
         }
     }
 
-    public void strafeLeft(int ticks, double pow){
+    public void strafeLeft(int inches, double pow){
+        int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
             frontR.setPower(-pow);
@@ -148,7 +152,8 @@ public class AutoBot
         }
     }
 
-    public void rotateRight(int ticks, double pow){
+    public void rotateRight(int inches, double pow){
+        int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks){
             frontR.setPower(-pow);
             frontL.setPower(-pow);
@@ -163,7 +168,8 @@ public class AutoBot
         }
     }
 
-    public void rotateLeft(int ticks, double pow){
+    public void rotateLeft(int inches, double pow){
+        int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks){
             frontR.setPower(pow);
             frontL.setPower(pow);
@@ -188,26 +194,33 @@ public class AutoBot
 
     public int inchesToTicks(int in){
         return (int)((960*in)/(3.93701*Math.PI));
-        /*return (int)((1440 * (2/3) * in) /
-                (3.93701 * 3.1415));*/
     }
 
-    public void testForward(int inches, double pow){
-        int ticks = inchesToTicks(inches);
-        if(Math.abs(frontR.getCurrentPosition()) < ticks)
-        {
-            if(Math.abs(frontR.getCurrentPosition()) > ticks*.6)
-                pow/=2;
-            frontR.setPower(-pow);
-            frontL.setPower(pow);
-            backR.setPower(-pow);
-            backL.setPower(pow);
-        }
-        else
-        {
-            //advance step or stop
-            stop();
-            IterativeAutoStonePark.steps++;
-        }
+    public void forward(double pow){
+        frontR.setPower(-pow);
+        frontL.setPower(pow);
+        backR.setPower(-pow);
+        backL.setPower(pow);
+    }
+
+    public void backward(double pow){
+        frontR.setPower(pow);
+        frontL.setPower(-pow);
+        backR.setPower(pow);
+        backL.setPower(-pow);
+    }
+
+    public void strafeLeft(double pow){
+        frontR.setPower(-pow);
+        frontL.setPower(-pow);
+        backR.setPower(pow);
+        backL.setPower(pow);
+    }
+
+    public void strafeRight(double pow){
+        frontR.setPower(pow);
+        frontL.setPower(pow);
+        backR.setPower(-pow);
+        backL.setPower(-pow);
     }
 }
