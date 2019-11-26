@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Code;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -23,7 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@TeleOp(name = "2 Stones Park Blue", group = "auto bot")
+@Autonomous(name = "2 Stones Park Blue", group = "auto bot")
 public class TwoStonesParkBlue extends OpMode {
 
     private AutoBot autoBot = new AutoBot();
@@ -92,6 +93,7 @@ public class TwoStonesParkBlue extends OpMode {
 
     }
 
+    private double inchesRequired = 5.2;
     @Override
     public void loop() {
         if(steps == 0)
@@ -99,18 +101,35 @@ public class TwoStonesParkBlue extends OpMode {
         else if(steps == 1)
         {
             if(targetVisible)
+            {
+                if(skyX < -1 || skyX > 1)
+                    inchesRequired+=skyX;
                 steps++;
+            }
+
         }
         else if(steps == 2)
         {
             if(skyX < -1)
-                autoBot.strafeRight((int)(Math.abs(skyX)), 0.2);
-            else if(skyX > 1)
                 autoBot.strafeLeft((int)(Math.abs(skyX)), 0.2);
+            else if(skyX > 1)
+                autoBot.strafeRight((int)(Math.abs(skyX)), 0.2);
             else
             {
                 steps++;
             }
+        }
+        else if(steps == 3)
+        {
+            //code to grab
+        }
+        else if(steps == 4)
+        {
+            autoBot.backward(6, 0.5);
+        }
+        else if(steps == 5)
+        {
+
         }
 
         detection();
