@@ -30,8 +30,10 @@ public class Joe {
     public void init(HardwareMap ahwmap) {
         hwmap = ahwmap;
 
-        //4 Movement Motors
 
+        /**
+         * 4 MOVEMENT MOTORS
+         */
         //Left Front Motor
         try {
             frontL = hwmap.get(DcMotor.class, "DC3");
@@ -64,6 +66,9 @@ public class Joe {
             status += "\nBackR (DC4) motor not mapping";
         }
 
+        /**
+         * ARM THANGS
+         */
         //Arm motor
         try {
             arm = hwmap.get(DcMotor.class, "ARM1");
