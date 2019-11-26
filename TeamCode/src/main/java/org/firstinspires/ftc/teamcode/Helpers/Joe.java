@@ -12,12 +12,12 @@ public class Joe {
     public DcMotor backL;
     public DcMotor backR;
     public DcMotor arm;
-    public Servo daniel;
-    public Servo jorge;
-    public Servo abe;
-    public Servo kim;
-    public Servo back1;
-    public Servo back2;
+    public Servo daniel; //inner clamp motor  : left : port 0
+    public Servo jorge; //outer clamp motor   : left  : port 1
+    public Servo abe;  //inner clamp motor    : right  : port 2
+    public Servo kim; //outer clamp motor    :right   : port 3
+    public Servo back1;    //left back hook servo
+    public Servo back2;     // right back hook servo
 
     public String status = "";
 
@@ -30,8 +30,10 @@ public class Joe {
     public void init(HardwareMap ahwmap) {
         hwmap = ahwmap;
 
-        //4 Movement Motors
 
+        /**
+         * 4 MOVEMENT MOTORS
+         */
         //Left Front Motor
         try {
             frontL = hwmap.get(DcMotor.class, "DC3");
@@ -64,6 +66,9 @@ public class Joe {
             status += "\nBackR (DC4) motor not mapping";
         }
 
+        /**
+         * ARM THANGS
+         */
         //Arm motor
         try {
             arm = hwmap.get(DcMotor.class, "ARM1");
@@ -81,6 +86,31 @@ public class Joe {
             jorge = hwmap.get(Servo.class, "Jorge");
         } catch (Exception e) {
             status += "\nJorge not mapping";
+        }
+        try {
+            jorge = hwmap.get(Servo.class, "Jorge");
+        } catch (Exception e) {
+            status += "\nJorge not mapping";
+        }
+        try {
+            abe = hwmap.get(Servo.class, "abe");
+        } catch (Exception e) {
+            status += "\nabe not mapping";
+        }
+        try {
+            kim = hwmap.get(Servo.class, "Kim");
+        } catch (Exception e) {
+            status += "\nKim not mapping";
+        }
+        try {
+            back1 = hwmap.get(Servo.class, "Back1");
+        } catch (Exception e) {
+            status += "\nBack1 not mapping";
+        }
+        try {
+            back2 = hwmap.get(Servo.class, "Back2");
+        } catch (Exception e) {
+            status += "\nBack2 not mapping";
         }
     }
 

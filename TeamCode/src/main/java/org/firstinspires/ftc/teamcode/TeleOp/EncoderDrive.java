@@ -1,15 +1,12 @@
-package org.firstinspires.ftc.teamcode.Code;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.teamcode.Helpers.Joe;
+
 import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 
-import java.sql.SQLOutput;
-
-    @TeleOp(name = "Encoder Drive")
+@TeleOp(name = "Encoder Drive")
     public class EncoderDrive extends OpMode
     {
         private JoeAuto joe = new JoeAuto();
