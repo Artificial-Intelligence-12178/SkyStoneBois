@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 
 import java.util.List;
 
-@Autonomous(name = "Parking Autonomous", group = "Joe")
+@Autonomous(name = "Parking Auto Red Blue", group = "Joe")
 
 public class ParkingAutoBlueAndRed extends LinearOpMode
 {
