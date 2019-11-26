@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Code;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Autonomous(name = "Parking Autonomous", group = "Joe")
 
-public class ParkingAutoBlueAndRed extends LinearOpMode
+public class FoundationAuto extends LinearOpMode
 {
     private JoeAuto joe = new JoeAuto();
     static final double SPEED = 0.6;
@@ -31,8 +31,10 @@ public class ParkingAutoBlueAndRed extends LinearOpMode
 
         if(opModeIsActive())
         {
-            //Lmao this is literally all you need for parking/ btw i set this up to work for both sides.
-            backwardE(AutoBot.inchesToTicks(34));
+            //I havent set up the servos for  this  yet but its the movement for it
+            leftE(AutoBot.inchesToTicks(18));
+            forwardE(AutoBot.inchesToTicks(24));
+            backwardE(AutoBot.inchesToTicks(24));
         }
 
     }

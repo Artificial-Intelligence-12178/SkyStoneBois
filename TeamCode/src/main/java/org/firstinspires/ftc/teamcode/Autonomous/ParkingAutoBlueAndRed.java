@@ -1,17 +1,18 @@
-package org.firstinspires.ftc.teamcode.Code;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Helpers.AutoBot;
 import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 
 import java.util.List;
 
 @Autonomous(name = "Parking Autonomous", group = "Joe")
 
-public class ParkingAuto extends LinearOpMode
+public class ParkingAutoBlueAndRed extends LinearOpMode
 {
     private JoeAuto joe = new JoeAuto();
     static final double SPEED = 0.6;
@@ -28,13 +29,13 @@ public class ParkingAuto extends LinearOpMode
 
         waitForStart();
 
-        if(opModeIsActive()){
-            rotateRight(1800);
-            rotateLeft(1800);
+        if(opModeIsActive())
+        {
+            //Lmao this is literally all you need for parking/ btw i set this up to work for both sides.
+            backwardE(AutoBot.inchesToTicks(34));
         }
 
     }
-
     //movement methods start here
     public void encStop()
     {
