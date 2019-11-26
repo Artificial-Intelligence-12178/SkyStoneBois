@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.Helpers;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Code.AutoStonePark;
-import org.firstinspires.ftc.teamcode.Code.IterativeAutoStonePark;
+import org.firstinspires.ftc.teamcode.Autonomous.IterativeAutoStonePark;
 
 public class AutoBot
 {
