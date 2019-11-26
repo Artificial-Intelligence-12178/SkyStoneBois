@@ -32,9 +32,10 @@ public class FoundationAuto extends LinearOpMode
         if(opModeIsActive())
         {
             //I havent set up the servos for  this  yet but its the movement for it
-            leftE(AutoBot.inchesToTicks(18));
+            leftE(AutoBot.inchesToTicks(36));
             forwardE(AutoBot.inchesToTicks(24));
             backwardE(AutoBot.inchesToTicks(24));
+            leftE(AutoBot.inchesToTicks(36));
         }
 
     }
