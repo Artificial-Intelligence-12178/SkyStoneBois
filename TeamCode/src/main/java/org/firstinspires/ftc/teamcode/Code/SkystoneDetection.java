@@ -29,9 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Code;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -360,5 +358,6 @@ public class SkystoneDetection extends LinearOpMode {
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
     }
+
 
 }

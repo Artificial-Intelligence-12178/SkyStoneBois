@@ -192,7 +192,8 @@ public class AutoBot
         resetEncoder();
     }
 
-    public int inchesToTicks(int in){
+    public static int inchesToTicks(int in)
+    {
         return (int)((960*in)/(3.93701*Math.PI));
     }
 

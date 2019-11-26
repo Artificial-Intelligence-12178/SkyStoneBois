@@ -50,6 +50,7 @@ public class DriverClass extends OpMode
         boolean xBut = gamepad1.x;
         boolean yBut = gamepad1.y;
         boolean dDown = gamepad1.dpad_down;
+        boolean backButton = gamepad1.left_bumper;
         double angleRad = Math.abs(Math.atan(y / x));
         double degree;
 
@@ -185,7 +186,7 @@ public class DriverClass extends OpMode
         }
         else
             joe.arm.setPower(0);
-
+        /*
         if(a) {
             jorgePos-=0.01;
             telemetry.addData("jorge moving", "one way");
@@ -208,6 +209,12 @@ public class DriverClass extends OpMode
         joe.jorge.setPosition(jorgePos);
 
         telemetry.update();
+*/
+        if(backButton)
+        {
+            joe.daniel.setPosition(.5);
+            telemetry.addData("daniel is moving rn", "moving");
+        }
     }
 
 }

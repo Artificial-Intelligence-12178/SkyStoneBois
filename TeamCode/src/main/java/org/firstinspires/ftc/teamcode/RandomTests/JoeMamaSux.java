@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.RandomTests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 import java.util.List;
 
 @Autonomous(name = "Encode Debug", group = "Joe")
-@Disabled
+
 
 public class JoeMamaSux extends LinearOpMode
 {
@@ -29,8 +30,13 @@ public class JoeMamaSux extends LinearOpMode
 
         waitForStart();
         if(opModeIsActive()) {
-            forwardE(1000);
+            //forwardE(1000);
             //backwardE(1000);
+
+            dancer.frontR.setTargetPosition(-1000);
+            dancer.frontL.setTargetPosition(-1000);
+            dancer.backR.setTargetPosition(1000);
+            dancer.backL.setTargetPosition(1000);
         }
     }
 

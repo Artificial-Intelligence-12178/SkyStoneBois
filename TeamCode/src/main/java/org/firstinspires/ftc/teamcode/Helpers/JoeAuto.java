@@ -13,7 +13,12 @@ public class JoeAuto
     public DcMotor frontR;
     public DcMotor backL;
     public DcMotor backR;
-
+    public Servo daniel;
+    public Servo jorge;
+    public Servo abe;
+    public Servo kim;
+    public Servo back1;
+    public Servo back2;
     public String status = "";
 
     HardwareMap hwmap = null; //need a reference for op mode so the code doesnt think this is the op mode to use right now

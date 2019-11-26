@@ -14,6 +14,10 @@ public class Joe {
     public DcMotor arm;
     public Servo daniel;
     public Servo jorge;
+    public Servo abe;
+    public Servo kim;
+    public Servo back1;
+    public Servo back2;
 
     public String status = "";
 
