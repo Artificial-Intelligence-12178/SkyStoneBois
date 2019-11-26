@@ -1,8 +1,12 @@
-package org.firstinspires.ftc.teamcode.Code;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -12,6 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.Helpers.Joe;
+import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 import org.firstinspires.ftc.teamcode.Helpers.AutoBot;
 
 import java.util.ArrayList;
@@ -23,8 +29,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@TeleOp(name = "2 Stones Park Blue", group = "auto bot")
-public class TwoStonesParkBlue extends OpMode {
+@Autonomous(name = "Testing Iterative:", group = "joe")
+public class IterativeAutoStonePark extends OpMode {
 
     private AutoBot autoBot = new AutoBot();
     private ElapsedTime runtime = new ElapsedTime();
@@ -80,45 +86,46 @@ public class TwoStonesParkBlue extends OpMode {
     private float phoneZRotate    = 0;
 
     private double skyX, skyY, skyZ;
-
-    @Override
-    public void init() {
+    public void init(){
         autoBot.init(hardwareMap);
         initDetection();
+        autoBot.resetEncoder();
     }
 
-    @Override
     public void init_loop(){
-
+        telemetry.addLine(autoBot.getStatus());
+        if(autoBot.getStatus().equals(""))
+            telemetry.addData("Status: ", "Working");
+        steps = 0;
     }
 
-    @Override
-    public void loop() {
+    public void start(){
+        runtime.reset();
+    }
+
+    public void loop(){
         if(steps == 0)
-            autoBot.forward(15, 0.5);
+        {
+            autoBot.forward(19, .4);
+        }
         else if(steps == 1)
         {
-            if(targetVisible)
-                steps++;
+            detection();
         }
         else if(steps == 2)
         {
-            if(skyX < -1)
-                autoBot.strafeRight((int)(Math.abs(skyX)), 0.2);
-            else if(skyX > 1)
-                autoBot.strafeLeft((int)(Math.abs(skyX)), 0.2);
+            if(skyY < 0)
+                autoBot.strafeLeft((int)Math.abs(skyY), 0.3);
             else
-            {
-                steps++;
-            }
+                autoBot.strafeRight((int)Math.abs(skyY), 0.3);
         }
 
-        detection();
+        telemetry.update();
     }
 
-    @Override
-    public void stop() {
 
+    public void stop(){
+        targetsSkyStone.deactivate();
     }
 
     VuforiaTrackables targetsSkyStone;
@@ -219,7 +226,6 @@ public class TwoStonesParkBlue extends OpMode {
 
         targetsSkyStone.activate();
     }
-
     public void detection(){
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
