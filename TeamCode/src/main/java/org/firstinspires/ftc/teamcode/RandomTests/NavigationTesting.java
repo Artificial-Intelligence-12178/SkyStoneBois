@@ -81,6 +81,7 @@ import java.util.List;
  */
 
 @TeleOp(name="Concept: Vuforia Navigation", group ="Concept")
+
 public class NavigationTesting extends LinearOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";

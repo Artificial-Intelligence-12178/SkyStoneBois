@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 import java.util.List;
 
 @Autonomous(name = "Encode Debug", group = "Joe")
-
+@Disabled
 
 public class JoeMamaSux extends LinearOpMode
 {

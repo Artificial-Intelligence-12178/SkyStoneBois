@@ -79,12 +79,7 @@ public class JoeAuto
             status += "\nJorge not mapping";
         }
         try {
-            jorge = hwmap.get(Servo.class, "Jorge");
-        } catch (Exception e) {
-            status += "\nJorge not mapping";
-        }
-        try {
-            abe = hwmap.get(Servo.class, "abe");
+            abe = hwmap.get(Servo.class, "Abe");
         } catch (Exception e) {
             status += "\nabe not mapping";
         }
