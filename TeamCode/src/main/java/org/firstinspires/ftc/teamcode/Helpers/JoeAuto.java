@@ -13,12 +13,12 @@ public class JoeAuto
     public DcMotor frontR;
     public DcMotor backL;
     public DcMotor backR;
-    public Servo daniel; //inner clamp motor  : left : port 0
-    public Servo jorge; //outer clamp motor   : left  : port 1
-    public Servo abe;  //inner clamp motor    : right  : port 2
-    public Servo kim; //outer clamp motor    :right   : port 3
-    public Servo back1;    //left back hook servo
-    public Servo back2;     // right back hook servo
+    public Servo daniel;
+    public Servo jorge;
+    public Servo abe;
+    public Servo kim;
+    public Servo back1;
+    public Servo back2;
     public String status = "";
 
     HardwareMap hwmap = null; //need a reference for op mode so the code doesnt think this is the op mode to use right now
@@ -67,41 +67,6 @@ public class JoeAuto
             //backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nBackR (DC4) motor not mapping";
-        }
-        try {
-            daniel = hwmap.get(Servo.class, "Daniel");
-        } catch (Exception e) {
-            status += "\nDaniel not mapping";
-        }
-        try {
-            jorge = hwmap.get(Servo.class, "Jorge");
-        } catch (Exception e) {
-            status += "\nJorge not mapping";
-        }
-        try {
-            jorge = hwmap.get(Servo.class, "Jorge");
-        } catch (Exception e) {
-            status += "\nJorge not mapping";
-        }
-        try {
-            abe = hwmap.get(Servo.class, "abe");
-        } catch (Exception e) {
-            status += "\nabe not mapping";
-        }
-        try {
-            kim = hwmap.get(Servo.class, "Kim");
-        } catch (Exception e) {
-            status += "\nKim not mapping";
-        }
-        try {
-            back1 = hwmap.get(Servo.class, "Back1");
-        } catch (Exception e) {
-            status += "\nBack1 not mapping";
-        }
-        try {
-            back2 = hwmap.get(Servo.class, "Back2");
-        } catch (Exception e) {
-            status += "\nBack2 not mapping";
         }
     }
 
