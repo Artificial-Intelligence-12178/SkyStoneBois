@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Helpers.Joe;
 public class OfficialDrive extends OpMode
 {
     private Joe joe = new Joe();
-    private double grabStay = 0.0;
+    private double grabStay = 0.1;
 
     @Override
     public void init()
@@ -228,11 +228,11 @@ public class OfficialDrive extends OpMode
         }*/
         //Testing
 
-        if(dUp)
+        if(dUp && grabStay != 0.9)
         {
             grabStay+=0.1;
         }
-        else if(dDown)
+        else if(dDown && grabStay != 0.1)
         {
             grabStay-=0.1;
         }
