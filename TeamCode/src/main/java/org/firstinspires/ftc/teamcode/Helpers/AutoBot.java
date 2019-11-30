@@ -3,8 +3,13 @@ package org.firstinspires.ftc.teamcode.Helpers;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Autonomous.IterativeAutoStonePark;
+import org.firstinspires.ftc.teamcode.Autonomous.TwoStonesParkBlue;
+
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 public class AutoBot
 {
@@ -14,7 +19,11 @@ public class AutoBot
     public DcMotor backL;
     public DcMotor backR;
 
+    public Servo grabLeft;
+    public Servo grabRight;
     public String status = "";
+    public double leftServoPosition;
+    public double rightServoPosition;
 
     HardwareMap hwmap = null; //need a reference for op mode so the code doesnt think this is the op mode to use right now
 
@@ -29,7 +38,7 @@ public class AutoBot
         try {
             frontL = hwmap.get(DcMotor.class, "DC3");
             frontL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            frontL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nFrontL (DC3) motor not mapping";
         }
@@ -38,7 +47,7 @@ public class AutoBot
         try {
             frontR = hwmap.get(DcMotor.class, "DC1");
             frontR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            frontR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nFrontR (DC1) motor not mapping";
         }
@@ -47,7 +56,7 @@ public class AutoBot
         try {
             backL = hwmap.get(DcMotor.class, "DC2");
             backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            backL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nBackL (DC2) motor not mapping";
         }
@@ -56,10 +65,28 @@ public class AutoBot
         try {
             backR = hwmap.get(DcMotor.class, "DC4");
             backR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            backR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nBackR (DC4) motor not mapping";
         }
+
+        try{
+            grabLeft = hwmap.get(Servo.class, "Back1");
+        }catch (Exception e){
+            status+="\nLeft grabber (Back1) not mapping";
+        }
+
+        try{
+            grabRight = hwmap.get(Servo.class, "Back2");
+        }catch (Exception e){
+            status+="\nRight grabber (Back2) not mapping";
+
+        }
+
+        leftServoPosition = .5;
+        rightServoPosition = .5;
+
+        PIDCoefficients orig = ((DcMotorEx)frontL).getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     //basically a toString method. This tells the code how to display the status.
@@ -79,7 +106,7 @@ public class AutoBot
         backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void forward(int inches, double pow){
+    public void forward(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
@@ -98,7 +125,7 @@ public class AutoBot
     }
 
 
-    public void backward(int inches, double pow){
+    public void backward(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
@@ -115,7 +142,7 @@ public class AutoBot
         }
     }
 
-    public void strafeRight(int inches, double pow){
+    public void strafeRight(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
@@ -132,7 +159,7 @@ public class AutoBot
         }
     }
 
-    public void strafeLeft(int inches, double pow){
+    public void strafeLeft(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
@@ -149,7 +176,7 @@ public class AutoBot
         }
     }
 
-    public void rotateRight(int inches, double pow){
+    public void rotateRight(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks){
             frontR.setPower(-pow);
@@ -165,7 +192,7 @@ public class AutoBot
         }
     }
 
-    public void rotateLeft(int inches, double pow){
+    public void rotateLeft(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks){
             frontR.setPower(pow);
@@ -189,7 +216,7 @@ public class AutoBot
         resetEncoder();
     }
 
-    public static int inchesToTicks(int in)
+    public static int inchesToTicks(double in)
     {
         return (int)((960*in)/(3.93701*Math.PI));
     }
@@ -220,5 +247,26 @@ public class AutoBot
         frontL.setPower(pow);
         backR.setPower(-pow);
         backL.setPower(-pow);
+    }
+
+    public void testingForward(double inches){
+        int ticks = inchesToTicks(inches);
+        if(frontL.getCurrentPosition() < ticks)
+        {
+            double m = -0.0005;
+            double b = -1*m*ticks;
+            double pow = m*frontL.getCurrentPosition()+b;
+            if(pow > 1)
+                pow = 1;
+
+            frontL.setPower(pow);
+            frontR.setPower(-pow);
+            backL.setPower(pow);
+            backR.setPower(-pow);
+        }
+        else {
+            stop();
+            TwoStonesParkBlue.steps++;
+        }
     }
 }

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,8 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@TeleOp(name = "2 Stones Park Blue", group = "auto bot")
-
+@Autonomous(name = "2 Stones Park Blue", group = "auto bot")
 public class TwoStonesParkBlue extends OpMode {
 
     private AutoBot autoBot = new AutoBot();
@@ -82,17 +81,23 @@ public class TwoStonesParkBlue extends OpMode {
     private float phoneZRotate    = 0;
 
     private double skyX, skyY, skyZ;
-
+    private boolean once = false;
+    private String side;
     @Override
     public void init() {
         autoBot.init(hardwareMap);
         initDetection();
+        steps=0;
     }
 
     @Override
     public void init_loop(){
-
+        steps = 0;
     }
+
+    private double feetRequired = 3.2;
+    private double feetBack = 5.2;
+    double requiredX = 0;
 
     @Override
     public void loop() {
@@ -101,21 +106,169 @@ public class TwoStonesParkBlue extends OpMode {
         else if(steps == 1)
         {
             if(targetVisible)
+            {
+
+                if(skyX <= 0)
+                {
+                    side = "LEFT";
+                    requiredX = -2.17;
+                }
+                else
+                {
+                    side = "RIGHT";
+                    requiredX = 6.5;
+                }
+
+                double dist = Math.abs(requiredX-skyX);
+                if(side.equals("LEFT"))
+                    feetRequired-=dist/12;
+                else
+                    feetRequired+=dist/12;
+
                 steps++;
+            }
+
         }
         else if(steps == 2)
         {
+            
+            if(skyX < requiredX-.5)
+                autoBot.strafeLeft(0.2);
+            else if(skyX > requiredX+.5)
+                autoBot.strafeRight(0.2);
+            else
+            {
+                autoBot.stop();
+                steps++;
+            }
+
+        }
+        else if(steps == 3) {
+            if (skyY + 5 < -7.05)
+                autoBot.forward(0.2);
+            else {
+                autoBot.stop();
+                steps++;
+            }
+        }
+        else if(steps == 4)
+        {
+            if(side.equals("LEFT"))
+            {
+                autoBot.leftServoPosition=1;
+            }
+            else
+            {
+                autoBot.rightServoPosition=1;
+            }
+
+            steps++;
+            targetsSkyStone.deactivate();
+        }
+        else if(steps == 5)
+        {
+            autoBot.backward(6, 0.5);
+        }
+        else if(steps == 6)
+        {
+            autoBot.strafeLeft(feetRequired*12, 0.5);
+        }
+        else if(steps == 7)
+        {
+            //code to release
+            if(side.equals("LEFT"))
+            {
+                autoBot.leftServoPosition=0.5;
+            }
+            else
+            {
+                autoBot.rightServoPosition=0.5;
+            }
+
+            steps++;
+        }
+        else if(steps == 8)
+        {
+            autoBot.strafeRight(feetBack*12, 0.5);
+            feetRequired = 5.2;
+        }
+        else if(steps == 9)
+        {
+            if(!once)
+            {
+                once = true;
+                targetsSkyStone.activate();
+            }
+
+            if(targetVisible)
+            {
+                if(skyX < -1 || skyX > 1)
+                    feetRequired+=skyX/12;
+                steps++;
+            }
+        }
+        else if(steps == 10)
+        {
             if(skyX < -1)
-                autoBot.strafeRight((int)(Math.abs(skyX)), 0.2);
+                autoBot.strafeLeft(0.2);
             else if(skyX > 1)
-                autoBot.strafeLeft((int)(Math.abs(skyX)), 0.2);
+                autoBot.strafeRight(0.2);
             else
             {
                 steps++;
             }
         }
+        else if(steps == 11)
+        {
+            //code to move forward
+            if(skyY+5 < -7.05)
+                autoBot.forward(0.2);
+            else
+                steps++;
+        }
+        else if(steps == 12)
+        {
+            if(side.equals("LEFT"))
+            {
+                autoBot.leftServoPosition=1;
+            }
+            else
+            {
+                autoBot.rightServoPosition=1;
+            }
+
+            steps++;
+            targetsSkyStone.deactivate();
+        }
+        else if(steps == 13)
+        {
+            autoBot.backward(6, 0.5);
+        }
+        else if(steps == 14)
+        {
+            autoBot.strafeLeft(feetRequired);
+        }
+        else if(steps == 15)
+        {
+            //code to release
+            if(side.equals("LEFT"))
+            {
+                autoBot.leftServoPosition=0.5;
+            }
+            else
+            {
+                autoBot.rightServoPosition=0.5;
+            }
+
+            steps++;
+        }
+        else if(steps == 16)
+        {
+            autoBot.strafeRight(0.2*12, 0.3);
+        }
 
         detection();
+        updateServos();
     }
 
     @Override
@@ -261,5 +414,10 @@ public class TwoStonesParkBlue extends OpMode {
             telemetry.addData("Visible Target", "none");
         }
         telemetry.update();
+    }
+
+    public void updateServos(){
+        autoBot.grabRight.setPosition(autoBot.rightServoPosition);
+        autoBot.grabLeft.setPosition(autoBot.leftServoPosition);
     }
 }
