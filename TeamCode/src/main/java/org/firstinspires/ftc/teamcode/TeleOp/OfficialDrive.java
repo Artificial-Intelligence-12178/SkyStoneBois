@@ -10,7 +10,8 @@ import org.firstinspires.ftc.teamcode.Helpers.Joe;
 public class OfficialDrive extends OpMode
 {
     private Joe joe = new Joe();
-    private double grabStay = 0.1;
+    private double grabStay = 0;
+    private double grabStay2 = 0.7;
 
     @Override
     public void init()
@@ -179,37 +180,42 @@ public class OfficialDrive extends OpMode
         else
             joe.arm.setPower(0);
 
-
-
-        /*Arm opening
+        //Arm opening
         if(a)
         {
-            joe.jorge.setPosition(1);
-            joe.kim.setPosition(1);
+            //joe.jorge.setPosition(1);
+            //joe.kim.setPosition(1);
+            telemetry.addLine("Open Sesame");
         }
         else
         {
-            joe.jorge.setPosition(0.5);
-            joe.kim.setPosition(0.5);
+            //joe.jorge.setPosition(0.5);
+            //joe.kim.setPosition(0.5);
+            telemetry.addLine("Slap slap");
         }
 
         //Arm servos that unfold arm from auto
         if(lBump)
-            joe.daniel.setPosition(0.5);
-        else
+        {
+            joe.daniel.setPosition(0.4); //IS 180 SERVO
+            telemetry.addLine("Opening Oven");
+        }
+        else {
             joe.daniel.setPosition(0);
-        if(rBump)
+            telemetry.addLine("Closing Oven");
+        }
+        /*if(rBump)
             joe.abe.setPosition(0.5);
         else
-            joe.abe.setPosition(0);
+            joe.abe.setPosition(0);*/
 
-        *///Chomper (2 servos moving under one condition) back of robot
-        /*if(dUp)
+        //Chomper (2 servos moving under one condition) back of robot
+        if(dDown)
         {
             if (grabStay != 1)
                 grabStay++;
         }
-        else if(dDown)
+        else if(dUp)
         {
             if (grabStay != 0)
                 grabStay--;
@@ -218,27 +224,16 @@ public class OfficialDrive extends OpMode
 
         if(grabStay == 1)
         {
-            joe.back1.setPosition(0);
-            joe.back2.setPosition(1);
+            joe.back1.setPosition(0.8);
+            joe.back2.setPosition(0.3);
+            telemetry.addLine("Whip");
         }
         else
         {
-            joe.back1.setPosition(1);
-            joe.back2.setPosition(0);
-        }*/
-        //Testing
-
-        if(dUp && grabStay != 0.9)
-        {
-            grabStay+=0.1;
+            joe.back2.setPosition(0.85);
+            joe.back1.setPosition(0.25);
+            telemetry.addLine("Nae nae");
         }
-        else if(dDown && grabStay != 0.1)
-        {
-            grabStay-=0.1;
-        }
-
-        joe.back1.setPosition(grabStay);
-        joe.back2.setPosition(1-grabStay);
 
         telemetry.addData("Angle = ", Math.toDegrees(angleRad));
         telemetry.update();

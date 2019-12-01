@@ -16,8 +16,8 @@ public class Joe {
     public Servo jorge; //outer clamp motor   : left  : B1 PORT 4
     public Servo abe;  //inner clamp motor    : right  : B2 PORT 0
     public Servo kim; //outer clamp motor    :right   : B2 PORT 1
-    public Servo back1;    //left back hook servo B2 PORT 2
-    public Servo back2;     // right back hook servo B2 PORT 3
+    public Servo back1;    //left back hook looking at FRONT servo B2 PORT 2
+    public Servo back2;     // right back hook looking at FRONT servo B2 PORT 3
 
     public String status = "";
 
@@ -79,6 +79,7 @@ public class Joe {
 
         try {
             daniel = hwmap.get(Servo.class, "Daniel");
+            daniel.setDirection(Servo.Direction.FORWARD);
         } catch (Exception e) {
             status += "\nDaniel not mapping";
         }
@@ -104,6 +105,7 @@ public class Joe {
         }
         try {
             back1 = hwmap.get(Servo.class, "Back1");
+            back1.setDirection(Servo.Direction.FORWARD);
         } catch (Exception e) {
             status += "\nBack1 not mapping";
         }
