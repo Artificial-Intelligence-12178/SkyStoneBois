@@ -148,6 +148,7 @@ public class DriverClass extends OpMode
         }
         //Rotate left
         else if(lTrig != 0)
+
         {
             joe.frontL.setPower(lTrig);
             joe.backL.setPower(lTrig);

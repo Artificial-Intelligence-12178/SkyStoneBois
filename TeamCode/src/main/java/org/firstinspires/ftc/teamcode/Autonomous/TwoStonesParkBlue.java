@@ -266,7 +266,6 @@ public class TwoStonesParkBlue extends OpMode {
         {
             autoBot.strafeRight(0.2*12, 0.3);
         }
-
         detection();
         updateServos();
     }

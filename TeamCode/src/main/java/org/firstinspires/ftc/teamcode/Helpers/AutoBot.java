@@ -85,8 +85,6 @@ public class AutoBot
 
         leftServoPosition = .5;
         rightServoPosition = .5;
-
-        PIDCoefficients orig = ((DcMotorEx)frontL).getPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     //basically a toString method. This tells the code how to display the status.
@@ -106,6 +104,9 @@ public class AutoBot
         backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    int errorSum = 0;
+    int eChange = 0;
+    int ePrevious = 0;
     public void forward(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
@@ -119,6 +120,9 @@ public class AutoBot
         {
             //advance step or stop
             stop();
+            errorSum = 0;
+            eChange = 0;
+            ePrevious = 0;
             IterativeAutoStonePark.steps++;
         }
 
