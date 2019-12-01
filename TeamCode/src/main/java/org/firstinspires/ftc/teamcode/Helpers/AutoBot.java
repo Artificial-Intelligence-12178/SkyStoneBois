@@ -85,6 +85,8 @@ public class AutoBot
 
         leftServoPosition = .5;
         rightServoPosition = .5;
+
+        test = "";
     }
 
     //basically a toString method. This tells the code how to display the status.
@@ -221,7 +223,7 @@ public class AutoBot
     }
 
     public static double ticksToRadians(int ticks){
-        return Math.PI/480*ticks;
+        return Math.PI*ticks/480;
     }
 
     public void forward(double pow){
@@ -254,10 +256,10 @@ public class AutoBot
 
     public void testingForward(double inches){
         int ticks = inchesToTicks(inches);
-        if(frontL.getCurrentPosition() < ticks)
+        if(frontR.getCurrentPosition() < ticks)
         {
-            double rad = ticksToRadians(ticks);
-            double freq = 1920/(4*ticks);
+            double rad = ticksToRadians(frontR.getCurrentPosition());
+            double freq = 480/ticks;
             double pow = 0.5*Math.cos(rad*freq)+0.5;
             test = pow+"";
             frontL.setPower(pow);
