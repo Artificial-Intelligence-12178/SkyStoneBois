@@ -259,6 +259,7 @@ public class AutoBot
             double rad = ticksToRadians(ticks);
             double freq = 1920/(4*ticks);
             double pow = 0.5*Math.cos(rad*freq)+0.5;
+            test = pow+"";
             frontL.setPower(pow);
             frontR.setPower(-pow);
             backL.setPower(pow);
@@ -267,6 +268,9 @@ public class AutoBot
         else {
             stop();
             TwoStonesParkBlue.steps++;
+            test = "";
         }
     }
+
+    public String test = "";
 }

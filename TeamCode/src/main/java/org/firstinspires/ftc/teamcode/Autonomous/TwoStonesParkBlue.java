@@ -270,6 +270,9 @@ public class TwoStonesParkBlue extends OpMode {
         updateServos();*/
         if(steps == 0)
             autoBot.testingForward(24);
+
+        telemetry.addData("pow = ", autoBot.test);
+        telemetry.update();
     }
 
     @Override
