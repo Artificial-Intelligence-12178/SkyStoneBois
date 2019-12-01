@@ -12,12 +12,12 @@ public class Joe {
     public DcMotor backL;
     public DcMotor backR;
     public DcMotor arm;
-    public Servo daniel; //inner clamp motor  : left : port 0
-    public Servo jorge; //outer clamp motor   : left  : port 1
-    public Servo abe;  //inner clamp motor    : right  : port 2
-    public Servo kim; //outer clamp motor    :right   : port 3
-    public Servo back1;    //left back hook servo
-    public Servo back2;     // right back hook servo
+    public Servo daniel; //inner clamp motor  : left : B1 PORT 5
+    public Servo jorge; //outer clamp motor   : left  : B1 PORT 4
+    public Servo abe;  //inner clamp motor    : right  : B2 PORT 0
+    public Servo kim; //outer clamp motor    :right   : B2 PORT 1
+    public Servo back1;    //left back hook servo B2 PORT 2
+    public Servo back2;     // right back hook servo B2 PORT 3
 
     public String status = "";
 
@@ -93,7 +93,7 @@ public class Joe {
             status += "\nJorge not mapping";
         }
         try {
-            abe = hwmap.get(Servo.class, "abe");
+            abe = hwmap.get(Servo.class, "Abe");
         } catch (Exception e) {
             status += "\nabe not mapping";
         }
