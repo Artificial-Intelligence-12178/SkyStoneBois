@@ -101,7 +101,7 @@ public class TwoStonesParkBlue extends OpMode {
 
     @Override
     public void loop() {
-        if(steps == 0)
+        /*if(steps == 0)
             autoBot.forward(15, 0.5);
         else if(steps == 1)
         {
@@ -267,7 +267,9 @@ public class TwoStonesParkBlue extends OpMode {
             autoBot.strafeRight(0.2*12, 0.3);
         }
         detection();
-        updateServos();
+        updateServos();*/
+        if(steps == 0)
+            autoBot.testingForward(24);
     }
 
     @Override

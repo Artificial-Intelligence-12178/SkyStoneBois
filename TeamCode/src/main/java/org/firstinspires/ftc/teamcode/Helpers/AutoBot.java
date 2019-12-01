@@ -104,13 +104,11 @@ public class AutoBot
         backL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    int errorSum = 0;
-    int eChange = 0;
-    int ePrevious = 0;
     public void forward(double inches, double pow){
         int ticks = inchesToTicks(inches);
         if(Math.abs(frontR.getCurrentPosition()) < ticks)
         {
+
             frontR.setPower(-pow);
             frontL.setPower(pow);
             backR.setPower(-pow);
@@ -120,9 +118,6 @@ public class AutoBot
         {
             //advance step or stop
             stop();
-            errorSum = 0;
-            eChange = 0;
-            ePrevious = 0;
             IterativeAutoStonePark.steps++;
         }
 
@@ -225,6 +220,10 @@ public class AutoBot
         return (int)((960*in)/(3.93701*Math.PI));
     }
 
+    public static double ticksToRadians(int ticks){
+        return Math.PI/480*ticks;
+    }
+
     public void forward(double pow){
         frontR.setPower(-pow);
         frontL.setPower(pow);
@@ -257,12 +256,9 @@ public class AutoBot
         int ticks = inchesToTicks(inches);
         if(frontL.getCurrentPosition() < ticks)
         {
-            double m = -0.0005;
-            double b = -1*m*ticks;
-            double pow = m*frontL.getCurrentPosition()+b;
-            if(pow > 1)
-                pow = 1;
-
+            double rad = ticksToRadians(ticks);
+            double freq = 1920/(4*ticks);
+            double pow = 0.5*Math.cos(rad*freq)+0.5;
             frontL.setPower(pow);
             frontR.setPower(-pow);
             backL.setPower(pow);
