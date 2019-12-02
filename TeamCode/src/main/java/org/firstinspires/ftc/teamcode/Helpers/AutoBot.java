@@ -25,6 +25,11 @@ public class AutoBot
     public double leftServoPosition;
     public double rightServoPosition;
 
+    public static double diamOfWheels = 3.93701;
+    public static double circOfWheels = diamOfWheels*Math.PI;
+    public static double ticksPerRev = 960;
+    public static double ticksPerInch = ticksPerRev/circOfWheels;
+
     HardwareMap hwmap = null; //need a reference for op mode so the code doesnt think this is the op mode to use right now
 
     public AutoBot(){ }
@@ -85,8 +90,6 @@ public class AutoBot
 
         leftServoPosition = .5;
         rightServoPosition = .5;
-
-        test = "";
     }
 
     //basically a toString method. This tells the code how to display the status.
@@ -217,15 +220,9 @@ public class AutoBot
         resetEncoder();
     }
 
-    public static int inchesToTicks(double in)
-    {
-        return (int)((960*in)/(3.93701*Math.PI));
+    public static int inchesToTicks(double in) {
+        return (int)(in*ticksPerInch);
     }
-
-    public static double ticksToRadians(int ticks){
-        return Math.PI*ticks/480;
-    }
-
     public void forward(double pow){
         frontR.setPower(-pow);
         frontL.setPower(pow);
@@ -258,10 +255,11 @@ public class AutoBot
         int ticks = inchesToTicks(inches);
         if(frontR.getCurrentPosition() < ticks)
         {
-            double rad = ticksToRadians(frontR.getCurrentPosition());
-            double freq = 480/ticks;
-            double pow = 0.5*Math.cos(rad*freq)+0.5;
-            test = pow+"";
+            double radPerTick = ticks/Math.PI;
+            double rad = frontR.getCurrentPosition()*radPerTick;
+            double pow = 0.5*Math.cos(rad)+0.5;
+            if(pow < 0.1)
+                pow = 0.1;
             frontL.setPower(pow);
             frontR.setPower(-pow);
             backL.setPower(pow);
@@ -270,9 +268,6 @@ public class AutoBot
         else {
             stop();
             TwoStonesParkBlue.steps++;
-            test = "";
         }
     }
-
-    public String test = "";
 }
