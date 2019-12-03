@@ -264,6 +264,7 @@ public class AutoBot
             frontR.setPower(-pow);
             backL.setPower(pow);
             backR.setPower(-pow);
+            status = "" + pow;
         }
         else {
             stop();

@@ -12,6 +12,9 @@ public class OfficialDrive extends OpMode
     private Joe joe = new Joe();
     private double grabStay = 0;
     private double grabStay2 = 0.7;
+    private int locoActive = 0;
+    private boolean loco = false;
+    private double SLOWSPEED = 0.3;
 
     @Override
     public void init()
@@ -55,6 +58,9 @@ public class OfficialDrive extends OpMode
 
         //Expanding arm out
         boolean a = gamepad1.a;
+
+        //Loco mode
+        boolean yButt = gamepad1.y;
 
         //Getting the angle (in radians)
         double angleRad = Math.abs(Math.atan(y / x));
@@ -142,36 +148,101 @@ public class OfficialDrive extends OpMode
         telemetry.addData("Direction", motion);
 
         /**
-         * SETTING POWER TO THE MOTORS
+         * SETTING POWER TO THE MOTORS // LOCO MODE
          */
         //Rotate right
-        if(rTrig != 0)
+        if(yButt)
         {
-            joe.frontL.setPower(-rTrig);
-            joe.backL.setPower(-rTrig);
-            joe.frontR.setPower(-rTrig);
-            joe.backR.setPower(-rTrig);
-            telemetry.addData("Rotating Right:" , rTrig);
-            telemetry.update();
-        }
-        //Rotate left
-        else if(lTrig != 0)
-        {
-            joe.frontL.setPower(lTrig);
-            joe.backL.setPower(lTrig);
-            joe.frontR.setPower(lTrig);
-            joe.backR.setPower(lTrig);
-            telemetry.addData("Rotating Left:" , lTrig);
-            telemetry.update();
+            if(rTrig != 0)
+            {
+                joe.frontL.setPower(-SLOWSPEED);
+                joe.backL.setPower(-SLOWSPEED);
+                joe.frontR.setPower(-SLOWSPEED);
+                joe.backR.setPower(-SLOWSPEED);
+                telemetry.addLine("SRotateR");
+            }
+            //Rotate left
+            else if(lTrig != 0)
+            {
+                joe.frontL.setPower(SLOWSPEED);
+                joe.backL.setPower(SLOWSPEED);
+                joe.frontR.setPower(SLOWSPEED);
+                joe.backR.setPower(SLOWSPEED);
+                telemetry.addLine("SRotateL");
+            }
+            else if(x > 0 && y < 0.3 && y > -0.2)
+            {
+                joe.frontL.setPower(-SLOWSPEED);
+                joe.frontR.setPower(-SLOWSPEED);
+                joe.backL.setPower(SLOWSPEED);
+                joe.backR.setPower(SLOWSPEED);
+                telemetry.addLine("SRight");
+            }
+            else if(x < 0 && y < 0.2 && y > -0.2)
+            {
+                joe.frontL.setPower(SLOWSPEED);
+                joe.frontR.setPower(SLOWSPEED);
+                joe.backL.setPower(-SLOWSPEED);
+                joe.backR.setPower(-SLOWSPEED);
+                telemetry.addLine("SLeft");
+            }
+            else if(y < -0.2 && x < 0.2 && x > -0.2)
+            {
+                joe.frontL.setPower(-SLOWSPEED);
+                joe.frontR.setPower(SLOWSPEED);
+                joe.backL.setPower(-SLOWSPEED);
+                joe.backR.setPower(SLOWSPEED);
+                telemetry.addLine("SForward");
+            }
+            else if(y > 0.2 && x < 0.2 && x > -0.2)
+            {
+                joe.frontL.setPower(SLOWSPEED);
+                joe.frontR.setPower(-SLOWSPEED);
+                joe.backL.setPower(SLOWSPEED);
+                joe.backR.setPower(-SLOWSPEED);
+                telemetry.addLine("SBackward");
+            }
+            else
+            {
+                joe.frontL.setPower(0);
+                joe.frontR.setPower(0);
+                joe.backL.setPower(0);
+                joe.backR.setPower(0);
+            }
         }
         else
         {
-            joe.frontL.setPower(topLbottomR);
-            joe.backL.setPower(topRbottomL);
-            joe.frontR.setPower(-topRbottomL);
-            joe.backR.setPower(-topLbottomR);
+            if(rTrig != 0)
+            {
+                joe.frontL.setPower(-rTrig);
+                joe.backL.setPower(-rTrig);
+                joe.frontR.setPower(-rTrig);
+                joe.backR.setPower(-rTrig);
+                telemetry.addData("Rotating Right:" , rTrig);
+                telemetry.update();
+            }
+            //Rotate left
+            else if(lTrig != 0)
+            {
+                joe.frontL.setPower(lTrig);
+                joe.backL.setPower(lTrig);
+                joe.frontR.setPower(lTrig);
+                joe.backR.setPower(lTrig);
+                telemetry.addData("Rotating Left:" , lTrig);
+                telemetry.update();
+            }
+            else
+            {
+                joe.frontL.setPower(topLbottomR);
+                joe.backL.setPower(topRbottomL);
+                joe.frontR.setPower(-topRbottomL);
+                joe.backR.setPower(-topLbottomR);
+            }
         }
 
+        /**
+         * ARM VERTICAL MOVEMENT
+         */
         //Arm vertical movement
         if(rY < 0)
             joe.arm.setPower(rY);
@@ -180,44 +251,64 @@ public class OfficialDrive extends OpMode
         else
             joe.arm.setPower(0);
 
+        /**
+         * ARM OPENING FOR CHOMP CHOMP
+         */
         //Arm opening
         if(a)
         {
-            //joe.jorge.setPosition(1);
-            //joe.kim.setPosition(1);
+            joe.jorge.setPosition(0); //YES
+            joe.kim.setPosition(1);
             telemetry.addLine("Open Sesame");
         }
         else
         {
-            //joe.jorge.setPosition(0.5);
-            //joe.kim.setPosition(0.5);
+            joe.jorge.setPosition(0.1); //YES
+            joe.kim.setPosition(0.75);
             telemetry.addLine("Slap slap");
         }
 
+        /**
+         * ARMS UNFOLDING
+         */
         //Arm servos that unfold arm from auto
+        //DANIEL pov of reg front, left one
         if(lBump)
         {
-            joe.daniel.setPosition(0.4); //IS 180 SERVO
+            joe.daniel.setPosition(0.74); //IS 180 SERVO
             telemetry.addLine("Opening Oven");
         }
         else {
-            joe.daniel.setPosition(0);
+            //joe.daniel.setPosition(0);
             telemetry.addLine("Closing Oven");
         }
-        /*if(rBump)
-            joe.abe.setPosition(0.5);
-        else
-            joe.abe.setPosition(0);*/
 
+        //ABE (pov of reg front, right one
+        //joe.abe.setPosition(0.55);
+        if(rBump)
+        {
+            joe.abe.setPosition(0.55);
+            telemetry.addLine("Opened Abe's Oven");
+            //DIS WORKING
+        }
+        else
+        {
+            //joe.abe.setPosition(1);
+            telemetry.addLine("Closed Abe's Oven");
+        }
+
+        /**
+         * THINGS IN THE BACK
+         */
         //Chomper (2 servos moving under one condition) back of robot
         if(dDown)
         {
-            if (grabStay != 1)
+            if(grabStay != 1)
                 grabStay++;
         }
         else if(dUp)
         {
-            if (grabStay != 0)
+            if(grabStay != 0)
                 grabStay--;
         }
         telemetry.addData("num", grabStay);
@@ -230,7 +321,7 @@ public class OfficialDrive extends OpMode
         }
         else
         {
-            joe.back2.setPosition(0.85);
+            joe.back2.setPosition(0.87);
             joe.back1.setPosition(0.25);
             telemetry.addLine("Nae nae");
         }

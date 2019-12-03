@@ -73,6 +73,7 @@ public class Joe {
         try {
             arm = hwmap.get(DcMotor.class, "ARM1");
             arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status += "\nArm (ARM1) motor not mapping";
         }
