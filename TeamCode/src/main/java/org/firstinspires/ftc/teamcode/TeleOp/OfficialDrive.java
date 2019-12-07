@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Helpers.Joe;
 
@@ -15,6 +16,7 @@ public class OfficialDrive extends OpMode
     private int locoActive = 0;
     private boolean loco = false;
     private double SLOWSPEED = 0.3;
+    private long timeStarted;
 
     @Override
     public void init()
@@ -33,7 +35,7 @@ public class OfficialDrive extends OpMode
     @Override
     public void start()
     {
-
+        timeStarted = System.currentTimeMillis();
     }
 
     @Override
@@ -44,7 +46,7 @@ public class OfficialDrive extends OpMode
         double y = gamepad1.left_stick_y;
         double rY = gamepad1.right_stick_y;
 
-        //Dpad values for making chomp chomp go up and down
+        //Dpad values for making the back things whip and nae nae
         boolean dUp = gamepad1.dpad_up;
         boolean dDown = gamepad1.dpad_down;
 
@@ -53,14 +55,17 @@ public class OfficialDrive extends OpMode
         double lTrig = gamepad1.left_trigger;
 
         //In case the servos holding up our arm stops working for some reason
-        boolean lBump = gamepad1.left_bumper;
-        boolean rBump = gamepad1.right_bumper;
+        boolean dPadR = gamepad1.dpad_right;
 
-        //Expanding arm out
-        boolean a = gamepad1.a;
+        //Chomp chomp arm out/in
+        boolean b = gamepad1.b;
+        boolean lBump = gamepad1.left_bumper;
 
         //Loco mode
-        boolean yButt = gamepad1.y;
+        boolean rBump = gamepad1.right_bumper;
+
+        //Foundation thangs
+        boolean xButt = gamepad1.x;
 
         //Getting the angle (in radians)
         double angleRad = Math.abs(Math.atan(y / x));
@@ -151,7 +156,7 @@ public class OfficialDrive extends OpMode
          * SETTING POWER TO THE MOTORS // LOCO MODE
          */
         //Rotate right
-        if(yButt)
+        if(rBump)
         {
             if(rTrig != 0)
             {
@@ -252,30 +257,15 @@ public class OfficialDrive extends OpMode
             joe.arm.setPower(0);
 
         /**
-         * ARM OPENING FOR CHOMP CHOMP
-         */
-        //Arm opening
-        if(a)
-        {
-            joe.jorge.setPosition(0); //YES
-            joe.kim.setPosition(1);
-            telemetry.addLine("Open Sesame");
-        }
-        else
-        {
-            joe.jorge.setPosition(0.1); //YES
-            joe.kim.setPosition(0.75);
-            telemetry.addLine("Slap slap");
-        }
-
-        /**
          * ARMS UNFOLDING
          */
         //Arm servos that unfold arm from auto
-        //DANIEL pov of reg front, left one
-        if(lBump)
+        joe.daniel.setPosition(0.7);
+        joe.abe.setPosition(0.6);
+        /*if(dPadR)
         {
-            joe.daniel.setPosition(0.74); //IS 180 SERVO
+            joe.daniel.setPosition(0.7); //IS 180 SERVO
+            joe.abe.setPosition(0.6);
             telemetry.addLine("Opening Oven");
         }
         else {
@@ -284,10 +274,9 @@ public class OfficialDrive extends OpMode
         }
 
         //ABE (pov of reg front, right one
-        //joe.abe.setPosition(0.55);
         if(rBump)
         {
-            joe.abe.setPosition(0.55);
+            joe.abe.setPosition(0.6);
             telemetry.addLine("Opened Abe's Oven");
             //DIS WORKING
         }
@@ -295,7 +284,33 @@ public class OfficialDrive extends OpMode
         {
             //joe.abe.setPosition(1);
             telemetry.addLine("Closed Abe's Oven");
-        }
+        }*/
+
+        /**
+         * ARM OPENING FOR CHOMP CHOMP
+         */
+        //Arm opening
+        //if(System.currentTimeMillis() > timeStarted+1500)
+        //{
+            if(lBump) //Close
+            {
+                joe.jorge.setPosition(0.4); //Used to be 0
+                joe.kim.setPosition(0.6); //Used to be 0.9
+                telemetry.addLine("Open Sesame");
+            }
+            else if(b) //Open
+            {
+                joe.jorge.setPosition(0.7); //Used to be 0
+                joe.kim.setPosition(0.3); //Used to be 0.9
+                telemetry.addLine("Slap slap");
+            }
+            else
+            {
+                joe.jorge.setPosition(0.5); //Used to be 0.15
+                joe.kim.setPosition(0.5); //Used tp be 0.8
+                telemetry.addLine("She stop");
+            }
+        //}
 
         /**
          * THINGS IN THE BACK
@@ -324,6 +339,20 @@ public class OfficialDrive extends OpMode
             joe.back2.setPosition(0.87);
             joe.back1.setPosition(0.25);
             telemetry.addLine("Nae nae");
+        }
+
+        /**
+         * FOUNDATION SERVOS
+         */
+        if(xButt) //clamp onto foundation
+        {
+            joe.found1.setPosition(0.2);
+            joe.found2.setPosition(0.9);
+        }
+        else
+        {
+            joe.found1.setPosition(.97);
+            joe.found2.setPosition(.1);
         }
 
         telemetry.addData("Angle = ", Math.toDegrees(angleRad));

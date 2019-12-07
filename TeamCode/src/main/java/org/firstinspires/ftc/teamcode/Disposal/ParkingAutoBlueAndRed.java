@@ -1,20 +1,16 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Disposal;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Helpers.AutoBot;
 import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
-
-import java.util.List;
 
 @Autonomous(name = "Parking Auto Red Blue", group = "Joe")
 
 public class ParkingAutoBlueAndRed extends LinearOpMode
 {
-    private JoeAuto joe = new JoeAuto();
+    private org.firstinspires.ftc.teamcode.Disposal.JoeAuto joe = new org.firstinspires.ftc.teamcode.Disposal.JoeAuto();
     static final double SPEED = 0.6;
 
 
@@ -32,7 +28,7 @@ public class ParkingAutoBlueAndRed extends LinearOpMode
         if(opModeIsActive())
         {
             //Lmao this is literally all you need for parking/ btw i set this up to work for both sides.
-            backwardE(AutoBot.inchesToTicks(34));
+            backwardE(JoeAuto.inchesToTicks(34));
         }
 
     }

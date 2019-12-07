@@ -1,19 +1,16 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Disposal;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 
-import java.util.List;
+@Autonomous(name = "Foundation Auto", group = "Joe")
 
-@Autonomous(name = "Parking Autonomous", group = "Joe")
-
-public class ParkingAuto extends LinearOpMode
+public class FoundationAuto extends LinearOpMode
 {
-    private JoeAuto joe = new JoeAuto();
+    private org.firstinspires.ftc.teamcode.Disposal.JoeAuto joe = new org.firstinspires.ftc.teamcode.Disposal.JoeAuto();
     static final double SPEED = 0.6;
 
 
@@ -28,13 +25,16 @@ public class ParkingAuto extends LinearOpMode
 
         waitForStart();
 
-        if(opModeIsActive()){
-            rotateRight(1800);
-            rotateLeft(1800);
+        if(opModeIsActive())
+        {
+            //I havent set up the servos for  this  yet but its the movement for it
+            leftE(JoeAuto.inchesToTicks(36));
+            forwardE(JoeAuto.inchesToTicks(24));
+            backwardE(JoeAuto.inchesToTicks(24));
+            leftE(JoeAuto.inchesToTicks(36));
         }
 
     }
-
     //movement methods start here
     public void encStop()
     {

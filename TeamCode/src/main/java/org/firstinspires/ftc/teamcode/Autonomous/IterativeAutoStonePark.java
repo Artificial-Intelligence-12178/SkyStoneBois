@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -16,9 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.Helpers.Joe;
 import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
-import org.firstinspires.ftc.teamcode.Helpers.AutoBot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +26,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name = "Testing Iterative:", group = "joe")
 public class IterativeAutoStonePark extends OpMode {
 
-    private AutoBot autoBot = new AutoBot();
+    private JoeAuto joeAuto = new JoeAuto();
     private ElapsedTime runtime = new ElapsedTime();
     public static double steps = 0;
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
@@ -87,14 +81,14 @@ public class IterativeAutoStonePark extends OpMode {
 
     private double skyX, skyY, skyZ;
     public void init(){
-        autoBot.init(hardwareMap);
+        joeAuto.init(hardwareMap);
         initDetection();
-        autoBot.resetEncoder();
+        joeAuto.resetEncoder();
     }
 
     public void init_loop(){
-        telemetry.addLine(autoBot.getStatus());
-        if(autoBot.getStatus().equals(""))
+        telemetry.addLine(joeAuto.getStatus());
+        if(joeAuto.getStatus().equals(""))
             telemetry.addData("Status: ", "Working");
         steps = 0;
     }
@@ -106,7 +100,7 @@ public class IterativeAutoStonePark extends OpMode {
     public void loop(){
         if(steps == 0)
         {
-            autoBot.forward(19, .4);
+            joeAuto.forward(19);
         }
         else if(steps == 1)
         {
@@ -115,9 +109,9 @@ public class IterativeAutoStonePark extends OpMode {
         else if(steps == 2)
         {
             if(skyY < 0)
-                autoBot.strafeLeft((int)Math.abs(skyY), 0.3);
+                joeAuto.strafeLeft((int)Math.abs(skyY));
             else
-                autoBot.strafeRight((int)Math.abs(skyY), 0.3);
+                joeAuto.strafeRight((int)Math.abs(skyY));
         }
 
         telemetry.update();

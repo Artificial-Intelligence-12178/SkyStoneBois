@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -13,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.Helpers.AutoBot;
+import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name = "2 Stones Park Blue", group = "auto bot")
 public class TwoStonesParkBlue extends OpMode {
 
-    private AutoBot autoBot = new AutoBot();
+    private JoeAuto joeAuto = new JoeAuto();
     private ElapsedTime runtime = new ElapsedTime();
     public static double steps = 0;
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
@@ -85,8 +84,11 @@ public class TwoStonesParkBlue extends OpMode {
     private String side;
     @Override
     public void init() {
-        autoBot.init(hardwareMap);
+        joeAuto.init(hardwareMap);
         initDetection();
+        joeAuto.resetEncoder();
+        telemetry.addData("pos ", joeAuto.frontR.getCurrentPosition());
+        telemetry.update();
         steps=0;
     }
 
@@ -102,7 +104,7 @@ public class TwoStonesParkBlue extends OpMode {
     @Override
     public void loop() {
         /*if(steps == 0)
-            autoBot.forward(15, 0.5);
+            joeAuto.forward(15);
         else if(steps == 1)
         {
             if(targetVisible)
@@ -133,21 +135,21 @@ public class TwoStonesParkBlue extends OpMode {
         {
             
             if(skyX < requiredX-.5)
-                autoBot.strafeLeft(0.2);
+                joeAuto.strafeLeftCont(0.2);
             else if(skyX > requiredX+.5)
-                autoBot.strafeRight(0.2);
+                joeAuto.strafeRightCont(0.2);
             else
             {
-                autoBot.stop();
+                joeAuto.stop();
                 steps++;
             }
 
         }
         else if(steps == 3) {
             if (skyY + 5 < -7.05)
-                autoBot.forward(0.2);
+                joeAuto.forwardCont(0.2);
             else {
-                autoBot.stop();
+                joeAuto.stop();
                 steps++;
             }
         }
@@ -155,11 +157,11 @@ public class TwoStonesParkBlue extends OpMode {
         {
             if(side.equals("LEFT"))
             {
-                autoBot.leftServoPosition=1;
+                joeAuto.leftServoPosition=1;
             }
             else
             {
-                autoBot.rightServoPosition=1;
+                joeAuto.rightServoPosition=1;
             }
 
             steps++;
@@ -167,29 +169,29 @@ public class TwoStonesParkBlue extends OpMode {
         }
         else if(steps == 5)
         {
-            autoBot.backward(6, 0.5);
+            joeAuto.backward(6);
         }
         else if(steps == 6)
         {
-            autoBot.strafeLeft(feetRequired*12, 0.5);
+            joeAuto.strafeLeft(feetRequired*12);
         }
         else if(steps == 7)
         {
             //code to release
             if(side.equals("LEFT"))
             {
-                autoBot.leftServoPosition=0.5;
+                joeAuto.leftServoPosition=0.5;
             }
             else
             {
-                autoBot.rightServoPosition=0.5;
+                joeAuto.rightServoPosition=0.5;
             }
 
             steps++;
         }
         else if(steps == 8)
         {
-            autoBot.strafeRight(feetBack*12, 0.5);
+            joeAuto.strafeRight(feetBack*12);
             feetRequired = 5.2;
         }
         else if(steps == 9)
@@ -210,9 +212,9 @@ public class TwoStonesParkBlue extends OpMode {
         else if(steps == 10)
         {
             if(skyX < -1)
-                autoBot.strafeLeft(0.2);
+                joeAuto.strafeLeftCont(0.2);
             else if(skyX > 1)
-                autoBot.strafeRight(0.2);
+                joeAuto.strafeRightCont(0.2);
             else
             {
                 steps++;
@@ -222,7 +224,7 @@ public class TwoStonesParkBlue extends OpMode {
         {
             //code to move forward
             if(skyY+5 < -7.05)
-                autoBot.forward(0.2);
+                joeAuto.forwardCont(0.2);
             else
                 steps++;
         }
@@ -230,11 +232,11 @@ public class TwoStonesParkBlue extends OpMode {
         {
             if(side.equals("LEFT"))
             {
-                autoBot.leftServoPosition=1;
+                joeAuto.leftServoPosition=1;
             }
             else
             {
-                autoBot.rightServoPosition=1;
+                joeAuto.rightServoPosition=1;
             }
 
             steps++;
@@ -242,34 +244,37 @@ public class TwoStonesParkBlue extends OpMode {
         }
         else if(steps == 13)
         {
-            autoBot.backward(6, 0.5);
+            joeAuto.backward(6);
         }
         else if(steps == 14)
         {
-            autoBot.strafeLeft(feetRequired);
+            joeAuto.strafeLeft(feetRequired);
         }
         else if(steps == 15)
         {
             //code to release
             if(side.equals("LEFT"))
             {
-                autoBot.leftServoPosition=0.5;
+                joeAuto.leftServoPosition=0.5;
             }
             else
             {
-                autoBot.rightServoPosition=0.5;
+                joeAuto.rightServoPosition=0.5;
             }
 
             steps++;
         }
         else if(steps == 16)
         {
-            autoBot.strafeRight(0.2*12, 0.3);
+            joeAuto.strafeRight(0.2*12);
         }
         detection();
         updateServos();*/
-        if(steps == 0)
-            autoBot.testingForward(24);
+        if(steps == 0) {
+           joeAuto.forward(24);
+           telemetry.addData("position ", JoeAuto.ticksToInches(Math.abs(joeAuto.frontR.getCurrentPosition())));
+           telemetry.update();
+        }
     }
 
     @Override
@@ -418,7 +423,7 @@ public class TwoStonesParkBlue extends OpMode {
     }
 
     public void updateServos(){
-        autoBot.grabRight.setPosition(autoBot.rightServoPosition);
-        autoBot.grabLeft.setPosition(autoBot.leftServoPosition);
+        joeAuto.grabRight.setPosition(joeAuto.rightServoPosition);
+        joeAuto.grabLeft.setPosition(joeAuto.leftServoPosition);
     }
 }

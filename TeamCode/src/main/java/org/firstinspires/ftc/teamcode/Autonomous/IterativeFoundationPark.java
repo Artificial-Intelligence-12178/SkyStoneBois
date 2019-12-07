@@ -1,26 +1,28 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Helpers.AutoBot;
+import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
+
+@Autonomous(name = "Foundation park", group = "joe")
 
 public class IterativeFoundationPark extends OpMode
 {
-    private AutoBot autoBot = new AutoBot();
+    private JoeAuto joeBot = new JoeAuto();
     private double power = .4;
     private ElapsedTime runtime = new ElapsedTime();
     public static double steps = 0;
 
-
     public void init(){
-        autoBot.init(hardwareMap);
-        autoBot.resetEncoder();
+        joeBot.init(hardwareMap);
+        joeBot.resetEncoder();
     }
 
     public void init_loop(){
-        telemetry.addLine(autoBot.getStatus());
-        if(autoBot.getStatus().equals(""))
+        telemetry.addLine(joeBot.getStatus());
+        if(joeBot.getStatus().equals(""))
             telemetry.addData("Status: ", "Working");
         steps = 0;
     }
@@ -34,19 +36,27 @@ public class IterativeFoundationPark extends OpMode
     {
         if(steps == 0)
         {
-            autoBot.strafeLeft(36, .4);
+            joeBot.forward(27.86);
+            telemetry.addData("position ", Math.abs(joeBot.frontR.getCurrentPosition()));
+            telemetry.update();
         }
         else if(steps == 1)
         {
-            autoBot.forward(24,.4);
+            joeBot.foundationGrab();
+            steps++;
         }
         else if(steps == 2)
         {
-            autoBot.backward(24, .4);
+            joeBot.backward(27.86);
         }
         else if(steps == 3)
         {
-            autoBot.strafeRight(36, .4);
+            joeBot.foundationRelease();
+            steps++;
+        }
+        else if(steps == 4)
+        {
+            joeBot.strafeRight(22.015748);
         }
         telemetry.update();
     }
