@@ -24,9 +24,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name = "2 Stones Park Blue", group = "auto bot")
-public class TwoStonesParkBlue extends OpMode {
+public class TwoStonesParkBlue extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
 
-    private JoeAuto joeAuto = new JoeAuto();
+    private JoeAuto joeAuto = new JoeAuto(this);
     private ElapsedTime runtime = new ElapsedTime();
     public static double steps = 0;
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:
@@ -89,12 +89,12 @@ public class TwoStonesParkBlue extends OpMode {
         joeAuto.resetEncoder();
         telemetry.addData("pos ", joeAuto.frontR.getCurrentPosition());
         telemetry.update();
-        steps=0;
+        super.steps=0;
     }
 
     @Override
     public void init_loop(){
-        steps = 0;
+        super.steps = 0;
     }
 
     private double feetRequired = 3.2;
@@ -103,7 +103,7 @@ public class TwoStonesParkBlue extends OpMode {
 
     @Override
     public void loop() {
-        /*if(steps == 0)
+        if(steps == 0)
             joeAuto.forward(15);
         else if(steps == 1)
         {
@@ -113,12 +113,12 @@ public class TwoStonesParkBlue extends OpMode {
                 if(skyX <= 0)
                 {
                     side = "LEFT";
-                    requiredX = -2.17;
+                    requiredX = -1.9685;
                 }
                 else
                 {
                     side = "RIGHT";
-                    requiredX = 6.5;
+                    requiredX = 7.283465;
                 }
 
                 double dist = Math.abs(requiredX-skyX);
@@ -263,18 +263,13 @@ public class TwoStonesParkBlue extends OpMode {
             }
 
             steps++;
-        }
+        }steps
         else if(steps == 16)
         {
             joeAuto.strafeRight(0.2*12);
         }
         detection();
-        updateServos();*/
-        if(steps == 0) {
-           joeAuto.forward(24);
-           telemetry.addData("position ", JoeAuto.ticksToInches(Math.abs(joeAuto.frontR.getCurrentPosition())));
-           telemetry.update();
-        }
+        updateServos();
     }
 
     @Override

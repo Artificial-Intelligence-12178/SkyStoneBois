@@ -4,13 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Disposal.JoeAuto;
+import org.firstinspires.ftc.teamcode.Helpers.Joe;
+import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 
 @TeleOp(name = "Encoder Drive")
 
 public class EncoderDrive extends OpMode
 {
-    private JoeAuto joe = new JoeAuto();
+    private Joe joe = new Joe();
 
     @Override
     public void init()

@@ -24,9 +24,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name = "Testing Iterative:", group = "joe")
-public class IterativeAutoStonePark extends OpMode {
+public class IterativeAutoStonePark extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
 
-    private JoeAuto joeAuto = new JoeAuto();
+    private JoeAuto joeAuto = new JoeAuto(this);
     private ElapsedTime runtime = new ElapsedTime();
     public static double steps = 0;
     // IMPORTANT:  For Phone Camera, set 1) the camera source and 2) the orientation, based on how your phone is mounted:

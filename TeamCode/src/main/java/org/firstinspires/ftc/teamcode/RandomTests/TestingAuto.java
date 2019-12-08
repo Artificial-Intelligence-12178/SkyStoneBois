@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
 @Autonomous(name = "Encode Debug", group = "Joe")
 
 
-public class TestingAuto extends OpMode
+public class TestingAuto extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous
 {
-    JoeAuto bot = new JoeAuto();
+    JoeAuto bot = new JoeAuto(this);
 
     public void init(){
 
