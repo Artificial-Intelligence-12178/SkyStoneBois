@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.RandomTests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
+import org.firstinspires.ftc.teamcode.Robots.JoeAuto;
 
 @Autonomous(name = "Encode Debug", group = "Joe")
 
