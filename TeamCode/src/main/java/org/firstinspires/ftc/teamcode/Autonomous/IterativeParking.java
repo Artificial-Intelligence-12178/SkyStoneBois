@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
+import org.firstinspires.ftc.teamcode.Robots.JoeAuto;
 
-public class IterativeParking extends OpMode
+public class IterativeParking extends Autonomous
 {
-    private JoeAuto joeAuto = new JoeAuto();
+    private JoeAuto joeAuto = new JoeAuto(this);
     private double power = .4;
     private ElapsedTime runtime = new ElapsedTime();
-    public static double steps = 0;
 
 
     public void init(){
@@ -22,7 +21,7 @@ public class IterativeParking extends OpMode
         telemetry.addLine(joeAuto.getStatus());
         if(joeAuto.getStatus().equals(""))
             telemetry.addData("Status: ", "Working");
-        steps = 0;
+        super.steps = 0;
         joeAuto.resetEncoder();
     }
     //
@@ -33,7 +32,7 @@ public class IterativeParking extends OpMode
 
     public void loop()
     {
-        if(steps == 0)
+        if(super.steps == 0)
         {
             joeAuto.backward(12);
         }

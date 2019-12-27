@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.teamcode.Helpers.JoeAuto;
+import org.firstinspires.ftc.teamcode.Robots.JoeAuto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name = "Testing Iterative:", group = "joe")
-public class IterativeAutoStonePark extends OpMode {
+public class IterativeAutoStonePark extends org.firstinspires.ftc.teamcode.Autonomous.Autonomous {
 
-    private JoeAuto joeAuto = new JoeAuto();
+    private JoeAuto joeAuto = new JoeAuto(this);
     private ElapsedTime runtime = new ElapsedTime();
     public static double steps = 0;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;

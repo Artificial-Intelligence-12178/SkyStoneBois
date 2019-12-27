@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Helpers.Joe;
+import org.firstinspires.ftc.teamcode.Robots.Joe;
 
 @TeleOp(name = "Official Drive")
 
@@ -249,13 +249,17 @@ public class OfficialDrive extends OpMode
          * ARM VERTICAL MOVEMENT
          */
         //Arm vertical movement
-        if(rY < 0)
+        if(rY < 0) {
             joe.arm.setPower(rY);
-        else if(rY > 0)
-            joe.arm.setPower(rY);
-        else
+        }
+        else if(rY > 0) {
+            joe.arm.setPower(rY/2);
+        }
+        else {
             joe.arm.setPower(0);
-
+        }
+        telemetry.addData("encoder val: ",joe.arm.getCurrentPosition());
+        telemetry.update();
         /**
          * ARMS UNFOLDING
          */
@@ -292,13 +296,13 @@ public class OfficialDrive extends OpMode
         //Arm opening
         //if(System.currentTimeMillis() > timeStarted+1500)
         //{
-            if(lBump) //Close
+            if(b) //Close
             {
                 joe.jorge.setPosition(0.4); //Used to be 0
                 joe.kim.setPosition(0.6); //Used to be 0.9
                 telemetry.addLine("Open Sesame");
             }
-            else if(b) //Open
+            else if(lBump) //Open
             {
                 joe.jorge.setPosition(0.7); //Used to be 0
                 joe.kim.setPosition(0.3); //Used to be 0.9

@@ -1,8 +1,11 @@
-package org.firstinspires.ftc.teamcode.Helpers;
+package org.firstinspires.ftc.teamcode.Robots;
+
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Autonomous;
 import org.firstinspires.ftc.teamcode.Autonomous.IterativeAutoStonePark;
 import org.firstinspires.ftc.teamcode.Autonomous.TwoStonesParkBlue;
 
@@ -33,9 +36,11 @@ public class JoeAuto
     public static double ticksPerInch = ticksPerRev/circOfWheels;
     public static double inchesPerTick = circOfWheels/ticksPerRev;
 
+    public Autonomous auto;
+
     HardwareMap hwmap = null; //need a reference for op mode so the code doesnt think this is the op mode to use right now
 
-    public JoeAuto(){ }
+    public JoeAuto(Autonomous plan){ auto = plan; }
 
     public void init(HardwareMap ahwmap) {
         hwmap = ahwmap;
@@ -127,13 +132,13 @@ public class JoeAuto
         int pos = frontR.getCurrentPosition();
         if(Math.abs(pos) < ticks)
         {
-            int minDist = inchesToTicks(16);
+            int minDist = inchesToTicks(36);
             double radPerTick = Math.PI/minDist;
             double rad = pos*radPerTick;
             power = 0.45*Math.cos(rad-Math.PI)+0.55;
 
             if(ticks < minDist)
-                power = 0.5;
+                power = 0.3;
             else if(ticks-pos > minDist)
                 power = 1;
 
@@ -144,7 +149,7 @@ public class JoeAuto
         }
         else {
             stop();
-            TwoStonesParkBlue.steps++;
+            auto.steps++;
         }
     }
 
@@ -153,13 +158,13 @@ public class JoeAuto
         int pos = frontR.getCurrentPosition();
         if(Math.abs(pos) < ticks)
         {
-            int minDist = inchesToTicks(16);
+            int minDist = inchesToTicks(36);
             double radPerTick = Math.PI/minDist;
             double rad = pos*radPerTick;
             power = 0.45*Math.cos(rad-Math.PI)+0.55;
 
             if(ticks < minDist)
-                power = 0.5;
+                power = 0.4;
             else if(ticks-pos > minDist)
                 power = 1;
 
@@ -170,7 +175,7 @@ public class JoeAuto
         }
         else {
             stop();
-            TwoStonesParkBlue.steps++;
+            auto.steps++;
         }
     }
 
@@ -179,13 +184,13 @@ public class JoeAuto
         int pos = frontR.getCurrentPosition();
         if(Math.abs(pos) < ticks)
         {
-            int minDist = inchesToTicks(16);
+            int minDist = inchesToTicks(36);
             double radPerTick = Math.PI/minDist;
             double rad = pos*radPerTick;
             power = 0.45*Math.cos(rad-Math.PI)+0.55;
 
             if(ticks < minDist)
-                power = 0.5;
+                power = 0.4;
             else if(ticks-pos > minDist)
                 power = 1;
 
@@ -196,7 +201,7 @@ public class JoeAuto
         }
         else {
             stop();
-            TwoStonesParkBlue.steps++;
+            auto.steps++;
         }
     }
 
@@ -205,13 +210,13 @@ public class JoeAuto
         int pos = frontR.getCurrentPosition();
         if(Math.abs(pos) < ticks)
         {
-            int minDist = inchesToTicks(16);
+            int minDist = inchesToTicks(36);
             double radPerTick = Math.PI/minDist;
             double rad = pos*radPerTick;
             power = 0.45*Math.cos(rad-Math.PI)+0.55;
 
             if(ticks < minDist)
-                power = 0.5;
+                power = 0.4;
             else if(ticks-pos > minDist)
                 power = 1;
 
@@ -222,80 +227,9 @@ public class JoeAuto
         }
         else {
             stop();
-            TwoStonesParkBlue.steps++;
+            auto.steps++;
         }
     }
-
-    /*public void forward(double inches, double power){
-        int ticks = inchesToTicks(inches);
-        if(Math.abs(frontR.getCurrentPosition()) < ticks)
-        {
-
-            frontR.setPower(-power);
-            frontL.setPower(power);
-            backR.setPower(-power);
-            backL.setPower(power);
-        }
-        else
-        {
-            //advance step or stop
-            stop();
-            IterativeAutoStonePark.steps++;
-        }
-
-    }
-
-
-    public void backward(double inches, double power){
-        int ticks = inchesToTicks(inches);
-        if(Math.abs(frontR.getCurrentPosition()) < ticks)
-        {
-            frontR.setPower(power);
-            frontL.setPower(-power);
-            backR.setPower(power);
-            backL.setPower(-power);
-        }
-        else
-        {
-            //advance step or stop
-            stop();
-            IterativeAutoStonePark.steps++;
-        }
-    }
-
-    public void strafeRight(double inches, double power){
-        int ticks = inchesToTicks(inches);
-        if(Math.abs(frontR.getCurrentPosition()) < ticks)
-        {
-            frontR.setPower(power);
-            frontL.setPower(power);
-            backR.setPower(-power);
-            backL.setPower(-power);
-        }
-        else
-        {
-            //advance step or stop
-            stop();
-            IterativeAutoStonePark.steps++;
-        }
-    }
-
-    public void strafeLeft(double inches, double power){
-        int ticks = inchesToTicks(inches);
-        if(Math.abs(frontR.getCurrentPosition()) < ticks)
-        {
-            frontR.setPower(-power);
-            frontL.setPower(-power);
-            backR.setPower(power);
-            backL.setPower(power);
-        }
-        else
-        {
-            //advance step or stop
-            stop();
-            IterativeAutoStonePark.steps++;
-        }
-    }*/
 
     public void rotateRight(double degree, double power){
         double robotDiam = 41.5;
@@ -312,7 +246,7 @@ public class JoeAuto
         {
             //advance step or stop
             stop();
-            IterativeAutoStonePark.steps++;
+            auto.steps++;
         }
     }
 
@@ -331,7 +265,7 @@ public class JoeAuto
         {
             //advance step or stop
             stop();
-            IterativeAutoStonePark.steps++;
+            auto.steps++;
         }
     }
 
@@ -377,11 +311,13 @@ public class JoeAuto
         backR.setPower(-power);
         backL.setPower(-power);
     }
+
     public void foundationGrab()
     {
         found1.setPosition(.2);
         found2.setPosition(.9);
     }
+
     public void foundationRelease()
     {
         found1.setPosition(.97);
