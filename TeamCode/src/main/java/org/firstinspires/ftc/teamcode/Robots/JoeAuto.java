@@ -5,12 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Autonomous;
-import org.firstinspires.ftc.teamcode.Autonomous.IterativeAutoStonePark;
-import org.firstinspires.ftc.teamcode.Autonomous.TwoStonesParkBlue;
-
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 
 public class JoeAuto
 {
@@ -36,11 +31,11 @@ public class JoeAuto
     public static double ticksPerInch = ticksPerRev/circOfWheels;
     public static double inchesPerTick = circOfWheels/ticksPerRev;
 
-    public Autonomous auto;
+    public AutonomousClass auto;
 
     HardwareMap hwmap = null; //need a reference for op mode so the code doesnt think this is the op mode to use right now
 
-    public JoeAuto(Autonomous plan){ auto = plan; }
+    public JoeAuto(AutonomousClass plan){ auto = plan; }
 
     public void init(HardwareMap ahwmap) {
         hwmap = ahwmap;

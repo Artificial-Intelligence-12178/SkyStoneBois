@@ -66,7 +66,7 @@ public class EncoderDrive extends OpMode
         String motion = "";
 
         //Rotate right
-        if(z == true)
+        if(z)
         {
             joe.frontL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             joe.backL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
