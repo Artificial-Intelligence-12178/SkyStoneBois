@@ -21,7 +21,6 @@ public class TestingDetection extends AutonomousClass {
     @Override
     public void init() {
         detect = new DetectionObject(hardwareMap);
-        detect.startDetection();
     }
 
     @Override
@@ -41,7 +40,7 @@ public class TestingDetection extends AutonomousClass {
 
     @Override
     public void stop() {
-        detect.stopDetection();
+
     }
 
 }

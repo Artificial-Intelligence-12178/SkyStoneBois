@@ -1,11 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-
-
-import android.hardware.Camera;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.vuforia.ar.pl.DebugLog;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -38,7 +33,7 @@ public class DetectionObject {
         cam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         pipeline = new DetectionPipeline();
         cam.setPipeline(pipeline);
-
+        startDetection();
     }
 
     public int getLeftValue(){
