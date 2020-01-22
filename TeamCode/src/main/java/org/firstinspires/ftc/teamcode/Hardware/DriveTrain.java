@@ -1,26 +1,22 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DriveTrain {
+    //Motors for each wheel
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
 
-    DcMotor[] motors;
-
+    //String used to display status of each component
     protected String status;
 
     public DriveTrain(HardwareMap map, DcMotor.RunMode mode){
-        motors[0] = frontLeft;
-        motors[1] = frontRight;
-        motors[2] = backLeft;
-        motors[3] = backRight;
 
+        //Initializing components
         try {
             frontLeft = map.get(DcMotor.class, "DC1");
         } catch (Exception e) {
@@ -44,24 +40,37 @@ public class DriveTrain {
         } catch (Exception e) {
             status+="\nBack Left motor (DC4) not mapping";
         }
-
-        for(int i = 0; i < motors.length; i++){
-            if(motors[i] != null){
-                motors[i].setMode(mode);
-                motors[i].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                motors[i].setDirection(DcMotor.Direction.FORWARD);
-            }
-        }
     }
 
+    //Method used to get the status of this DriveTrain
     public String getStatus(){
         return status;
     }
 
+    /**
+     * Method used to apply power to this DriveTrain
+     *
+     * @param fl Power applied to front left motor
+     * @param fr Power applied to front right motor
+     * @param bl Power applied to back left motor
+     * @param br Power applied to back right motor
+     */
     public void applyPower(double fl, double fr, double bl, double br){
         frontLeft.setPower(fl);
         frontRight.setPower(fr);
         backLeft.setPower(bl);
         backRight.setPower(br);
+    }
+
+    //Method used to get the average encoder value across all motors
+    public int getAverageEncoderValue(){
+        int sum = 0;
+
+        sum += frontLeft.getCurrentPosition();
+        sum += frontRight.getCurrentPosition();
+        sum += backLeft.getCurrentPosition();
+        sum += backRight.getCurrentPosition();
+
+        return sum/4;
     }
 }

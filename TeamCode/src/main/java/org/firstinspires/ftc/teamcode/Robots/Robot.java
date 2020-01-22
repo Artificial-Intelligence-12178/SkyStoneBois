@@ -8,29 +8,42 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
+import org.firstinspires.ftc.teamcode.Hardware.FoundationGrabbers;
+import org.firstinspires.ftc.teamcode.Hardware.IMU;
+import org.firstinspires.ftc.teamcode.Hardware.Intake;
 
 public class Robot {
-    public final DcMotorEx.Direction REVERSE = DcMotorEx.Direction.REVERSE;
-    public final DcMotorEx.Direction FORWARD = DcMotorEx.Direction.FORWARD;
-
     public final double DIAMETER_OF_WHEELS = 3.93701;
     public final double CIRCUMFERNCE_OF_WHEELS = DIAMETER_OF_WHEELS*Math.PI;
+    public final int TICKS_PER_INCH = 1;
 
-    public DcMotorEx frontLeft;
-    public DcMotorEx frontRight;
-    public DcMotorEx backRight;
-    public DcMotorEx backLeft;
+    public DriveTrain driveTrain;
 
-    public BNO055IMU imu;
+    public IMU imu;
+
+    public FoundationGrabbers grabbers;
+
+    public Intake intake;
 
     protected String status = "";
 
     public Robot(HardwareMap map, DcMotorEx.RunMode mode){
-        DriveTrain driveTrain = new DriveTrain(map, mode);
+        driveTrain = new DriveTrain(map, mode);
 
+        imu = new IMU(map);
+
+        grabbers = new FoundationGrabbers(map);
+
+        intake = new Intake(map);
+
+        status += driveTrain.getStatus() + grabbers.getStatus() + intake.getStatus();
     }
 
     public String getStatus(){
         return status;
+    }
+
+    public int inchesToTicks(double inches){
+        return (int)(TICKS_PER_INCH*inches);
     }
 }

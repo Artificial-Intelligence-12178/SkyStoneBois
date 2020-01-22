@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Hardware.IMU;
 import org.firstinspires.ftc.teamcode.Robots.DriveRobot;
 import org.opencv.core.Mat;
 
@@ -19,9 +20,6 @@ import org.opencv.core.Mat;
 public class TestingDriving extends OpMode {
 
     DriveRobot joe;
-    BNO055IMU imu;
-
-    Orientation angles;
 
     @Override
     public void init_loop() {
@@ -41,14 +39,10 @@ public class TestingDriving extends OpMode {
     @Override
     public void init() {
         joe = new DriveRobot(hardwareMap);
-        imu = joe.imu;
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 
     @Override
     public void loop() {
-
-
         //Values of left joystick
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
@@ -116,13 +110,9 @@ public class TestingDriving extends OpMode {
             motion = "Southwest";
         }
 
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        double heading = Math.toRadians(angles.firstAngle);
-
         degree = Math.toDegrees(angleRad);
-        degree-=heading;
+        //imu translation
         angleRad = Math.toRadians(degree);
-
 
         frontRPow = vec*Math.sin(angleRad+Math.PI/4);
         frontLPow = -1*vec*Math.sin(angleRad-Math.PI/4);
@@ -140,24 +130,15 @@ public class TestingDriving extends OpMode {
 
         if(rTrig != 0)
         {
-            joe.frontLeft.setPower(rTrig);
-            joe.frontRight.setPower(rTrig);
-            joe.backLeft.setPower(rTrig);
-            joe.backRight.setPower(rTrig);
+            joe.driveTrain.applyPower(rTrig, rTrig, rTrig, rTrig);
         }
         else if(lTrig != 0)
         {
-            joe.frontLeft.setPower(-lTrig);
-            joe.frontRight.setPower(-lTrig);
-            joe.backLeft.setPower(-lTrig);
-            joe.backRight.setPower(-lTrig);
+            joe.driveTrain.applyPower(-lTrig, -lTrig, -lTrig, -lTrig);
         }
         else
         {
-            joe.frontLeft.setPower(frontLPow);
-            joe.frontRight.setPower(frontRPow);
-            joe.backLeft.setPower(backLPow);
-            joe.backRight.setPower(backRPow);
+            joe.driveTrain.applyPower(frontLPow, frontRPow, backLPow, backRPow);
         }
 
         telemetry.addData("Direction", motion);

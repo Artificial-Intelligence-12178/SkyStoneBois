@@ -7,8 +7,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IMU {
 
@@ -51,10 +49,6 @@ public class IMU {
         vals[2] = angles.thirdAngle;
 
         return vals;
-    }
-
-    public Position getPosition(DistanceUnit unit){
-        return imu.getPosition().toUnit(unit);
     }
 
     public void updateAngles(){

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp (name = "Testing Parts")
 public class TestingParts extends OpMode {
 
-    DcMotor ex;
+    DcMotorEx ex;
     Servo servo;
 
     @Override
@@ -26,7 +26,8 @@ public class TestingParts extends OpMode {
 
     @Override
     public void init() {
-        servo = hardwareMap.get(Servo.class, "Servo1");
+        ex = hardwareMap.get(DcMotorEx.class, "DC1");
+        ex.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -36,7 +37,6 @@ public class TestingParts extends OpMode {
 
     @Override
     public void loop(){
-        telemetry.addData("Position: ", servo.getPosition());
-        telemetry.update();
+        ex.getVelocity();
     }
 }
