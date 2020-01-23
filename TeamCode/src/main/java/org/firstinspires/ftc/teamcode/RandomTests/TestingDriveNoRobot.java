@@ -153,6 +153,7 @@ public class TestingDriveNoRobot extends OpMode {
             frontRight.setPower(rTrig);
             backLeft.setPower(rTrig);
             backRight.setPower(rTrig);
+            telemetry.addData("I am", "SPINNING");
         }
         else if(lTrig != 0)
         {
@@ -160,6 +161,7 @@ public class TestingDriveNoRobot extends OpMode {
             frontRight.setPower(-lTrig);
             backLeft.setPower(-lTrig);
             backRight.setPower(-lTrig);
+            telemetry.addData("I am", "ALSO SPINNING");
         }
         else
         {
