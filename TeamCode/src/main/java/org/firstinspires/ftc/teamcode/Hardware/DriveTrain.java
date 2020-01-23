@@ -19,24 +19,28 @@ public class DriveTrain {
         //Initializing components
         try {
             frontLeft = map.get(DcMotor.class, "DC1");
+            frontLeft.setMode(mode);
         } catch (Exception e) {
             status+="\nFront Left motor (DC1) not mapping";
         }
 
         try {
             frontRight = map.get(DcMotor.class, "DC2");
+            frontRight.setMode(mode);
         } catch (Exception e) {
             status+="\nFront Right motor (DC2) not mapping";
         }
 
         try {
             backRight = map.get(DcMotor.class, "DC3");
+            backRight.setMode(mode);
         } catch (Exception e) {
             status+="\nBack Right motor (DC3) not mapping";
         }
 
         try {
             backLeft = map.get(DcMotor.class, "DC4");
+            backLeft.setMode(mode);
         } catch (Exception e) {
             status+="\nBack Left motor (DC4) not mapping";
         }
