@@ -30,12 +30,15 @@ public class DetectionObject {
         rightValue = -1;
 
         int cameraMonitorViewId = map.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", map.appContext.getPackageName());
-        cam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        cam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT, cameraMonitorViewId);
         pipeline = new DetectionPipeline();
         cam.setPipeline(pipeline);
         startDetection();
     }
 
+    public OpenCvCamera getCamera() {
+        return cam;
+    }
     public int getLeftValue(){
         return leftValue;
     }
@@ -50,7 +53,7 @@ public class DetectionObject {
 
     public void startDetection(){
         cam.openCameraDevice();
-        cam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);
+        cam.startStreaming(rows, cols, OpenCvCameraRotation.UPSIDE_DOWN);
     }
 
     public void stopDetection(){

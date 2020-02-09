@@ -3,21 +3,19 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Robots.DriveRobot;
 import org.firstinspires.ftc.teamcode.Robots.Joe;
 
 @TeleOp(name = "Testing Drive")
 //@Disabled
-
 public class DriverClass extends OpMode
 {
-    private Joe joe = new Joe();
-    private double danielPos = 0.5;
-    private double jorgePos = 0.5;
+    private DriveRobot joe;
 
     @Override
     public void init()
     {
-        joe.init(hardwareMap);
+        joe = new DriveRobot(hardwareMap);
     }
 
     @Override
@@ -40,23 +38,10 @@ public class DriverClass extends OpMode
         //Getting the angle (in radians)
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
-        boolean dUp = gamepad1.dpad_up;
-        boolean b = gamepad1.b;
-        boolean a = gamepad1.a;
-        boolean xBut = gamepad1.x;
-        boolean yBut = gamepad1.y;
-        boolean dDown = gamepad1.dpad_down;
-        boolean backButton = gamepad1.left_bumper;
-        double angleRad = Math.abs(Math.atan(y / x));
-        double degree;
-
-        //Finding the reference angle
-        if(x < 0 && y > 0)  //quad 2
-            angleRad= Math.PI - angleRad;
-        else if(x < 0 && y <= 0)  //quad 3
-            angleRad = Math.PI + angleRad;
-        else if(x >= 0 && y < 0)  //quad 4
-            angleRad = 2*Math.PI - angleRad;
+        double angleRad = Math.atan2(y, x);
+        double degree = Math.toDegrees(angleRad);
+        if(degree < 0)
+            degree+=360;
 
         //Determining power
         double vec = Math.sqrt(x*x+y*y);
@@ -126,13 +111,18 @@ public class DriverClass extends OpMode
             motion = "Southwest";
         }
 
+        //angleRad-=Math.toRadians(joe.imu.getHeading());
         topRbottomL = vec*Math.sin(angleRad+Math.PI/4);
         topLbottomR = vec*Math.sin(angleRad-Math.PI/4);
+
         if(Math.abs(topLbottomR) < 0.00005)
             topLbottomR = 0;
 
         if(Math.abs(topRbottomL) < 0.00005)
             topRbottomL = 0;
+
+        telemetry.addData("Heading", joe.imu.getHeading());
+
 
         /**
          * SETTING POWER TO THE MOTORS
@@ -140,29 +130,20 @@ public class DriverClass extends OpMode
         //Rotate right
         if(rTrig != 0)
         {
-            joe.frontL.setPower(-rTrig);
-            joe.backL.setPower(-rTrig);
-            joe.frontR.setPower(-rTrig);
-            joe.backR.setPower(-rTrig);
+            joe.driveTrain.applyPower(rTrig, rTrig, rTrig, rTrig);
             telemetry.addData("Rotating Right:" , rTrig);
             telemetry.update();
         }
         //Rotate left
         else if(lTrig != 0)
         {
-            joe.frontL.setPower(lTrig);
-            joe.backL.setPower(lTrig);
-            joe.frontR.setPower(lTrig);
-            joe.backR.setPower(lTrig);
+            joe.driveTrain.applyPower(-lTrig, -lTrig, -lTrig, -lTrig);
             telemetry.addData("Rotating Left:" , lTrig);
             telemetry.update();
         }
         else
         {
-            joe.frontL.setPower(topLbottomR);
-            joe.backL.setPower(topRbottomL);
-            joe.frontR.setPower(-topRbottomL);
-            joe.backR.setPower(-topLbottomR);
+            joe.driveTrain.applyPower(-topLbottomR, topRbottomL, -topRbottomL, topLbottomR);
         }
 
         telemetry.addData("Angle = ", Math.toDegrees(angleRad));
@@ -170,48 +151,28 @@ public class DriverClass extends OpMode
         if(!motion.equals(""))
             telemetry.addData("Moving ", motion);
 
-        if(dUp)
-        {
-            joe.arm.setPower(1);
-            telemetry.addData("Arm ", "moving up");
-        }
-        else if(dDown)
-        {
-            joe.arm.setPower(-1);
-            telemetry.addData("Arm ", " moving down");
-        }
-        else
-            joe.arm.setPower(0);
-        /*
-        if(a) {
-            jorgePos-=0.01;
-            telemetry.addData("jorge moving", "one way");
-        }
-        else if(b){
-            jorgePos+=0.01;
-            telemetry.addData("jorge moving", "other way");
+        if(gamepad1.a) {
+            joe.intake.goForward();
+            joe.intake.powerOn();
+        } else if(gamepad1.b) {
+            joe.intake.goReverse();
+            joe.intake.powerOn();
+        } else {
+            joe.intake.powerOff();
         }
 
-        if(xBut){
-            danielPos-=0.01;
-            telemetry.addData("daniel moving", "one way");
-        }
-        else if(yBut){
-            danielPos+=0.01;
-            telemetry.addData("daniel moving", "other way");
-        }
+        if(gamepad1.dpad_up) {
+            joe.verticalLift.liftUp();
+        } else if (gamepad1.dpad_down) {
+            joe.verticalLift.liftDown();
+        } else {
+            joe.verticalLift.stopLift();
 
-        joe.daniel.setPosition(danielPos);
-        joe.jorge.setPosition(jorgePos);
+        }
 
         telemetry.update();
-*/
-        if(backButton)
-        {
-            joe.daniel.setPosition(.5);
-            telemetry.addData("daniel is moving rn", "moving");
-        }
     }
+
 
 }
 

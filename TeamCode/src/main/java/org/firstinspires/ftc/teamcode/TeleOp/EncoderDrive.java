@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Robots.Joe;
 import org.firstinspires.ftc.teamcode.Robots.JoeAuto;
 
 @TeleOp(name = "Encoder Drive")
-
+@Disabled
 public class EncoderDrive extends OpMode
 {
     private Joe joe = new Joe();

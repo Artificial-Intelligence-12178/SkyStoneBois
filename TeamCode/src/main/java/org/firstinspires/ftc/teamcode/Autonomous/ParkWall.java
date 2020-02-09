@@ -10,7 +10,8 @@ public class ParkWall extends AutonomousClass {
     AutoRobot joe;
     @Override
     public void init() {
-        joe = new AutoRobot(hardwareMap);
+        steps = 0;
+        joe = new AutoRobot(hardwareMap, this);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ParkWall extends AutonomousClass {
     public void loop() {
 
         if(steps == 0) {
-            //Code to move onto tape
+            joe.forward(36);
         }
     }
 

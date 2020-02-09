@@ -10,11 +10,10 @@ public class FoundationGrabbers {
     Servo rightGrabber;
 
     //Global positions
-    //TODO Adjust all position values to appropriate values
-    final double LEFT_DOWN = 0.5;
+    final double LEFT_DOWN = 0.92;
     final double LEFT_UP = 0.5;
 
-    final double RIGHT_DOWN = 0.5;
+    final double RIGHT_DOWN = 0.05;
     final double RIGHT_UP = 0.5;
 
     //String to display status of each component

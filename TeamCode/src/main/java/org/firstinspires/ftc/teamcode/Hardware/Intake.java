@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-    final double MAX_POWER = 1;
+    final double MAX_POWER = 0.5;
 
     DcMotor leftWheel;
     DcMotor rightWheel;
@@ -14,14 +14,14 @@ public class Intake {
 
     public Intake(HardwareMap map){
         try {
-            leftWheel = map.get(DcMotor.class, "IntakeL");
+            leftWheel = map.get(DcMotor.class, "IL");
             leftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         } catch (Exception e) {
             status+="\nLeft Intake Motor (IntakeL) not mapping";
         }
 
         try {
-            rightWheel = map.get(DcMotor.class, "IntakeR");
+            rightWheel = map.get(DcMotor.class, "IR");
             rightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         } catch (Exception e) {
             status += "\nRight Intake Motor (IntakeR) not mapping";
@@ -41,7 +41,7 @@ public class Intake {
     }
 
     public void powerOn(){
-        leftWheel.setPower(MAX_POWER);
+        leftWheel.setPower(-MAX_POWER);
         rightWheel.setPower(MAX_POWER);
     }
 

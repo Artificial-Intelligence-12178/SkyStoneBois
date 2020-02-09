@@ -10,7 +10,8 @@ public class ParkBridge extends AutonomousClass {
 
     @Override
     public void init() {
-        joe = new AutoRobot(hardwareMap);
+        steps = 0;
+        joe = new AutoRobot(hardwareMap, this);
     }
 
     @Override
