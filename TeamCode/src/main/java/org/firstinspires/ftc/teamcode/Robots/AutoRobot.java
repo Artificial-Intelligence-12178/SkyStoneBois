@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 public class AutoRobot extends Robot {
 
     AutonomousClass autoClass;
+
     public AutoRobot(HardwareMap map, AutonomousClass autoClass) {
         super(map, DcMotorEx.RunMode.RUN_USING_ENCODER);
         this.autoClass = autoClass;
@@ -55,25 +56,42 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public void rotate(double degrees) {
-        double leftPower = .7;
-        double rightPower = .7;
+    public void rotateToHeading(double target, boolean highPower) {
+        double currHeading = imu.getHeading();
 
-        if(degrees < -180)
-            degrees+=360;
-        else if(degrees > 180)
-            degrees-=360;
+        double turnDegrees = Math.abs(target - currHeading);
 
-        if(degrees < 0) {
-            leftPower*=-1;
-            rightPower*=-1;
+        boolean turnRight = target > currHeading;
+
+        if(turnDegrees > 180) {
+            turnRight = !turnRight;
+            turnDegrees = 360 - turnDegrees;
         }
 
-        double desired = imu.getHeading() + degrees;
+        if(turnDegrees > 2) {
+            double maxPower = 1;
+            double minPower = .2;
+            if(highPower)
+                minPower = 1;
 
-        if(desired < -180)
-            desired+=360;
-        else if(desired > 180)
-            desired-=360;
+            double power = turnDegrees/100;
+
+            if(power > maxPower)
+                power = maxPower;
+            else if(power < minPower)
+                power = minPower;
+
+            if(!turnRight)
+                power *= -1;
+
+            driveTrain.applyPower(power, power, power, power);
+
+        } else {
+            driveTrain.applyPower(0, 0, 0, 0);
+            driveTrain.resetEncoders();
+            autoClass.steps++;
+        }
     }
+
+
 }

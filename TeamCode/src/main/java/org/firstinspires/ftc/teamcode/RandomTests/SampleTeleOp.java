@@ -3,8 +3,11 @@ package org.firstinspires.ftc.teamcode.RandomTests;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robots.DriveRobot;
+
+import java.util.Arrays;
 
 @TeleOp (name = "SampleTele")
 public class SampleTeleOp extends OpMode {
@@ -90,7 +93,7 @@ public class SampleTeleOp extends OpMode {
         double bLPower;
         double bRPower;
 
-        double vec = Math.sqrt(x*x + y*y);
+        double vec = Math.hypot(x, y);
         if(vec > 1)
             vec = 1;
 
@@ -101,8 +104,6 @@ public class SampleTeleOp extends OpMode {
 
         double rTrig = gamepad1.right_trigger;
         double lTrig = gamepad1.left_trigger;
-
-        double rightX = gamepad1.right_stick_x;
 
         if(rTrig > 0) {
             robot.driveTrain.applyPower(rTrig, rTrig, rTrig, rTrig);
@@ -145,5 +146,6 @@ public class SampleTeleOp extends OpMode {
         } else {
             robot.grabbers.grabbersUp();
         }
+
     }
 }

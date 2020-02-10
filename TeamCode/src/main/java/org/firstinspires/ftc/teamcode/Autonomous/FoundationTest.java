@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "ProtoFound")
@@ -44,6 +43,19 @@ public class FoundationTest extends AutonomousClass {
         }
         else if(steps == 3) {
             robot.backward(30);
+        }
+        else if(steps == 4) {
+            robot.rotateToHeading(-90, true);
+        }
+        else if(steps == 5) {
+            robot.forward(20);
+        }
+        else if(steps == 6) {
+            robot.grabbers.grabbersUp();
+            steps++;
+        }
+        else if(steps == 7) {
+            robot.backward(40);
         }
     }
 }
