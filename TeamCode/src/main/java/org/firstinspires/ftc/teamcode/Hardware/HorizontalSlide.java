@@ -15,6 +15,9 @@ public class HorizontalSlide {
     final double GRABBER_DOWN = .5;
     final double GRABBER_UP = 0.5;
 
+    final double EXTEND_TIME = 1;
+    final double RETRACT_TIME = 1;
+
     enum Stage {
         RETRACTED,
         EXTENDING,
@@ -52,9 +55,46 @@ public class HorizontalSlide {
             next = 0;
 
         stage = stages[next];
+
+        if(stage.equals(Stage.RETRACTING) || stage.equals(Stage.EXTENDING))
+            timer.reset();
     }
 
     public void handleSlide(){
+        if(stage.equals(Stage.EXTENDING)) {
+            extendSlide();
+            if(timer.seconds() > EXTEND_TIME) {
+                maintainSlide();
+                advanceStage();
+            }
+        }
+        else if(stage.equals(Stage.RETRACTING)) {
+            retractSlide();
+            if(timer.seconds() > RETRACT_TIME) {
+                maintainSlide();
+                advanceStage();
+            }
+        }
 
+    }
+
+    public void releaseStone() {
+        grabber.setPosition(GRABBER_UP);
+    }
+
+    public void grabStone() {
+        grabber.setPosition(GRABBER_DOWN);
+    }
+
+    public void extendSlide() {
+        extender.setPosition(1);
+    }
+
+    public void retractSlide() {
+        extender.setPosition(0);
+    }
+
+    public void maintainSlide() {
+        extender.setPosition(.5);
     }
 }

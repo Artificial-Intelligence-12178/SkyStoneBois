@@ -13,6 +13,7 @@ public class IMU {
 
     BNO055IMU imu;
     Orientation angles;
+    double target = 0;
 
     public IMU(HardwareMap map){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -28,11 +29,10 @@ public class IMU {
         // and named "imu".
         imu = map.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-    }
 
-    public Orientation getAngles(){
-        updateAngles();
-        return angles;
+        while(!imu.isGyroCalibrated()) {
+            //Just making sure gyro is calibrating before starting OpMode
+        }
     }
 
     public double getHeading(){
@@ -40,6 +40,24 @@ public class IMU {
         return angles.firstAngle;
     }
 
+
+    public void updateAngles(){
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    }
+
+    public double getCorrection() {
+        double curr = getHeading();
+        double gain = 0.01;
+        double diff = curr - target;
+        double correction = diff * gain;
+        return correction;
+    }
+
+    public void setTarget(double target) {
+        this.target = target;
+    }
+
+    //useless method
     public double[] getAngleValues(){
         updateAngles();
 
@@ -52,7 +70,10 @@ public class IMU {
         return vals;
     }
 
-    public void updateAngles(){
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    //useless method
+    public Orientation getAngles(){
+        updateAngles();
+        return angles;
     }
+
 }

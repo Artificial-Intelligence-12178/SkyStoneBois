@@ -20,7 +20,7 @@ public class FoundationTest extends AutonomousClass {
     }
 
     public void start() {
-
+        steps = 0;
     }
 
     public void stop() {
@@ -28,27 +28,32 @@ public class FoundationTest extends AutonomousClass {
     }
 
     public void loop() {
+        telemetry.addData("Step", steps);
+        telemetry.update();
+
         if(steps == 0) {
-            robot.strafeLeft(10);
+            // GET REAL STRAFE VALUE
+            robot.strafeLeft(8, false);
         }
         else if(steps == 1) {
-            robot.forward(33);
+            robot.forward(34);
             if(steps == 2)
                 timer.reset();
         }
         else if(steps == 2) {
             robot.grabbers.grabbersDown();
-            if(timer.milliseconds() > 500)
+            if(timer.milliseconds() > 600)
                 steps++;
         }
         else if(steps == 3) {
             robot.backward(30);
         }
         else if(steps == 4) {
-            robot.rotateToHeading(-90, true);
+            // MAKE SURE ROTATION CAN TURN REAL FOUNDATION
+            robot.rotateToHeading(90);
         }
         else if(steps == 5) {
-            robot.forward(20);
+            robot.forward(5);
         }
         else if(steps == 6) {
             robot.grabbers.grabbersUp();

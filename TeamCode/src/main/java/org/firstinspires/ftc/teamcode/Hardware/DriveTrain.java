@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 public class DriveTrain {
     //Motors for each wheel
-    DcMotorEx frontLeft;
+   public DcMotorEx frontLeft;
     DcMotorEx frontRight;
     DcMotorEx backLeft;
     DcMotorEx backRight;
@@ -65,7 +65,7 @@ public class DriveTrain {
     }
 
     /**
-     * Method used to apply power to this DriveTrain
+     * Method used to apply unique powers to each motor in this DriveTrain
      *
      * @param fl Power applied to front left motor
      * @param fr Power applied to front right motor
@@ -79,17 +79,34 @@ public class DriveTrain {
         backRight.setPower(br);
     }
 
+    /**
+     * Method used to apply same power to each motor in this DriveTrain
+     *
+     * @param pow Power applied to all motors
+     */
+    public void applyPower(double pow) {
+        applyPower(pow, pow, pow, pow);
+    }
+
     //Method used to get the average encoder value across all motors
-    public int getAverageEncoderValue(){
+    public double getAverageEncoderValue(){
         int sum = 0;
 
-        sum += frontLeft.getCurrentPosition();
-        sum += frontRight.getCurrentPosition();
-        sum += backLeft.getCurrentPosition();
-        sum += backRight.getCurrentPosition();
+        sum += Math.abs(frontLeft.getCurrentPosition());
+        sum += Math.abs(frontRight.getCurrentPosition());
+        sum += Math.abs(backLeft.getCurrentPosition());
+        sum += Math.abs(backRight.getCurrentPosition());
 
-        return sum/4;
+        return sum/4.0;
     }
+
+    public void setMode(DcMotor.RunMode mode) {
+        frontRight.setMode(mode);
+        frontLeft.setMode(mode);
+        backRight.setMode(mode);
+        backLeft.setMode(mode);
+    }
+
 
     public void resetEncoders(){
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

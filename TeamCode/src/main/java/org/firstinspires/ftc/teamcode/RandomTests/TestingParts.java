@@ -8,13 +8,16 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.Robots.DriveRobot;
+import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 @TeleOp (name = "Testing Parts")
 public class TestingParts extends OpMode {
 
-    Servo left;
-    Servo right;
-
+    DriveRobot robot;
+    ElapsedTime timer;
     @Override
     public void start(){
 
@@ -27,33 +30,29 @@ public class TestingParts extends OpMode {
 
     @Override
     public void init() {
-        left = hardwareMap.get(Servo.class, "ServoL");
-        right = hardwareMap.get(Servo.class, "ServoR");
+        robot = new DriveRobot(hardwareMap);
     }
 
     @Override
     public void init_loop() {
-
+        timer = new ElapsedTime();
     }
 
+    double vel = 0;
+    double max = vel;
     @Override
     public void loop(){
-        double leftPos = left.getPosition();
-        double rightPos = right.getPosition();
-
-        telemetry.addData("left", leftPos);
-        telemetry.addData("right", rightPos);
-
-        if(gamepad1.x) {
-            right.setPosition(0.05);
-            left.setPosition(0.92);
-            telemetry.addData("Servo", "down");
-        } else {
-            right.setPosition(.5);
-            left.setPosition(.5);
-            telemetry.addData("Servo", "up");
+        if(timer.seconds() > 1)
+        {
+            vel+=50;
+            timer.reset();
         }
 
+        robot.driveTrain.applyPower(vel,vel,vel,vel);
+        if(robot.driveTrain.frontLeft.getVelocity() > max)
+            max = robot.driveTrain.frontLeft.getVelocity();
+        telemetry.addData("max", max);
+        telemetry.addData("vel", vel);
         telemetry.update();
     }
 }

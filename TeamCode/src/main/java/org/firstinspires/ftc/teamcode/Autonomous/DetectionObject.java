@@ -89,7 +89,7 @@ public class DetectionObject {
             stageToViewport = stages[nextStage];
         }
 
-        private float offsetX = 0f/8f, offsetY = 0f/8f;
+        private float offsetX = 0f/8f, offsetY = .7f/8f;
         private float leftX = 2f/8f + offsetX , midX = 4f/8f + offsetX , rightX = 6f/8f + offsetX;
         private float leftY = 4f/8f + offsetY, midY = 4f/8f + offsetY , rightY = 4f/8f + offsetY;
 

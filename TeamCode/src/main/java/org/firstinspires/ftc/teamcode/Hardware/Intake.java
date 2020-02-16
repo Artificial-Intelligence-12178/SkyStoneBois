@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-    final double MAX_POWER = 0.5;
+    private final double MAX_POWER = 0.5;
 
-    DcMotor leftWheel;
-    DcMotor rightWheel;
+    private DcMotor leftWheel;
+    private DcMotor rightWheel;
 
     protected String status = "";
 
@@ -41,13 +41,16 @@ public class Intake {
     }
 
     public void powerOn(){
-        leftWheel.setPower(-MAX_POWER);
-        rightWheel.setPower(MAX_POWER);
+        applyPower(-MAX_POWER, MAX_POWER);
     }
 
     public void powerOff(){
-        leftWheel.setPower(0);
-        rightWheel.setPower(0);
+        applyPower(0 , 0);
+    }
+
+    public void applyPower(double left, double right) {
+        leftWheel.setPower(left);
+        rightWheel.setPower(right);
     }
 
 
