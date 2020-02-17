@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 public class ParkWall extends AutonomousClass {
 
     AutoRobot joe;
+    ElapsedTime timer;
     @Override
     public void init() {
         steps = 0;

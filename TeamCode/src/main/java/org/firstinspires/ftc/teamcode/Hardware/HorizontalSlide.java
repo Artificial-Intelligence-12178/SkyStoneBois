@@ -12,8 +12,8 @@ public class HorizontalSlide {
 
     ElapsedTime timer;
 
-    final double GRABBER_DOWN = .5;
-    final double GRABBER_UP = 0.5;
+    final double GRABBER_DOWN = 0;
+    final double GRABBER_UP = 1;
 
     final double EXTEND_TIME = 1;
     final double RETRACT_TIME = 1;

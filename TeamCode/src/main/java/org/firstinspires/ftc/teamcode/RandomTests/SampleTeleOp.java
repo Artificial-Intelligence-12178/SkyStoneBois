@@ -147,5 +147,24 @@ public class SampleTeleOp extends OpMode {
             robot.grabbers.grabbersUp();
         }
 
+        if(gamepad1.dpad_left) {
+            robot.horizontalSlide.extendSlide();
+        } else if ( gamepad1.dpad_right) {
+            robot.horizontalSlide.retractSlide();
+        } else {
+            robot.horizontalSlide.maintainSlide();
+        }
+
+        if(gamepad1.right_bumper) {
+            robot.horizontalSlide.grabStone();
+        } else if(gamepad1.left_bumper) {
+            robot.horizontalSlide.releaseStone();
+        }
+
+        robot.verticalLift.applyPower(gamepad1.right_stick_y);
+
+        if(gamepad1.y) {
+            robot.capstone.releaseStone();
+        }
     }
 }

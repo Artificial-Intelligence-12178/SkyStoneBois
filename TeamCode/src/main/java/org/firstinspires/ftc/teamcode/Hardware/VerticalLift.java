@@ -48,6 +48,11 @@ public class VerticalLift {
         right.setPower(0);
     }
 
+    public void applyPower(double power) {
+        left.setPower(-power);
+        right.setPower(power);
+    }
+
     public void singleControl(boolean leftM, boolean up) {
         if(leftM) {
             if(up)
@@ -70,5 +75,13 @@ public class VerticalLift {
         sum += Math.abs(right.getCurrentPosition());
 
         return sum/2.0;
+    }
+
+    public int getLeftEncoderCount() {
+        return left.getCurrentPosition();
+    }
+
+    public int getRightEncoderCount() {
+        return right.getCurrentPosition();
     }
 }

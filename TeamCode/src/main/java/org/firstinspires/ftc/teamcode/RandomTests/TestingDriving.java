@@ -64,5 +64,11 @@ public class TestingDriving extends OpMode {
         else {
             joe.verticalLift.stopLift();
         }
+
+        telemetry.addData("Average", joe.verticalLift.getAvgEncoderCount());
+        telemetry.addData("Left", joe.verticalLift.getLeftEncoderCount());
+        telemetry.addData("Right", joe.verticalLift.getRightEncoderCount());
+        telemetry.update();
+
     }
 }

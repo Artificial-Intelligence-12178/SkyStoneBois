@@ -7,8 +7,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Autonomous.CapstoneRelease;
 import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.Hardware.FoundationGrabbers;
+import org.firstinspires.ftc.teamcode.Hardware.HorizontalSlide;
 import org.firstinspires.ftc.teamcode.Hardware.IMU;
 import org.firstinspires.ftc.teamcode.Hardware.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.VerticalLift;
@@ -30,9 +32,13 @@ public class Robot {
 
     public VerticalLift verticalLift;
 
+    public HorizontalSlide horizontalSlide;
+
+    public CapstoneRelease capstone;
+
     protected String status = "";
 
-    public Robot(HardwareMap map, DcMotorEx.RunMode mode){
+    public Robot(HardwareMap map, DcMotorEx.RunMode mode) {
         driveTrain = new DriveTrain(map, mode);
 
         imu = new IMU(map);
@@ -43,7 +49,11 @@ public class Robot {
 
         verticalLift = new VerticalLift(map);
 
-        status += driveTrain.getStatus() + intake.getStatus() + verticalLift.getStatus() + grabbers.getStatus();
+        horizontalSlide = new HorizontalSlide(map);
+
+        capstone = new CapstoneRelease(map);
+
+        status += driveTrain.getStatus() + intake.getStatus() + verticalLift.getStatus() + grabbers.getStatus() + horizontalSlide.getStatus() + capstone.getStatus();
     }
 
     public String getStatus(){

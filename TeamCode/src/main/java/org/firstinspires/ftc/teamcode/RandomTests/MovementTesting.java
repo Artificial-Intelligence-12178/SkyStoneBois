@@ -31,7 +31,7 @@ public class MovementTesting extends AutonomousClass {
     }
 
     public void loop() {
-        robot.testingCorrection(.1);
+        robot.testingCorrection(0.1);
         telemetry.addData("IMU", robot.imu.getHeading());
         telemetry.update();
     }

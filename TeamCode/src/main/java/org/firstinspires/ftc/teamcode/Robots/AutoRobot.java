@@ -16,14 +16,20 @@ public class AutoRobot extends Robot {
         super(map, DcMotorEx.RunMode.RUN_USING_ENCODER);
         this.autoClass = autoClass;
         driveTrain.resetEncoders();
+        grabbers.grabbersUp();
     }
 
     public void forward(double inches) {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
+            double correction = imu.getCorrection();
             double power = determinePower(target, error, false, false);
-            driveTrain.applyPower(power, -power, power, -power);
+            double leftPower = power + correction;
+            double rightPower = -power + correction;
+
+            driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
+            //driveTrain.applyPower(power, -power, power, -power);
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -35,8 +41,13 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
+            double correction = imu.getCorrection();
             double power = determinePower(target, error, false, false);
-            driveTrain.applyPower(-power, power, -power, power);
+            double leftPower = -power + correction;
+            double rightPower = power + correction;
+
+            driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
+            //driveTrain.applyPower(-power, power, -power, power);
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -48,8 +59,14 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
+            double correction = imu.getCorrection();
             double power = determinePower(target, error, false, lowPower);
-            driveTrain.applyPower(power, power, -power, -power);
+            double frontPower = power + correction;
+            double backPower = -
+                    power + correction;
+
+            driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
+            //driveTrain.applyPower(power, power, -power, -power);
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -61,8 +78,14 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
+            double correction = imu.getCorrection();
             double power = determinePower(target, error, false, lowPower);
-            driveTrain.applyPower(-power, -power, power, power);
+            double frontPower = -power + correction;
+            double backPower = power + correction;
+
+            driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
+
+            //driveTrain.applyPower(-power, -power, power, power);
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();

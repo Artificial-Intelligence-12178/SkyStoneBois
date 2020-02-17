@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
-@Autonomous (name = "ProtoFound")
-public class FoundationTest extends AutonomousClass {
-
+@Autonomous (name = "Found BB")
+public class FoundationBlueBridge extends AutonomousClass{
     ElapsedTime timer;
     AutoRobot robot;
     public void init() {
@@ -33,7 +33,7 @@ public class FoundationTest extends AutonomousClass {
 
         if(steps == 0) {
             // GET REAL STRAFE VALUE
-            robot.strafeLeft(8, false);
+            robot.strafeLeft(6, true);
         }
         else if(steps == 1) {
             robot.forward(34);
@@ -53,14 +53,17 @@ public class FoundationTest extends AutonomousClass {
             robot.rotateToHeading(90);
         }
         else if(steps == 5) {
-            robot.forward(5);
+            robot.forward(12);
         }
         else if(steps == 6) {
             robot.grabbers.grabbersUp();
             steps++;
         }
         else if(steps == 7) {
-            robot.backward(40);
+            robot.strafeRight(10, false);
+        }
+        else if(steps == 8) {
+            robot.backward(44);
         }
     }
 }
