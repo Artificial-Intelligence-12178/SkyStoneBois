@@ -79,7 +79,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 }
             }
             else if(steps == 7) {
-                if(intakeTimer.milliseconds() > 750){
+                if(intakeTimer.milliseconds() > 750) {
                     robot.intake.powerOff();
                     robot.intake.goForward();
                     steps++;

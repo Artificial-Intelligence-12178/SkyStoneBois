@@ -17,6 +17,7 @@ public class Robot {
     public static final double TICKS_PER_REV = 753.2;
     public static final double TICKS_PER_INCH = TICKS_PER_REV/CIRCUMFERENCE_OF_WHEELS;
     public static final double INCHES_PER_TICK = 1/TICKS_PER_INCH;
+    public static final double TRACK_WIDTH = 18;
 
     public DriveTrain driveTrain;
 

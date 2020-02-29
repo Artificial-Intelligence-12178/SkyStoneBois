@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "SkyStone BW")
+@Disabled
 public class StoneBlueWall extends AutonomousClass{
     enum Position {
         LEFT,

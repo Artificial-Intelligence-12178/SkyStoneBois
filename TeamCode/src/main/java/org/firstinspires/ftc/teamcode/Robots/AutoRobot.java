@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
+import org.opencv.core.Mat;
 
 public class AutoRobot extends Robot {
 
@@ -55,15 +56,20 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public void strafeRight(double inches, boolean lowPower) {
+    public double strafeRight(double inches, boolean L) {
+        double compensate = 8;
+        if(inches >= 24) {
+            double raw = inches-72;
+            compensate = 8 + raw/24;
+        }
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
-        if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
+        double power = 0;
+        if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(compensate)) {
             double correction = imu.getCorrection(0.01);
-            double power = determinePower(target, error, false, lowPower);
+            power = determinePower(target, error, false, true);
             double frontPower = power + correction;
-            double backPower = -
-                    power + correction;
+            double backPower = -power + correction;
 
             driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
             //driveTrain.applyPower(power, power, -power, -power);
@@ -72,6 +78,8 @@ public class AutoRobot extends Robot {
             driveTrain.resetEncoders();
             autoClass.steps++;
         }
+
+        return power;
     }
 
     public void strafeLeft(double inches, boolean lowPower) {
@@ -174,24 +182,24 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public double determinePower(double target, double error, boolean rotation, boolean lowPower) {
+    public double determinePower(double target, double error, boolean rotation, boolean strafe) {
         //Method used to determine power
         double power;
-        double min = .15;
+        double min = .12;
+        double max = 1;
+        double modifier;
         if (rotation) {
             //Power will decrease as error approaching zero
-            double max = .6;
-            double modifier = max / 180;
+            max = .6;
+            modifier = max / 180;
             power = modifier * error;
         } else {
             //Power will decrease as error approaches zero
-            double max = 1;
-            double modifier;
-            if (lowPower)
-                max = .6;
+            if (target < inchesToTicks(24)) {
+                max = 0.6;
 
-            if (target < inchesToTicks(24))
                 modifier = max / inchesToTicks(24);
+            }
             else
                 modifier = max / target;
 
@@ -199,9 +207,45 @@ public class AutoRobot extends Robot {
             power = modifier * error;
         }
 
+        power = Math.sqrt(power);
         if (min > power)
             power = min;
+        else if(power > max)
+            power = max;
 
         return power;
+    }
+
+    //==============================================================================================
+    //EXPERIMENTAL METHODS
+
+    /**
+     * Method used to test driving with auto-correction
+     * @param power Base power applied to the wheels
+     * @param gain Constant used to determine the weight of the correction value
+     */
+    public void correctionDrive(double power, double gain) {
+        double correction = imu.getCorrection(gain);
+        double leftPower = power + correction;
+        double rightPower = -power + correction;
+
+        driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
+    }
+
+    /**
+     * Method used to drive this AutoRobot in an arc
+     * @param radius Radius of the arc
+     * @param baseVelocity The velocity that the chassis will travel at (Base Velocity)
+     */
+    public void driveInArc(double radius, double baseVelocity) {
+        double leftPower, rightPower;
+        double time = 2 * Math.PI * radius / baseVelocity;
+        double leftDist = radius - (.5 * TRACK_WIDTH);
+        double rightDist = radius + (.5 * TRACK_WIDTH);
+
+        leftPower = 2 * Math.PI * leftDist / time;
+        rightPower = -2 * Math.PI * rightDist / time;
+
+        driveTrain.applyVelocities(leftPower, rightPower, leftPower, rightPower);
     }
 }

@@ -1,18 +1,17 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.RandomTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
-@Autonomous (name = "Park Bridge")
-@Disabled
-public class ParkBridge extends AutonomousClass {
-    AutoRobot robot;
+@Autonomous (name = "Testing Rotation")
+public class TestingRotation extends AutonomousClass {
 
+    AutoRobot robot;
     @Override
     public void init() {
-        steps = 0;
+        super.init();
         robot = new AutoRobot(hardwareMap, this);
     }
 
@@ -24,21 +23,17 @@ public class ParkBridge extends AutonomousClass {
 
     @Override
     public void start() {
-        steps = 0;
+
     }
 
     @Override
     public void loop() {
-
         if(steps == 0) {
-            robot.forward(36);
+            robot.rotateToHeading(90);
+            //robot.rotateAboutPoint(90, true);
         }
-        else if(steps == 1) {
-            //BLUE SIDE
-            robot.strafeRight(12, true);
-            //RED SIDE
-            //robot.strafeLeft(12, true);
-        }
+
+
     }
 
     @Override

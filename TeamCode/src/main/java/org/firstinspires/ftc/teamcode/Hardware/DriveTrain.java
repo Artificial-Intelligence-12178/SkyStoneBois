@@ -3,16 +3,22 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 public class DriveTrain {
     //Motors for each wheel
+<<<<<<< HEAD
    public DcMotorEx frontLeft;
     //String used to display status of each component
     protected String status;
+=======
+    DcMotorEx frontLeft;
+>>>>>>> origin/master
     DcMotorEx frontRight;
     DcMotorEx backLeft;
     DcMotorEx backRight;
@@ -27,6 +33,7 @@ public class DriveTrain {
         try {
             frontLeft = map.get(DcMotorEx.class, "DC1");
             frontLeft.setMode(mode);
+            frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status+="\nFront Left motor (DC1) not mapping";
@@ -35,6 +42,7 @@ public class DriveTrain {
         try {
             frontRight = map.get(DcMotorEx.class, "DC4");
             frontRight.setMode(mode);
+            frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
             frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status+="\nFront Right motor (DC4) not mapping";
@@ -43,6 +51,7 @@ public class DriveTrain {
         try {
             backRight = map.get(DcMotorEx.class, "DC3");
             backRight.setMode(mode);
+            backRight.setDirection(DcMotorSimple.Direction.REVERSE);
             backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status+="\nBack Right motor (DC3) not mapping";
@@ -51,6 +60,7 @@ public class DriveTrain {
         try {
             backLeft = map.get(DcMotorEx.class, "DC2");
             backLeft.setMode(mode);
+            backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         } catch (Exception e) {
             status+="\nBack Left motor (DC2) not mapping";
@@ -162,4 +172,38 @@ public class DriveTrain {
         backLeft.setZeroPowerBehavior(behavior);
         backRight.setZeroPowerBehavior(behavior);
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Method used to apply a velocity to all motors
+     * @param vel Velocity in inches per second
+     */
+    public void applyVelocity(double vel) {
+        double velTicks = Robot.inchesToTicks(vel);
+        frontLeft.setVelocity(velTicks);
+        frontRight.setVelocity(velTicks);
+        backLeft.setVelocity(velTicks);
+        backRight.setVelocity(velTicks);
+    }
+
+    /**
+     * Method used to apply unique velocities to each motor
+     * @param velFL Velocity of front left motor in inches per second
+     * @param velFR Velocity of front right motor in inches per second
+     * @param velBL Velocity of back left motor in inches per second
+     * @param velBR Velocity of back right motor in inches per second
+     */
+    public void applyVelocities(double velFL, double velFR, double velBL, double velBR) {
+        double velTicksFL = Robot.inchesToTicks(velFL);
+        double velTicksFR = Robot.inchesToTicks(velFR);
+        double velTicksBL = Robot.inchesToTicks(velBL);
+        double velTicksBR = Robot.inchesToTicks(velBR);
+
+        frontLeft.setVelocity(velTicksFL);
+        frontRight.setVelocity(velTicksFR);
+        backLeft.setVelocity(velTicksBL);
+        backRight.setVelocity(velBR);
+    }
+>>>>>>> origin/master
 }

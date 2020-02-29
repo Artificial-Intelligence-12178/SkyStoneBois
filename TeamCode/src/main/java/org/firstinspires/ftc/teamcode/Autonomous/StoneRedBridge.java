@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "SkyStone RB")
+<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Autonomous/StoneRedBridge.java
+=======
+@Disabled
+>>>>>>> origin/master:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Autonomous/StoneRedBridge.java
 public class StoneRedBridge extends AutonomousClass {
     enum Position {
         LEFT,
