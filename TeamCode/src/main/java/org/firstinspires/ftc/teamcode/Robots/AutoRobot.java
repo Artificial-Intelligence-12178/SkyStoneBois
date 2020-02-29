@@ -23,7 +23,7 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(.01);
             double power = determinePower(target, error, false, false);
             double leftPower = power + correction;
             double rightPower = -power + correction;
@@ -41,7 +41,7 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(.01);
             double power = determinePower(target, error, false, false);
             double leftPower = -power + correction;
             double rightPower = power + correction;
@@ -59,7 +59,7 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(0.01);
             double power = determinePower(target, error, false, lowPower);
             double frontPower = power + correction;
             double backPower = -
@@ -78,7 +78,7 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(0.01);
             double power = determinePower(target, error, false, lowPower);
             double frontPower = -power + correction;
             double backPower = power + correction;
@@ -134,49 +134,74 @@ public class AutoRobot extends Robot {
         }
     }
 
+    public void rotateAboutPoint(double target, boolean rear) {
+        driveTrain.setZeroPower(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        imu.setTarget(target);
+
+        double currHeading = imu.getHeading();
+        double turnDegrees = Math.abs(target - currHeading);
+
+        boolean turnLeft = target > currHeading;
+
+        if (turnDegrees > 180) {
+            turnLeft = !turnLeft;
+            turnDegrees = 360 - turnDegrees;
+        }
+
+        if (turnDegrees > 0.5) {
+            double power = determinePower(Math.abs(target), turnDegrees, true, false);
+
+            //Negating power if turning left
+            if (turnLeft) {
+                power *= -1;
+            }
+
+            //Applying power to the drivetrain
+            if(rear) {
+                driveTrain.applyPower(power, power, 0, 0);
+            }
+            else {
+                driveTrain.applyPower(0, 0, power, power);
+            }
+
+        }
+        else {
+            autoClass.steps++;
+            driveTrain.setZeroPower(DcMotor.ZeroPowerBehavior.BRAKE);
+            driveTrain.resetEncoders();
+            driveTrain.applyPower(0);
+        }
+    }
+
     public double determinePower(double target, double error, boolean rotation, boolean lowPower) {
         //Method used to determine power
         double power;
         double min = .15;
-        if(rotation) {
+        if (rotation) {
             //Power will decrease as error approaching zero
             double max = .6;
-            double modifier = max/180;
-            power = modifier*error;
-        }
-        else {
+            double modifier = max / 180;
+            power = modifier * error;
+        } else {
             //Power will decrease as error approaches zero
             double max = 1;
             double modifier;
-            if(lowPower)
+            if (lowPower)
                 max = .6;
 
-            if(target < inchesToTicks(24))
-                modifier = max/inchesToTicks(24);
+            if (target < inchesToTicks(24))
+                modifier = max / inchesToTicks(24);
             else
-                modifier = max/target;
+                modifier = max / target;
 
 
-            power = modifier*error;
+            power = modifier * error;
         }
 
-        if(min > power)
+        if (min > power)
             power = min;
 
         return power;
     }
-
-    //Method used to test straight line movement
-    public void testingCorrection(double pow) {
-        double correction = imu.getCorrection();
-        double rightPower = -pow+correction;
-        double leftPower = pow+correction;
-
-        rightPower = Range.clip(rightPower, -1, 1);
-        leftPower = Range.clip(leftPower, -1, 1);
-
-        driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
-    }
-
-
 }

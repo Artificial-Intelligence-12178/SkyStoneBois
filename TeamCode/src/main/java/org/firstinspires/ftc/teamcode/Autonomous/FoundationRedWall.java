@@ -17,6 +17,7 @@ public class FoundationRedWall extends AutonomousClass {
 
     public void init_loop() {
         telemetry.addData("Status", robot.getStatus());
+        telemetry.update();
     }
 
     public void start() {

@@ -29,6 +29,9 @@ public class HorizontalSlide {
     Stage[] stages = Stage.values();
 
     public HorizontalSlide(HardwareMap map) {
+
+        status = "";
+
         try {
             extender = map.get(Servo.class, "Extend");
         } catch (Exception e) {

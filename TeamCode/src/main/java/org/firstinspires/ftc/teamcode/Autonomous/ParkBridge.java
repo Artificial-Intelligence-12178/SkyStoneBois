@@ -6,17 +6,17 @@ import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "Park Bridge")
 public class ParkBridge extends AutonomousClass {
-    AutoRobot joe;
+    AutoRobot robot;
 
     @Override
     public void init() {
         steps = 0;
-        joe = new AutoRobot(hardwareMap, this);
+        robot = new AutoRobot(hardwareMap, this);
     }
 
     @Override
     public void init_loop() {
-        telemetry.addData("Status", joe.getStatus());
+        telemetry.addData("Status", robot.getStatus());
         telemetry.update();
     }
 
@@ -29,10 +29,13 @@ public class ParkBridge extends AutonomousClass {
     public void loop() {
 
         if(steps == 0) {
-            //Code to move away from wall
+            robot.forward(36);
         }
         else if(steps == 1) {
-            //Code to move onto tape
+            //BLUE SIDE
+            robot.strafeRight(12, true);
+            //RED SIDE
+            //robot.strafeLeft(12, true);
         }
     }
 

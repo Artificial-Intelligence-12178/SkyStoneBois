@@ -11,17 +11,17 @@ import org.firstinspires.ftc.teamcode.Robots.Robot;
 public class DriveTrain {
     //Motors for each wheel
    public DcMotorEx frontLeft;
+    //String used to display status of each component
+    protected String status;
     DcMotorEx frontRight;
     DcMotorEx backLeft;
     DcMotorEx backRight;
-
-    //String used to display status of each component
-    protected String status;
-
     //Timer used to determine speed
     ElapsedTime speedTimer;
 
     public DriveTrain(HardwareMap map, DcMotor.RunMode mode){
+
+        status = "";
 
         //Initializing components
         try {
@@ -88,7 +88,10 @@ public class DriveTrain {
         applyPower(pow, pow, pow, pow);
     }
 
-    //Method used to get the average encoder value across all motors
+    /**
+     * Method used to obtain the average encoder count of this DriveTrain
+     * @return The average encoder count of this DriveTrain
+     */
     public double getAverageEncoderValue(){
         int sum = 0;
 
@@ -100,6 +103,11 @@ public class DriveTrain {
         return sum/4.0;
     }
 
+    /**
+     * Method used to change the current RunMode of the motors
+     *
+     * @param mode A RunMode to set motors to
+     */
     public void setMode(DcMotor.RunMode mode) {
         frontRight.setMode(mode);
         frontLeft.setMode(mode);
@@ -108,6 +116,9 @@ public class DriveTrain {
     }
 
 
+    /**
+     * Method used to reset DriveTrain encoders
+     */
     public void resetEncoders(){
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -120,7 +131,12 @@ public class DriveTrain {
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public double[] getWheelSpeeds(boolean inches){
+    /**
+     * Method used to get the current motor velocities
+     * @param inches Boolean used to determine whether to return in in/sec or tick/sec
+     * @return A array of doubles containing all motor velocities
+     */
+    public double[] getMotorVelocities(boolean inches){
         double[] returnSpeeds = new double[4];
         returnSpeeds[0] = frontLeft.getVelocity();
         returnSpeeds[1] =  frontRight.getVelocity();
@@ -134,5 +150,16 @@ public class DriveTrain {
         }
 
         return returnSpeeds;
+    }
+
+    /**
+     * Method used to set the current ZeroPowerBehavior of each motor
+     * @param behavior ZeroPowerBehavior object that each motor will be set to
+     */
+    public void setZeroPower(DcMotor.ZeroPowerBehavior behavior) {
+        frontLeft.setZeroPowerBehavior(behavior);
+        frontRight.setZeroPowerBehavior(behavior);
+        backLeft.setZeroPowerBehavior(behavior);
+        backRight.setZeroPowerBehavior(behavior);
     }
 }

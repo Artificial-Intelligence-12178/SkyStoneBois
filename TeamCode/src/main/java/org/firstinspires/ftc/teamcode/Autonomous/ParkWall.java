@@ -31,7 +31,7 @@ public class ParkWall extends AutonomousClass {
     public void loop() {
 
         if(steps == 0) {
-            joe.forward(36);
+            joe.forward(12);
         }
     }
 
