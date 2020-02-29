@@ -56,7 +56,7 @@ public class StoneRedWall extends AutonomousClass {
                 robot.forward(8);
             }
             else if(steps == 1) {
-                robot.strafeLeft(39.5, true);
+                robot.strafeLeft(39.5);
                 if(steps == 2) {
                     robot.intake.powerOn();
                 }
@@ -71,7 +71,7 @@ public class StoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 4) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 5) {
                 robot.forward(44);
@@ -82,7 +82,7 @@ public class StoneRedWall extends AutonomousClass {
         }
         else if(skyStone.equals(Position.LEFT)) {
             if(steps == 0) {
-                robot.strafeLeft(39.5, true);
+                robot.strafeLeft(39.5);
                 if(steps == 1) {
                     robot.intake.powerOn();
                 }
@@ -97,7 +97,7 @@ public class StoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 3) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 4) {
                 robot.forward(44);
@@ -111,7 +111,7 @@ public class StoneRedWall extends AutonomousClass {
                 robot.forward(16);
             }
             else if(steps == 1) {
-                robot.strafeLeft(27.5, true);
+                robot.strafeLeft(27.5);
             }
             else if(steps == 2) {
                 robot.rotateToHeading(-33.7);
@@ -132,7 +132,7 @@ public class StoneRedWall extends AutonomousClass {
                 robot.rotateToHeading(0);
             }
             else if(steps == 6) {
-                robot.strafeRight(25, true);
+                robot.strafeRight(25);
             }
             else if(steps == 7) {
                 robot.forward(36);

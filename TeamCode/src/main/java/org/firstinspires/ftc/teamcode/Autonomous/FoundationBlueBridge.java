@@ -36,7 +36,7 @@ public class FoundationBlueBridge extends AutonomousClass{
 
         if(steps == 0) {
             // GET REAL STRAFE VALUE
-            robot.strafeLeft(6, true);
+            robot.strafeLeft(6);
         }
         else if(steps == 1) {
             robot.forward(34);
@@ -63,7 +63,7 @@ public class FoundationBlueBridge extends AutonomousClass{
             steps++;
         }
         else if(steps == 7) {
-            robot.strafeRight(10, false);
+            robot.strafeRight(10);
         }
         else if(steps == 8) {
             robot.backward(44);

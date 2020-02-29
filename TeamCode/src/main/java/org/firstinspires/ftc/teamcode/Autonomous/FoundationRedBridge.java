@@ -36,7 +36,7 @@ public class FoundationRedBridge extends AutonomousClass {
 
         if(steps == 0) {
             // GET REAL STRAFE VALUE
-            robot.strafeRight(6, true);
+            robot.strafeRight(6);
         }
         else if(steps == 1) {
             robot.forward(34);
@@ -64,7 +64,7 @@ public class FoundationRedBridge extends AutonomousClass {
             timer.reset();
         }
         else if(steps == 7) {
-            robot.strafeLeft(8, false);
+            robot.strafeLeft(8);
         }
         else if(steps == 8) {
             robot.backward(44);

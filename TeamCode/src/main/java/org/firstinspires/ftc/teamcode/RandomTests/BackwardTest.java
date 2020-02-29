@@ -29,7 +29,7 @@ public class BackwardTest extends AutonomousClass {
     @Override
     public void loop() {
         if(steps == 0) {
-            robot.backward(24);
+            robot.backward(120);
         }
     }
 

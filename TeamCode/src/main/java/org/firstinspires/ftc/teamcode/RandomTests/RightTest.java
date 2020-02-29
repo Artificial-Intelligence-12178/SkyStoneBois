@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
+import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 @Autonomous (name = "Testing Right")
 public class RightTest extends AutonomousClass {
@@ -29,7 +30,7 @@ public class RightTest extends AutonomousClass {
     @Override
     public void loop() {
         if(steps == 0) {
-            double pow = robot.strafeRight(24, false);
+            double pow = robot.strafeRight(120);
             telemetry.addLine(pow + "");
             telemetry.update();
         }

@@ -35,7 +35,7 @@ public class ParkBridge extends AutonomousClass {
         }
         else if(steps == 1) {
             //BLUE SIDE
-            robot.strafeRight(12, true);
+            robot.strafeRight(12);
             //RED SIDE
             //robot.strafeLeft(12, true);
         }

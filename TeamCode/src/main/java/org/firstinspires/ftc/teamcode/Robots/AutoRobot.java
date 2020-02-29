@@ -13,6 +13,9 @@ public class AutoRobot extends Robot {
 
     AutonomousClass autoClass;
 
+    private final double STRAFE_GAIN = 1.075;
+    private final double CORRECTION_GAIN = 0.02;
+
     public AutoRobot(HardwareMap map, AutonomousClass autoClass) {
         super(map, DcMotorEx.RunMode.RUN_USING_ENCODER);
         this.autoClass = autoClass;
@@ -24,13 +27,13 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
-            double correction = imu.getCorrection(.01);
-            double power = determinePower(target, error, false, false);
+            double correction = imu.getCorrection(CORRECTION_GAIN);
+            double power = determinePower(target, error, 0);
             double leftPower = power + correction;
             double rightPower = -power + correction;
 
             driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
-            //driveTrain.applyPower(power, -power, power, -power);
+
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -42,13 +45,13 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
-            double correction = imu.getCorrection(.01);
-            double power = determinePower(target, error, false, false);
+            double correction = imu.getCorrection(CORRECTION_GAIN);
+            double power = determinePower(target, error, 0);
             double leftPower = -power + correction;
             double rightPower = power + correction;
 
             driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
-            //driveTrain.applyPower(-power, power, -power, power);
+
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -56,23 +59,18 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public double strafeRight(double inches, boolean L) {
-        double compensate = 8;
-        if(inches >= 24) {
-            double raw = inches-72;
-            compensate = 8 + raw/24;
-        }
-        double target = inchesToTicks(inches);
+    public double strafeRight(double inches) {
+        double target = inchesToTicks(inches) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
         double power = 0;
-        if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(compensate)) {
-            double correction = imu.getCorrection(0.01);
-            power = determinePower(target, error, false, true);
+        if (driveTrain.getAverageEncoderValue() < target) {
+            double correction = imu.getCorrection(CORRECTION_GAIN);
+            power = determinePower(target, error, 0);
             double frontPower = power + correction;
             double backPower = -power + correction;
 
             driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
-            //driveTrain.applyPower(power, power, -power, -power);
+
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -82,18 +80,17 @@ public class AutoRobot extends Robot {
         return power;
     }
 
-    public void strafeLeft(double inches, boolean lowPower) {
-        double target = inchesToTicks(inches);
+    public void strafeLeft(double inches) {
+        double target = inchesToTicks(inches) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
-            double correction = imu.getCorrection(0.01);
-            double power = determinePower(target, error, false, lowPower);
+            double correction = imu.getCorrection(CORRECTION_GAIN);
+            double power = determinePower(target, error, 0);
             double frontPower = -power + correction;
             double backPower = power + correction;
 
             driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
 
-            //driveTrain.applyPower(-power, -power, power, power);
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
@@ -122,9 +119,9 @@ public class AutoRobot extends Robot {
         }
 
         //If the degrees needed to turn is close enough to target
-        if(turnDegrees > 0.5) {
+        if(turnDegrees > 0.3) {
             //Determining the power
-            double power = determinePower(Math.abs(target), turnDegrees, true, false);
+            double power = determinePower(Math.abs(target), turnDegrees, 1);
 
             //Negating power if turning left
             if(turnLeft) {
@@ -157,9 +154,8 @@ public class AutoRobot extends Robot {
             turnDegrees = 360 - turnDegrees;
         }
 
-        if (turnDegrees > 0.5) {
-            double power = determinePower(Math.abs(target), turnDegrees, true, false);
-
+        if (turnDegrees > 0.3) {
+            double power = determinePower(Math.abs(target), turnDegrees, 2);
             //Negating power if turning left
             if (turnLeft) {
                 power *= -1;
@@ -182,15 +178,14 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public double determinePower(double target, double error, boolean rotation, boolean strafe) {
+    public double determinePower(double target, double error, int rotation) {
         //Method used to determine power
         double power;
-        double min = .12;
+        double min = .17;
         double max = 1;
         double modifier;
-        if (rotation) {
+        if (rotation != 0) {
             //Power will decrease as error approaching zero
-            max = .6;
             modifier = max / 180;
             power = modifier * error;
         } else {
@@ -207,7 +202,16 @@ public class AutoRobot extends Robot {
             power = modifier * error;
         }
 
-        power = Math.sqrt(power);
+        if(rotation == 1) {
+            power = Math.pow(power, .9);
+        }
+        else if(rotation == 2) {
+            power = Math.pow(power, .7);
+        }
+        else {
+            power = Math.sqrt(power);
+        }
+
         if (min > power)
             power = min;
         else if(power > max)

@@ -12,13 +12,10 @@ import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 public class DriveTrain {
     //Motors for each wheel
-<<<<<<< HEAD
-   public DcMotorEx frontLeft;
+    DcMotorEx frontLeft;
     //String used to display status of each component
     protected String status;
-=======
-    DcMotorEx frontLeft;
->>>>>>> origin/master
+
     DcMotorEx frontRight;
     DcMotorEx backLeft;
     DcMotorEx backRight;
@@ -172,8 +169,6 @@ public class DriveTrain {
         backLeft.setZeroPowerBehavior(behavior);
         backRight.setZeroPowerBehavior(behavior);
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Method used to apply a velocity to all motors
@@ -203,7 +198,6 @@ public class DriveTrain {
         frontLeft.setVelocity(velTicksFL);
         frontRight.setVelocity(velTicksFR);
         backLeft.setVelocity(velTicksBL);
-        backRight.setVelocity(velBR);
+        backRight.setVelocity(velTicksBR);
     }
->>>>>>> origin/master
 }

@@ -52,7 +52,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(8);
             }
             else if(steps == 1) {
-                robot.strafeLeft(39.5, true);
+                robot.strafeLeft(39.5);
                 if(steps == 2)
                     robot.intake.powerOn();
             }
@@ -65,7 +65,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 4) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 5) {
                 robot.forward(44);
@@ -92,7 +92,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.backward(60);
             }
             else if(steps == 10) {
-                robot.strafeLeft(37, true);
+                robot.strafeLeft(37);
                 if(steps == 11) {
                     robot.intake.powerOn();
                 }
@@ -107,7 +107,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 13) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 14) {
                 robot.forward(60);
@@ -118,7 +118,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
         }
         else if(skyStone.equals(Position.LEFT)) { // LEFT CASE ======================================================================
             if(steps == 0) {
-                robot.strafeLeft(39.5, true);
+                robot.strafeLeft(39.5);
                 if(steps == 1)
                     robot.intake.powerOn();
             }
@@ -132,7 +132,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 3) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 4) {
                 robot.forward(52);
@@ -159,7 +159,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(68);
             }
             else if(steps == 9) {
-                robot.strafeLeft(37, true);
+                robot.strafeLeft(37);
                 if(steps == 10) {
                     robot.intake.powerOn();
                 }
@@ -174,7 +174,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 12) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 13) {
                 robot.forward(68);
@@ -188,7 +188,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(16);
             }
             else if(steps == 1) {
-                robot.strafeLeft(27.5, true);
+                robot.strafeLeft(27.5);
             }
             else if(steps == 2) {
                 robot.rotateToHeading(-33.7);
@@ -208,7 +208,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.rotateToHeading(0);
             }
             else if(steps == 6) {
-                robot.strafeRight(25, true);
+                robot.strafeRight(25);
             }
             else if(steps == 7) {
                 robot.forward(36);
@@ -235,7 +235,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.backward(52);
             }
             else if(steps == 12) {
-                robot.strafeLeft(37, true);
+                robot.strafeLeft(37);
                 if(steps == 13) {
                     robot.intake.powerOn();
                 }
@@ -250,7 +250,7 @@ public class TwoSkyStoneRedWall extends AutonomousClass {
                 robot.forward(6);
             }
             else if(steps == 15) {
-                robot.strafeRight(37, true);
+                robot.strafeRight(37);
             }
             else if(steps == 16) {
                 robot.forward(44);

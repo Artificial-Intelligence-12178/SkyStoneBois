@@ -29,7 +29,7 @@ public class ForwardTest extends AutonomousClass {
     @Override
     public void loop() {
         if(steps == 0) {
-            robot.forward(12);
+            robot.forward(120);
         }
     }
 

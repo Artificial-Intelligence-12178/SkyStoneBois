@@ -29,7 +29,7 @@ public class LeftTest extends AutonomousClass {
     @Override
     public void loop() {
         if(steps == 0) {
-            robot.strafeLeft(12, false);
+            robot.strafeLeft(120);
         }
     }
 
