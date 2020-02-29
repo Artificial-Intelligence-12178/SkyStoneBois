@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "Park Wall")
+@Disabled
 public class ParkWall extends AutonomousClass {
 
     AutoRobot joe;
@@ -31,7 +33,7 @@ public class ParkWall extends AutonomousClass {
     public void loop() {
 
         if(steps == 0) {
-            joe.forward(36);
+            joe.forward(12);
         }
     }
 

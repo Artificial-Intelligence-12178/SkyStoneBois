@@ -31,7 +31,7 @@ public class IMU {
         imu.initialize(parameters);
 
         while(!imu.isGyroCalibrated()) {
-            //Just making sure gyro is calibrating before starting OpMode
+            //Just making sure gyro is calibrated before starting OpMode
         }
     }
 
@@ -45,12 +45,10 @@ public class IMU {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 
-    public double getCorrection() {
+    public double getCorrection(double gain) {
         double curr = getHeading();
-        double gain = 0.01;
         double diff = curr - target;
-        double correction = diff * gain;
-        return correction;
+        return diff * gain;
     }
 
     public void setTarget(double target) {

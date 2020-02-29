@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robots.DriveRobot;
-import org.firstinspires.ftc.teamcode.Robots.Joe;
 
 @TeleOp(name = "Testing Drive")
 //@Disabled

@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.Robots;
 
-import com.acmerobotics.roadrunner.drive.Drive;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Autonomous.CapstoneRelease;
+import org.firstinspires.ftc.teamcode.Hardware.CapstoneRelease;
 import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.Hardware.FoundationGrabbers;
 import org.firstinspires.ftc.teamcode.Hardware.HorizontalSlide;
@@ -17,10 +13,11 @@ import org.firstinspires.ftc.teamcode.Hardware.VerticalLift;
 
 public class Robot {
     public static final double DIAMETER_OF_WHEELS = 3.93701;
-    public static final double CIRCUMFERNCE_OF_WHEELS = DIAMETER_OF_WHEELS*Math.PI;
+    public static final double CIRCUMFERENCE_OF_WHEELS = DIAMETER_OF_WHEELS*Math.PI;
     public static final double TICKS_PER_REV = 753.2;
-    public static final double TICKS_PER_INCH = TICKS_PER_REV/CIRCUMFERNCE_OF_WHEELS;
+    public static final double TICKS_PER_INCH = TICKS_PER_REV/CIRCUMFERENCE_OF_WHEELS;
     public static final double INCHES_PER_TICK = 1/TICKS_PER_INCH;
+    public static final double TRACK_WIDTH = 18;
 
     public DriveTrain driveTrain;
 
@@ -36,9 +33,12 @@ public class Robot {
 
     public CapstoneRelease capstone;
 
-    protected String status = "";
+    protected String status;
 
     public Robot(HardwareMap map, DcMotorEx.RunMode mode) {
+
+        status = "";
+
         driveTrain = new DriveTrain(map, mode);
 
         imu = new IMU(map);
@@ -54,6 +54,9 @@ public class Robot {
         capstone = new CapstoneRelease(map);
 
         status += driveTrain.getStatus() + intake.getStatus() + verticalLift.getStatus() + grabbers.getStatus() + horizontalSlide.getStatus() + capstone.getStatus();
+
+        if(status.equals(""))
+            status = "Functional";
     }
 
     public String getStatus(){

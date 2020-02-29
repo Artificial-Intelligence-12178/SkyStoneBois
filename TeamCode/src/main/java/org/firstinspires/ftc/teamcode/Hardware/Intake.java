@@ -13,6 +13,9 @@ public class Intake {
     protected String status = "";
 
     public Intake(HardwareMap map){
+
+        status = "";
+
         try {
             leftWheel = map.get(DcMotor.class, "IL");
             leftWheel.setDirection(DcMotorSimple.Direction.FORWARD);

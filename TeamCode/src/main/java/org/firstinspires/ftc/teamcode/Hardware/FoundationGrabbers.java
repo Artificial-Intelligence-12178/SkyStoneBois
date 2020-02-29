@@ -20,6 +20,8 @@ public class FoundationGrabbers {
     protected String status = "";
 
     public FoundationGrabbers(HardwareMap map){
+
+        status = "";
         //Initializing components
         try {
             leftGrabber = map.get(Servo.class, "ServoL");
@@ -37,13 +39,17 @@ public class FoundationGrabbers {
     //Method used to get the status of this FoundationGrabbers
     public String getStatus(){ return status; }
 
-    //Method used to move grabbers down
+    /**
+     * Method used to move grabbers down
+     */
     public void grabbersDown(){
         leftGrabber.setPosition(LEFT_DOWN);
         rightGrabber.setPosition(RIGHT_DOWN);
     }
 
-    //Method used to move grabbers up
+    /**
+     * Method used to move grabbers up
+     */
     public void grabbersUp(){
         leftGrabber.setPosition(LEFT_UP);
         rightGrabber.setPosition(RIGHT_UP);

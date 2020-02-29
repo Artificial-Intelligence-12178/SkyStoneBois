@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "Found BW")
+@Disabled
 public class FoundationBlueWall extends AutonomousClass {
     ElapsedTime timer;
     AutoRobot robot;
@@ -17,6 +19,7 @@ public class FoundationBlueWall extends AutonomousClass {
 
     public void init_loop() {
         telemetry.addData("Status", robot.getStatus());
+        telemetry.update();
     }
 
     public void start() {

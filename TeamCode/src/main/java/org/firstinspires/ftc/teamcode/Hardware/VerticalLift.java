@@ -9,9 +9,12 @@ public class VerticalLift {
     DcMotor left;
     DcMotor right;
 
-    protected String status = "";
+    protected String status;
 
     public VerticalLift(HardwareMap map) {
+
+        status = "";
+        
         try {
             left = map.get(DcMotor.class, "VL");
             left.setDirection(DcMotorSimple.Direction.FORWARD);

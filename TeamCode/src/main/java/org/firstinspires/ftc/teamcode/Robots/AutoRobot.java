@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
+import org.opencv.core.Mat;
 
 public class AutoRobot extends Robot {
 
@@ -23,7 +24,7 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(.01);
             double power = determinePower(target, error, false, false);
             double leftPower = power + correction;
             double rightPower = -power + correction;
@@ -41,7 +42,7 @@ public class AutoRobot extends Robot {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(.01);
             double power = determinePower(target, error, false, false);
             double leftPower = -power + correction;
             double rightPower = power + correction;
@@ -55,15 +56,20 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public void strafeRight(double inches, boolean lowPower) {
+    public double strafeRight(double inches, boolean L) {
+        double compensate = 8;
+        if(inches >= 24) {
+            double raw = inches-72;
+            compensate = 8 + raw/24;
+        }
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
-        if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
-            double correction = imu.getCorrection();
-            double power = determinePower(target, error, false, lowPower);
+        double power = 0;
+        if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(compensate)) {
+            double correction = imu.getCorrection(0.01);
+            power = determinePower(target, error, false, true);
             double frontPower = power + correction;
-            double backPower = -
-                    power + correction;
+            double backPower = -power + correction;
 
             driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
             //driveTrain.applyPower(power, power, -power, -power);
@@ -72,13 +78,15 @@ public class AutoRobot extends Robot {
             driveTrain.resetEncoders();
             autoClass.steps++;
         }
+
+        return power;
     }
 
     public void strafeLeft(double inches, boolean lowPower) {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
-            double correction = imu.getCorrection();
+            double correction = imu.getCorrection(0.01);
             double power = determinePower(target, error, false, lowPower);
             double frontPower = -power + correction;
             double backPower = power + correction;
@@ -134,49 +142,110 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public double determinePower(double target, double error, boolean rotation, boolean lowPower) {
-        //Method used to determine power
-        double power;
-        double min = .15;
-        if(rotation) {
-            //Power will decrease as error approaching zero
-            double max = .6;
-            double modifier = max/180;
-            power = modifier*error;
+    public void rotateAboutPoint(double target, boolean rear) {
+        driveTrain.setZeroPower(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        imu.setTarget(target);
+
+        double currHeading = imu.getHeading();
+        double turnDegrees = Math.abs(target - currHeading);
+
+        boolean turnLeft = target > currHeading;
+
+        if (turnDegrees > 180) {
+            turnLeft = !turnLeft;
+            turnDegrees = 360 - turnDegrees;
+        }
+
+        if (turnDegrees > 0.5) {
+            double power = determinePower(Math.abs(target), turnDegrees, true, false);
+
+            //Negating power if turning left
+            if (turnLeft) {
+                power *= -1;
+            }
+
+            //Applying power to the drivetrain
+            if(rear) {
+                driveTrain.applyPower(power, power, 0, 0);
+            }
+            else {
+                driveTrain.applyPower(0, 0, power, power);
+            }
+
         }
         else {
+            autoClass.steps++;
+            driveTrain.setZeroPower(DcMotor.ZeroPowerBehavior.BRAKE);
+            driveTrain.resetEncoders();
+            driveTrain.applyPower(0);
+        }
+    }
+
+    public double determinePower(double target, double error, boolean rotation, boolean strafe) {
+        //Method used to determine power
+        double power;
+        double min = .12;
+        double max = 1;
+        double modifier;
+        if (rotation) {
+            //Power will decrease as error approaching zero
+            max = .6;
+            modifier = max / 180;
+            power = modifier * error;
+        } else {
             //Power will decrease as error approaches zero
-            double max = 1;
-            double modifier;
-            if(lowPower)
-                max = .6;
+            if (target < inchesToTicks(24)) {
+                max = 0.6;
 
-            if(target < inchesToTicks(24))
-                modifier = max/inchesToTicks(24);
+                modifier = max / inchesToTicks(24);
+            }
             else
-                modifier = max/target;
+                modifier = max / target;
 
 
-            power = modifier*error;
+            power = modifier * error;
         }
 
-        if(min > power)
+        power = Math.sqrt(power);
+        if (min > power)
             power = min;
+        else if(power > max)
+            power = max;
 
         return power;
     }
 
-    //Method used to test straight line movement
-    public void testingCorrection(double pow) {
-        double correction = imu.getCorrection();
-        double rightPower = -pow+correction;
-        double leftPower = pow+correction;
+    //==============================================================================================
+    //EXPERIMENTAL METHODS
 
-        rightPower = Range.clip(rightPower, -1, 1);
-        leftPower = Range.clip(leftPower, -1, 1);
+    /**
+     * Method used to test driving with auto-correction
+     * @param power Base power applied to the wheels
+     * @param gain Constant used to determine the weight of the correction value
+     */
+    public void correctionDrive(double power, double gain) {
+        double correction = imu.getCorrection(gain);
+        double leftPower = power + correction;
+        double rightPower = -power + correction;
 
         driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
     }
 
+    /**
+     * Method used to drive this AutoRobot in an arc
+     * @param radius Radius of the arc
+     * @param baseVelocity The velocity that the chassis will travel at (Base Velocity)
+     */
+    public void driveInArc(double radius, double baseVelocity) {
+        double leftPower, rightPower;
+        double time = 2 * Math.PI * radius / baseVelocity;
+        double leftDist = radius - (.5 * TRACK_WIDTH);
+        double rightDist = radius + (.5 * TRACK_WIDTH);
 
+        leftPower = 2 * Math.PI * leftDist / time;
+        rightPower = -2 * Math.PI * rightDist / time;
+
+        driveTrain.applyVelocities(leftPower, rightPower, leftPower, rightPower);
+    }
 }
