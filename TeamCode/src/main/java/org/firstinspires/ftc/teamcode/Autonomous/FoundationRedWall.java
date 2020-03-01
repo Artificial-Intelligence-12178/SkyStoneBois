@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "Found RW")
-@Disabled
 public class FoundationRedWall extends AutonomousClass {
     ElapsedTime timer;
     AutoRobot robot;

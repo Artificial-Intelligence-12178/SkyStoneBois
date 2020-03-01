@@ -1,34 +1,34 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.RandomTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
-@Autonomous (name = "Found BW")
-public class FoundationBlueWall extends AutonomousClass {
-    ElapsedTime timer;
+@Autonomous (name = "Testing RotationBlue")
+public class TestingFoundBlue extends AutonomousClass {
+
     AutoRobot robot;
+    ElapsedTime timer;
+    @Override
     public void init() {
-        steps = 0;
+        super.init();
         robot = new AutoRobot(hardwareMap, this);
-        timer = new ElapsedTime();
     }
 
+    @Override
     public void init_loop() {
         telemetry.addData("Status", robot.getStatus());
         telemetry.update();
     }
 
+    @Override
     public void start() {
-        steps = 0;
+        timer = new ElapsedTime();
     }
 
-    public void stop() {
-
-    }
-
+    @Override
     public void loop() {
         telemetry.addData("Step", steps);
         telemetry.update();
@@ -48,25 +48,27 @@ public class FoundationBlueWall extends AutonomousClass {
                 steps++;
         }
         else if(steps == 3) {
-            robot.backward(30);
+            robot.backward(22);
         }
         else if(steps == 4) {
             // MAKE SURE ROTATION CAN TURN REAL FOUNDATION
-            robot.rotateToHeading(90);
+            robot.rotateAboutPoint(90, false);
         }
         else if(steps == 5) {
-            robot.forward(12);
+            robot.forward(9);
         }
         else if(steps == 6) {
             robot.grabbers.grabbersUp();
             steps++;
+            timer.reset();
         }
         else if(steps == 7) {
-            robot.strafeLeft(3);
+            robot.backward(44);
         }
-        else if(steps == 8) {
-            robot.backward(40);
-        }
+    }
+
+    @Override
+    public void stop() {
 
     }
 }

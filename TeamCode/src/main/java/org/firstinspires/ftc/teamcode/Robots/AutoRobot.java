@@ -59,13 +59,12 @@ public class AutoRobot extends Robot {
         }
     }
 
-    public double strafeRight(double inches) {
+    public void strafeRight(double inches) {
         double target = inchesToTicks(inches) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
-        double power = 0;
         if (driveTrain.getAverageEncoderValue() < target) {
             double correction = imu.getCorrection(CORRECTION_GAIN);
-            power = determinePower(target, error, 0);
+            double power = determinePower(target, error, 0);
             double frontPower = power + correction;
             double backPower = -power + correction;
 
@@ -76,14 +75,12 @@ public class AutoRobot extends Robot {
             driveTrain.resetEncoders();
             autoClass.steps++;
         }
-
-        return power;
     }
 
     public void strafeLeft(double inches) {
         double target = inchesToTicks(inches) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
-        if (driveTrain.getAverageEncoderValue() < target+inchesToTicks(4)) {
+        if (driveTrain.getAverageEncoderValue() < target) {
             double correction = imu.getCorrection(CORRECTION_GAIN);
             double power = determinePower(target, error, 0);
             double frontPower = -power + correction;

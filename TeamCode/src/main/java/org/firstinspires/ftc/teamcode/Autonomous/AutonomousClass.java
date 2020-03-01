@@ -17,4 +17,8 @@ public abstract class AutonomousClass extends OpMode {
 
     public abstract void stop();
 
+    public static void augmentSteps() {
+        steps++;
+    }
+
 }
