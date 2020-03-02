@@ -53,19 +53,8 @@ public class IMU {
         return diff * gain;
     }
 
-    public double[] getCorrectionValues(double gain) {
-        double curr = getHeading();
-        double diff =curr - target;
-        double correction = diff * gain;
-        return new double[] {curr, diff, correction};
-    }
-
     public void setTarget(double target) {
         this.target = target;
-    }
-
-    public double getTarget() {
-        return target;
     }
 
     //useless method
