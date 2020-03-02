@@ -15,6 +15,7 @@ public class AutoRobot extends Robot {
 
     private final double STRAFE_GAIN = 1.075;
     private final double CORRECTION_GAIN = 0.02;
+    private double accLimiter = .15;
 
     public AutoRobot(HardwareMap map, AutonomousClass autoClass) {
         super(map, DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -23,7 +24,7 @@ public class AutoRobot extends Robot {
         grabbers.grabbersUp();
     }
 
-    public void forward(double inches) {
+    public double forward(double inches) {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
@@ -33,15 +34,17 @@ public class AutoRobot extends Robot {
             double rightPower = -power + correction;
 
             driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
-
+            return power;
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
             autoClass.steps++;
+            accLimiter = .15;
+            return 0;
         }
     }
 
-    public void backward(double inches) {
+    public double backward(double inches) {
         double target = inchesToTicks(inches);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
@@ -51,15 +54,18 @@ public class AutoRobot extends Robot {
             double rightPower = power + correction;
 
             driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
+            return power;
 
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
             autoClass.steps++;
+            accLimiter = .15;
+            return 0;
         }
     }
 
-    public void strafeRight(double inches) {
+    public double strafeRight(double inches) {
         double target = inchesToTicks(inches) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
@@ -69,15 +75,16 @@ public class AutoRobot extends Robot {
             double backPower = -power + correction;
 
             driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
-
+            return power;
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
             autoClass.steps++;
+            return 0;
         }
     }
 
-    public void strafeLeft(double inches) {
+    public double strafeLeft(double inches) {
         double target = inchesToTicks(inches) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
@@ -87,11 +94,12 @@ public class AutoRobot extends Robot {
             double backPower = power + correction;
 
             driveTrain.applyPower(frontPower, frontPower, backPower, backPower);
-
+            return power;
         } else {
             driveTrain.applyPower(0);
             driveTrain.resetEncoders();
             autoClass.steps++;
+            return 0;
         }
     }
 
@@ -178,12 +186,13 @@ public class AutoRobot extends Robot {
     public double determinePower(double target, double error, int rotation) {
         //Method used to determine power
         double power;
-        double min = .17;
+        double min = .175;
         double max = 1;
         double modifier;
         if (rotation != 0) {
             //Power will decrease as error approaching zero
-            modifier = max / 180;
+            min = .15;
+            modifier = max / 90;
             power = modifier * error;
         } else {
             //Power will decrease as error approaches zero
@@ -193,28 +202,97 @@ public class AutoRobot extends Robot {
                 modifier = max / inchesToTicks(24);
             }
             else
-                modifier = max / target;
+                modifier = 1.5 * max  / target;
 
 
             power = modifier * error;
         }
 
         if(rotation == 1) {
-            power = Math.pow(power, .9);
+            power = Math.pow(power, .8);
         }
         else if(rotation == 2) {
             power = Math.pow(power, .7);
         }
         else {
-            power = Math.sqrt(power);
+            power = Math.pow(power, .4);
         }
 
-        if (min > power)
-            power = min;
-        else if(power > max)
-            power = max;
+        power = Range.clip(power, min, max);
+        if(power > accLimiter && rotation == 0) {
+            power = accLimiter;
+        }
+
+        accLimiter += .15;
+        Range.clip(accLimiter, 0, 1);
 
         return power;
+    }
+
+    public void arcLeftToHeading(double target, double radius, double baseVelocity, boolean reverse) {
+        double arcDistance = Math.abs(target - imu.getHeading());
+        imu.setTarget(target);
+        if(arcDistance > .5) {
+            double minVel = baseVelocity/4;
+            double velocity = baseVelocity / 45 * arcDistance;
+            if(velocity < minVel) {
+                velocity = minVel;
+            }
+
+            double leftVel, rightVel;
+            double time = 2 * Math.PI * radius / velocity;
+            double leftDist = radius - (.5 * TRACK_WIDTH);
+            double rightDist = radius + (.5 * TRACK_WIDTH);
+
+            leftVel = 2 * Math.PI * leftDist / time;
+            rightVel = -2 * Math.PI * rightDist / time;
+
+            if(reverse) {
+                leftVel *= -1;
+                rightVel *= -1;
+            }
+
+            driveTrain.applyVelocities(leftVel, rightVel, leftVel, rightVel);
+        }
+        else {
+            driveTrain.applyVelocity(0);
+            driveTrain.resetEncoders();
+            autoClass.steps++;
+        }
+
+    }
+
+    public void arcRightToHeading(double target, double radius, double baseVelocity, boolean reverse) {
+        double arcDistance = Math.abs(target - imu.getHeading());
+        imu.setTarget(target);
+        if(arcDistance > .5) {
+            double minVel = baseVelocity/4;
+            double velocity = baseVelocity / 45 * arcDistance;
+            if(velocity < minVel) {
+                velocity = minVel;
+            }
+
+            double leftVel, rightVel;
+            double time = 2 * Math.PI * radius/velocity;
+            double leftDist = radius + (.5 * TRACK_WIDTH);
+            double rightDist = radius - (.5 * TRACK_WIDTH);
+
+            leftVel = 2 * Math.PI * leftDist / time;
+            rightVel = -2 * Math.PI * rightDist / time;
+
+            if(reverse) {
+                leftVel *= -1;
+                rightVel *= -1;
+            }
+
+            driveTrain.applyVelocities(leftVel, rightVel, leftVel, rightVel);
+        }
+        else {
+            driveTrain.applyVelocity(0);
+            driveTrain.resetEncoders();
+            autoClass.steps++;
+        }
+
     }
 
     //==============================================================================================
@@ -248,5 +326,24 @@ public class AutoRobot extends Robot {
         rightPower = -2 * Math.PI * rightDist / time;
 
         driveTrain.applyVelocities(leftPower, rightPower, leftPower, rightPower);
+    }
+
+    public double issueFixing(double inches) {
+        double target = inchesToTicks(inches);
+        double error = target - driveTrain.getAverageEncoderValue();
+        if (error > 0) {
+            double correct = imu.getCorrection(.01);
+            double leftPower = determinePower(target, error, 0);
+            double rightPower = -determinePower(target, error, 0);
+
+            driveTrain.applyPower(leftPower, rightPower, leftPower, rightPower);
+
+            return correct;
+        } else {
+            driveTrain.applyPower(0);
+            driveTrain.resetEncoders();
+            autoClass.steps++;
+            return 0;
+        }
     }
 }

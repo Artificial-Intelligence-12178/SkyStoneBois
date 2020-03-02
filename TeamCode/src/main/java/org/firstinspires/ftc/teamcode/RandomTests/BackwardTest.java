@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
+import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 @Autonomous (name = "Testing Backward")
 public class BackwardTest extends AutonomousClass {

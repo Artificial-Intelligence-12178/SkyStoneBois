@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
-@Autonomous (name = "Testing FoundBlue")
-public class TestingFoundBlue extends AutonomousClass {
+@Autonomous (name = "Testing FoundRed")
+public class TestingFoundRed extends AutonomousClass {
 
     AutoRobot robot;
     ElapsedTime timer;
@@ -35,7 +35,7 @@ public class TestingFoundBlue extends AutonomousClass {
 
         if(steps == 0) {
             // GET REAL STRAFE VALUE
-            robot.strafeLeft(6);
+            robot.strafeRight(6);
         }
         else if(steps == 1) {
             robot.forward(34);
@@ -52,7 +52,7 @@ public class TestingFoundBlue extends AutonomousClass {
         }
         else if(steps == 4) {
             // MAKE SURE ROTATION CAN TURN REAL FOUNDATION
-            robot.rotateAboutPoint(90, false);
+            robot.rotateAboutPoint(-90, false);
         }
         else if(steps == 5) {
             robot.forward(9);
@@ -62,9 +62,12 @@ public class TestingFoundBlue extends AutonomousClass {
             steps++;
             timer.reset();
         }
+
         else if(steps == 7) {
             robot.backward(44);
         }
+
+
     }
 
     @Override

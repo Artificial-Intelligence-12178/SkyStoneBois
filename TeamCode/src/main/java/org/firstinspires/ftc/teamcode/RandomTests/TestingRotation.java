@@ -1,16 +1,15 @@
 package org.firstinspires.ftc.teamcode.RandomTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
+import org.firstinspires.ftc.teamcode.Robots.Robot;
 
 @Autonomous (name = "Testing Rotation")
 public class TestingRotation extends AutonomousClass {
-
     AutoRobot robot;
-    ElapsedTime timer;
+
     @Override
     public void init() {
         super.init();
@@ -25,49 +24,16 @@ public class TestingRotation extends AutonomousClass {
 
     @Override
     public void start() {
-        timer = new ElapsedTime();
+
     }
 
     @Override
     public void loop() {
-        telemetry.addData("Step", steps);
-        telemetry.update();
-
+        telemetry.addLine(robot.imu.getHeading() + "");
         if(steps == 0) {
-            // GET REAL STRAFE VALUE
-            robot.strafeRight(6);
+            //robot.rotateToHeading(90);
+            robot.arcLeftToHeading(90, 12, 20, false);
         }
-        else if(steps == 1) {
-            robot.forward(34);
-            if(steps == 2)
-                timer.reset();
-        }
-        else if(steps == 2) {
-            robot.grabbers.grabbersDown();
-            if(timer.milliseconds() > 600)
-                steps++;
-        }
-        else if(steps == 3) {
-            robot.backward(22);
-        }
-        else if(steps == 4) {
-            // MAKE SURE ROTATION CAN TURN REAL FOUNDATION
-            robot.rotateAboutPoint(-90, false);
-        }
-        else if(steps == 5) {
-            robot.forward(9);
-        }
-        else if(steps == 6) {
-            robot.grabbers.grabbersUp();
-            steps++;
-            timer.reset();
-        }
-
-        else if(steps == 7) {
-            robot.backward(44);
-        }
-
-
     }
 
     @Override
@@ -75,3 +41,4 @@ public class TestingRotation extends AutonomousClass {
 
     }
 }
+

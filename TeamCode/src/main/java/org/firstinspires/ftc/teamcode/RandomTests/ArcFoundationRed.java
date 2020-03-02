@@ -3,14 +3,15 @@ package org.firstinspires.ftc.teamcode.RandomTests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousClass;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
-@Autonomous (name = "Testing FoundBlue")
-public class TestingFoundBlue extends AutonomousClass {
-
+@Autonomous (name = "ArcFoundation")
+public class ArcFoundationRed extends AutonomousClass {
     AutoRobot robot;
     ElapsedTime timer;
+
     @Override
     public void init() {
         super.init();
@@ -30,40 +31,33 @@ public class TestingFoundBlue extends AutonomousClass {
 
     @Override
     public void loop() {
-        telemetry.addData("Step", steps);
-        telemetry.update();
-
         if(steps == 0) {
-            // GET REAL STRAFE VALUE
-            robot.strafeLeft(6);
+            robot.strafeRight(3);
         }
         else if(steps == 1) {
-            robot.forward(34);
-            if(steps == 2)
+            robot.forward(32);
+            if(steps == 2) {
                 timer.reset();
+            }
         }
         else if(steps == 2) {
             robot.grabbers.grabbersDown();
-            if(timer.milliseconds() > 600)
+            if(timer.milliseconds() > 500) {
                 steps++;
+            }
         }
         else if(steps == 3) {
-            robot.backward(22);
+            robot.arcLeftToHeading(-88, 16.5, 25, true);
         }
         else if(steps == 4) {
-            // MAKE SURE ROTATION CAN TURN REAL FOUNDATION
-            robot.rotateAboutPoint(90, false);
+            robot.forward(24);
         }
         else if(steps == 5) {
-            robot.forward(9);
-        }
-        else if(steps == 6) {
             robot.grabbers.grabbersUp();
             steps++;
-            timer.reset();
         }
-        else if(steps == 7) {
-            robot.backward(44);
+        else if(steps == 6) {
+            robot.backward(46);
         }
     }
 

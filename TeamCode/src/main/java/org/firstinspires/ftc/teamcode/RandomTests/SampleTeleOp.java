@@ -97,25 +97,15 @@ public class SampleTeleOp extends OpMode {
         if(vec > 1)
             vec = 1;
 
-        fLPower = -1 * vec * Math.sin(radian - Math.PI/4);
-        fRPower = vec * Math.sin(radian + Math.PI/4);
-        bLPower = -1 * vec * Math.sin(radian + Math.PI/4);
-        bRPower = vec * Math.sin(radian - Math.PI/4);
-
         double rTrig = gamepad1.right_trigger;
         double lTrig = gamepad1.left_trigger;
 
-        if(rTrig > 0) {
-            robot.driveTrain.applyPower(rTrig, rTrig, rTrig, rTrig);
-            motion = "Spin Right";
-        }
-        else if(lTrig > 0) {
-            robot.driveTrain.applyPower(-lTrig, -lTrig, -lTrig, -lTrig);
-            motion = "Spin Left";
-        }
-        else {
-            robot.driveTrain.applyPower(fLPower, fRPower, bLPower, bRPower);
-        }
+        fLPower = -1 * vec * Math.sin(radian - Math.PI/4) + rTrig - lTrig;
+        fRPower = vec * Math.sin(radian + Math.PI/4) + rTrig - lTrig;
+        bLPower = -1 * vec * Math.sin(radian + Math.PI/4) + rTrig - lTrig;
+        bRPower = vec * Math.sin(radian - Math.PI/4) + rTrig - lTrig;
+
+        robot.driveTrain.applyPower(fLPower, fRPower, bLPower, bRPower);
 
         if(!motion.equals("")) {
             telemetry.addData("Motion", motion);

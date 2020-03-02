@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Robots.AutoRobot;
 
 @Autonomous (name = "Found BB")
+@Disabled
 public class FoundationBlueBridge extends AutonomousClass{
     ElapsedTime timer;
     AutoRobot robot;

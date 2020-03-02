@@ -29,7 +29,9 @@ public class LeftTest extends AutonomousClass {
     @Override
     public void loop() {
         if(steps == 0) {
-            robot.strafeLeft(120);
+            double  pow = robot.strafeLeft(120);
+            telemetry.addLine(pow +"");
+            telemetry.update();
         }
     }
 

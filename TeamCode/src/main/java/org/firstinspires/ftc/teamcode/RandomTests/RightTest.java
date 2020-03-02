@@ -30,8 +30,8 @@ public class RightTest extends AutonomousClass {
     @Override
     public void loop() {
         if(steps == 0) {
-            robot.strafeRight(120);
-
+            double pow = robot.strafeRight(120);
+            telemetry.addLine(pow+"");
             telemetry.update();
         }
     }

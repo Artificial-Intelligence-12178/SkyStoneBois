@@ -67,6 +67,6 @@ public class Robot {
         return (int)(TICKS_PER_INCH*inches);
     }
 
-    public static double ticksToInches(int ticks) { return INCHES_PER_TICK*ticks; }
+    public static double ticksToInches(double ticks) { return INCHES_PER_TICK*ticks; }
 
 }

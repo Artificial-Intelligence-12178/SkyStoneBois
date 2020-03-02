@@ -28,7 +28,16 @@ public class CorrectionTesting extends AutonomousClass {
 
     @Override
     public void loop() {
-        robot.correctionDrive(0.2, .01);
+        //robot.correctionDrive(0.2, .01);
+        double current = robot.imu.getHeading();
+        double target = 0;
+        double difference = current - target;
+        double correction = difference * 0.01;
+
+        telemetry.addLine("Current = " + current);
+        telemetry.addLine("Difference = " + difference);
+        telemetry.addLine("Correction = " + correction);
+
         telemetry.update();
     }
 
