@@ -36,7 +36,7 @@ public class TestingStoneFoundRed extends AutonomousClass {
     public void loop() {
         telemetry.addData("Step", steps);
         if(steps == 0) {
-            robot.strafeLeft(40);
+            robot.strafeLeft(40.5);
             if(steps == 1) {
                 robot.intake.powerOn();
             }
@@ -48,44 +48,70 @@ public class TestingStoneFoundRed extends AutonomousClass {
             }
         }
         else if(steps == 2) {
-            robot.forward(6);
+            robot.strafeRight(15);
         }
         else if(steps == 3) {
-            robot.strafeRight(14.5);
+            robot.forward(66);
         }
         else if(steps == 4) {
-            robot.forward(78);
-        }
-        else if(steps == 5) {
             robot.rotateToHeading(90);
         }
-        else if(steps == 6) {
-            robot.forward(9);
-            if(steps == 7)
+        else if(steps == 5) {
+            robot.forward(10);
+            if(steps == 6)
                 timer.reset();
         }
-        else if(steps == 7) {
+        else if(steps == 6) {
             robot.grabbers.grabbersDown();
             if(timer.milliseconds() > 600)
                 steps++;
         }
-        else if(steps == 8) {
-            robot.backward(22);
+        else if(steps == 7) {
+            robot.backward(25);
+            if(steps == 8) {
+                robot.intake.goReverse();
+                robot.intake.powerOn();
+            }
         }
-        else if(steps == 9) {
+        else if(steps == 8) {
             // MAKE SURE ROTATION CAN TURN REAL FOUNDATION
             robot.rotateAboutPoint(0, false);
+            if(steps == 9) {
+                robot.intake.powerOff();
+                robot.intake.goForward();
+            }
         }
-        else if(steps == 10) {
+        else if(steps == 9) {
             robot.forward(9);
         }
-        else if(steps == 11) {
+        else if(steps == 10) {
             robot.grabbers.grabbersUp();
             steps++;
             timer.reset();
         }
+        else if(steps == 11) {
+            robot.backward(79.5);
+        }
         else if(steps == 12) {
-            robot.backward(44);
+            robot.strafeLeft(14.75);
+            if(steps == 13) {
+                robot.intake.powerOn();
+            }
+        }
+        else if(steps == 13) {
+            robot.backward(6);
+        }
+        else if(steps == 14) {
+            robot.strafeRight(12.5);
+            if(steps == 15) {
+                robot.intake.powerOff();
+            }
+        }
+        else if(steps == 15) {
+            robot.forward(67);
+        }
+        else if(steps == 16) {
+            robot.backward(12);
         }
         telemetry.update();
 

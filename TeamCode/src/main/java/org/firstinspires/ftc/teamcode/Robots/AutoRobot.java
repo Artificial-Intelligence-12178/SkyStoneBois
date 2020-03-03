@@ -14,8 +14,9 @@ public class AutoRobot extends Robot {
     AutonomousClass autoClass;
 
     private final double STRAFE_GAIN = 1.075;
-    private final double CORRECTION_GAIN = 0.02;
+    private final double CORRECTION_GAIN = 0.0225;
     private double accLimiter = .15;
+    private double acceleration = .10;
 
     public AutoRobot(HardwareMap map, AutonomousClass autoClass) {
         super(map, DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -25,7 +26,7 @@ public class AutoRobot extends Robot {
     }
 
     public double forward(double inches) {
-        double target = inchesToTicks(inches);
+        double target = inchesToTicks(inches-1);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
             double correction = imu.getCorrection(CORRECTION_GAIN);
@@ -45,7 +46,7 @@ public class AutoRobot extends Robot {
     }
 
     public double backward(double inches) {
-        double target = inchesToTicks(inches);
+        double target = inchesToTicks(inches-1);
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
             double correction = imu.getCorrection(CORRECTION_GAIN);
@@ -66,7 +67,7 @@ public class AutoRobot extends Robot {
     }
 
     public double strafeRight(double inches) {
-        double target = inchesToTicks(inches) * STRAFE_GAIN;
+        double target = inchesToTicks(inches-1) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
             double correction = imu.getCorrection(CORRECTION_GAIN);
@@ -85,7 +86,7 @@ public class AutoRobot extends Robot {
     }
 
     public double strafeLeft(double inches) {
-        double target = inchesToTicks(inches) * STRAFE_GAIN;
+        double target = inchesToTicks(inches-1) * STRAFE_GAIN;
         double error = target - driveTrain.getAverageEncoderValue();
         if (driveTrain.getAverageEncoderValue() < target) {
             double correction = imu.getCorrection(CORRECTION_GAIN);
@@ -124,7 +125,7 @@ public class AutoRobot extends Robot {
         }
 
         //If the degrees needed to turn is close enough to target
-        if(turnDegrees > 0.3) {
+        if(turnDegrees > 0.2) {
             //Determining the power
             double power = determinePower(Math.abs(target), turnDegrees, 1);
 
@@ -159,7 +160,7 @@ public class AutoRobot extends Robot {
             turnDegrees = 360 - turnDegrees;
         }
 
-        if (turnDegrees > 0.3) {
+        if (turnDegrees > 0.2) {
             double power = determinePower(Math.abs(target), turnDegrees, 2);
             //Negating power if turning left
             if (turnLeft) {
@@ -192,7 +193,7 @@ public class AutoRobot extends Robot {
         if (rotation != 0) {
             //Power will decrease as error approaching zero
             min = .15;
-            modifier = max / 90;
+            modifier = max / 45;
             power = modifier * error;
         } else {
             //Power will decrease as error approaches zero
@@ -202,7 +203,7 @@ public class AutoRobot extends Robot {
                 modifier = max / inchesToTicks(24);
             }
             else
-                modifier = 1.5 * max  / target;
+                modifier = 1.2 * max  / target;
 
 
             power = modifier * error;
@@ -223,7 +224,7 @@ public class AutoRobot extends Robot {
             power = accLimiter;
         }
 
-        accLimiter += .15;
+        accLimiter += acceleration;
         Range.clip(accLimiter, 0, 1);
 
         return power;
